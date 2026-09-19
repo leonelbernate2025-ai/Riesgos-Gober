@@ -1,7 +1,7 @@
 INFORME DE MIGRACIÓN — consolidado V4 al modelo v7
 ==============================================================
 Riesgos extraídos:        235
-Controles extraídos:      570
+Controles extraídos:      568
 Con proceso resuelto:     235
 Con unidad resuelta:      235
 

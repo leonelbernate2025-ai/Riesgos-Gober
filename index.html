@@ -2,8 +2,10 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mapa de Riesgos Institucional</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%230E5B63'/%3E%3Cpath d='M16 7l8 9-8 9-8-9z' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -245,7 +247,7 @@ tbody tr:hover td{background:var(--surface-2)}
 <div class="app">
   <aside class="rail">
     <div class="brand">
-      <div class="brand-mark"><b>Riesgos</b><span class="mono">v7</span></div>
+      <div class="brand-mark"><b>Riesgos</b><span class="mono" title="Compilación del prototipo">v7 &middot; b3</span></div>
       <small>Gobernación de Santander</small>
     </div>
     <nav class="nav" id="nav"></nav>
@@ -828,17 +830,17 @@ function barrasFiltros(){
   const subs = f.unidad ? descendientes(f.unidad) : [];
 
   return `<div class="card"><div class="body"><div class="filters">
-    <div class="f"><label for="f1">Macroproceso</label><select id="f1"><option value="">Todos</option>
+    <div class="f"><label for="f1">Macroproceso</label><select id="f1" autocomplete="off"><option value="">Todos</option>
       ${opts(CAT.macroprocesos, f.macroproceso, m => [m.c, m.n])}</select></div>
-    <div class="f"><label for="f2">Proceso</label><select id="f2"><option value="">Todos</option>
+    <div class="f"><label for="f2">Proceso</label><select id="f2" autocomplete="off"><option value="">Todos</option>
       ${opts(procs, f.proceso, p => [p.c, p.n])}</select></div>
-    <div class="f"><label for="f3">Secretaría u oficina</label><select id="f3"><option value="">Todas</option>
+    <div class="f"><label for="f3">Secretaría u oficina</label><select id="f3" autocomplete="off"><option value="">Todas</option>
       ${opts(unis, f.unidad, u => [u.c, u.n])}</select></div>
-    ${subs.length ? `<div class="f"><label for="f6">Dirección o grupo</label><select id="f6"><option value="">Todas</option>
+    ${subs.length ? `<div class="f"><label for="f6">Dirección o grupo</label><select id="f6" autocomplete="off"><option value="">Todas</option>
       ${opts(subs, f.dependencia, u => [u.c, "\u00A0".repeat(u.nivel * 3) + u.n])}</select></div>` : ""}
-    <div class="f"><label for="f4">Tipo de riesgo</label><select id="f4"><option value="">Todos</option>
+    <div class="f"><label for="f4">Tipo de riesgo</label><select id="f4" autocomplete="off"><option value="">Todos</option>
       ${opts(CAT.tiposRiesgo, f.tipo, t => [t.c, t.n])}</select></div>
-    <div class="f"><label for="f5">Zona residual</label><select id="f5"><option value="">Todas</option>
+    <div class="f"><label for="f5">Zona residual</label><select id="f5" autocomplete="off"><option value="">Todas</option>
       ${opts(["Bajo","Moderado","Alto","Extremo"], f.zona, z => [z, z])}</select></div>
     <button class="btn ghost" id="fClear">Limpiar</button>
   </div></div></div>`;
@@ -897,10 +899,17 @@ function vistaPanel(){
   const bajaron = rs.filter(r => ord[r.zonaResidual] < ord[r.zonaInherente]).length;
   const ctrls = rs.reduce((a, r) => a + (r.controles || []).length, 0);
 
-  if (!n) return barrasFiltros() + `<div class="card" style="margin-top:16px"><div class="empty">
+  if (!n) return (S.semilla?.estado === "error"
+      ? `<div class="banner warn" style="margin-bottom:16px"><span>&#9888;</span>
+         <div><b>No se pudieron cargar los datos de prueba.</b><br>${esc(S.semilla.detalle)}</div></div>`
+      : "")
+    + barrasFiltros() + `<div class="card" style="margin-top:16px"><div class="empty">
     <b>Todavía no hay riesgos que mostrar</b>
     ${S.riesgos.length ? "Ningún riesgo coincide con los filtros aplicados."
-      : "Registra el primer riesgo desde la sección Riesgos para ver el panel con datos."}</div></div>`;
+      : "Registra el primer riesgo desde la sección Riesgos, o carga los datos de prueba."}
+    ${S.riesgos.length ? "" : `<div style="margin-top:13px">
+      <button class="btn ghost" id="btnSemilla">Cargar datos de prueba</button></div>`}
+    </div></div>`;
 
   return barrasFiltros() + `
   <div class="stack" style="margin-top:16px">
@@ -914,6 +923,13 @@ function vistaPanel(){
       <div class="kpi"><div class="v">${ctrls}</div><div class="l">Controles</div>
         <div class="d">${n ? (ctrls / n).toFixed(1) : 0} por riesgo</div></div>
     </div>
+
+    ${(() => { const k = rs.filter(r => (r.revisar || []).length).length;
+      return k ? `<div class="banner warn"><span>&#9888;</span><div>
+        <b>${k} riesgos migrados requieren revisión.</b> Vienen del consolidado V4 y arrastran
+        situaciones que la versión 7 resuelve distinto: impacto de corrupción calculado con el
+        cuestionario de 19 preguntas, tratamiento «Evitar» sin subestrategia, o riesgos topados
+        en 4 controles.</div></div>` : ""; })()}
 
     <div class="grid2">
       <div class="card"><header><h2>Por proceso</h2><span class="tag">Zona residual</span></header>
@@ -1007,7 +1023,10 @@ function vistaRiesgos(){
     </tr></thead><tbody>${filas}</tbody></table></div>`
     : `<div class="empty"><b>Sin riesgos registrados</b>
        ${puedeEditar ? "Usa el botón «Registrar riesgo» para crear el primero."
-         : "Cuando las dependencias registren riesgos, aparecerán aquí."}</div>`}
+         : "Cuando las dependencias registren riesgos, aparecerán aquí."}
+       <div style="margin-top:13px">
+         <button class="btn ghost" id="btnSemilla">Cargar datos de prueba</button></div>
+       </div>`}
   </div>`;
 }
 
@@ -1364,6 +1383,10 @@ function verRiesgo(id){
     ${(r.revisar || []).length ? `<div class="banner warn" style="margin-bottom:15px"><span>&#9888;</span>
       <div><b>Pendiente de revisión</b><ul style="margin:6px 0 0;padding-left:17px">
       ${r.revisar.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div></div>` : ""}
+    ${(r.revisar || []).length ? `<div class="banner warn" style="margin-bottom:15px">
+      <span>&#9888;</span><div><b>Pendiente de revisión</b>
+      <ul style="margin:6px 0 0;padding-left:17px">${r.revisar.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+      </div></div>` : ""}
     <h3 style="margin-bottom:9px">Controles</h3>
     ${(r.controles || []).length ? (r.controles || []).map((c, k) => `<div class="ctrl-item">
       <div class="ctrl-head"><b>Control ${k + 1}</b>
@@ -1838,11 +1861,71 @@ function render(){
 document.getElementById("switchUser").onclick = elegirSesion;
 
 /* =====================================================================
+   CARGA DE DATOS DE PRUEBA (datos.json)
+   ===================================================================== */
+S.semilla = {estado:"pendiente", detalle:""};
+
+async function cargarSemilla(){
+  const url = new URL("datos.json", location.href).href;
+  let r;
+  try { r = await fetch(url, {cache:"no-store"}); }
+  catch(e){
+    S.semilla = {estado:"error", detalle:
+      "No se pudo pedir el archivo (" + e.message + "). Si abriste index.html con doble clic "
+      + "desde tu computador, el navegador bloquea la lectura de archivos locales: "
+      + "debe servirse desde GitHub Pages."};
+    return 0;
+  }
+  if (!r.ok){
+    S.semilla = {estado:"error", detalle:
+      "El servidor respondió " + r.status + " al pedir " + url
+      + ". Verifica que datos.json esté en la raíz del repositorio, junto a index.html."};
+    return 0;
+  }
+  let d;
+  try { d = await r.json(); }
+  catch(e){
+    S.semilla = {estado:"error", detalle:
+      "El archivo se descargó pero no es JSON válido. Vuelve a subir datos.json."};
+    return 0;
+  }
+  const lista = d.riesgos || [];
+  if (!lista.length){
+    S.semilla = {estado:"error", detalle:"datos.json no contiene riesgos."};
+    return 0;
+  }
+  try {
+    lista.forEach(x => {
+      x.codigo = x.codigoOriginal || x.id;
+      x.frecuencia = x.frecuencia ?? "";
+      S.riesgos.push(x);
+    });
+    /* Una sola escritura en lugar de 235 */
+    Store.local.riesgos = Object.fromEntries(lista.map(x => [x.id, x]));
+    Store.flush();
+    if (Store.db) for (const x of lista) await Store.set("riesgos", x.id, x);
+  } catch(e){
+    S.semilla = {estado:"error", detalle:
+      "Los riesgos se leyeron pero no se pudieron guardar: " + e.message
+      + ". Si dice QuotaExceeded, el almacenamiento del navegador está lleno."};
+    return lista.length;
+  }
+  S.semilla = {estado:"ok", detalle: lista.length + " riesgos cargados"};
+  return lista.length;
+}
+
+async function recargarSemilla(){
+  S.riesgos = []; Store.local.riesgos = {}; Store.flush();
+  await cargarSemilla(); render();
+}
+
+/* =====================================================================
    ARRANQUE
    ===================================================================== */
 (async function(){
   await Store.init();
   S.riesgos   = await Store.get("riesgos");
+  if (!S.riesgos.length) await cargarSemilla();
   S.usuarios  = await Store.get("usuarios");
   S.ventanas  = await Store.get("ventanas");
   S.historico = await Store.get("historico");

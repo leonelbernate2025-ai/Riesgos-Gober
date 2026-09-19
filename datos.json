@@ -152,8 +152,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -177,9 +177,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.072,
+   "impResidual": 1.0,
+   "zonaResidual": "Extremo",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "Realizar una capacitacion cada semestre a los funcionarios con funciones de supervisión de contratos",
@@ -206,8 +206,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.6,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -241,9 +241,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.1296,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Prohibir la salida del material reciclable por personal no autorizado y socializarlo con el personal de vigilancia para ejercer mayor control sobre los mismos",
@@ -568,8 +568,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 0.6,
    "zonaInherente": "Moderado",
    "controles": [
     {
@@ -613,9 +613,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.03024,
+   "impResidual": 0.6,
+   "zonaResidual": "Moderado",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "Revision y consolidacion del informe general de auditoria, donde se publica en la Intranet para su libre consulta.",
@@ -1126,8 +1126,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -1171,9 +1171,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.03024,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Automatizar el proceso para la asignación de proyectos de manera aleatoria y de acuerdo a las competencias y carga laboral del personal",
@@ -1385,8 +1385,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 0.6,
    "zonaInherente": "Moderado",
    "controles": [
     {
@@ -1420,9 +1420,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.084,
+   "impResidual": 0.45,
+   "zonaResidual": "Moderado",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Analizar el número de reasignaciones por funcionario con el fin de identificar áreas de mejora y prevenir posibles reiteraciones y/o malas prácticas en la reasignación de procesos.",
@@ -1522,8 +1522,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -1557,9 +1557,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.168,
+   "impResidual": 0.75,
+   "zonaResidual": "Alto",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "Dar traslado a la Oficina de Control Disciplinario, o en su defecto a la oficina que concierne, cuando se evidencie un presunto fraude, estafa o movimiento sospechoso, donde se evidencie a personal de pasaportes Formalizando usuarios, Autorizando pasaportes, o Entregando pasaportes, que no están registrados en los canales autorizados de asignación de citas.",
@@ -1710,8 +1710,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 0.6,
    "zonaInherente": "Moderado",
    "controles": [
     {
@@ -1725,9 +1725,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.24,
+   "impResidual": 0.6,
+   "zonaResidual": "Moderado",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar mesas de trabajo en equipo con frecuencia trimestral o acorde a la necesidad, para solicializar la normatividad aplicable a los trámites e identificar mejoras en los procedimientos.",
@@ -2109,8 +2109,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -2154,9 +2154,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.084,
+   "impResidual": 0.5625,
+   "zonaResidual": "Moderado",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "Enviar un correo electronico a sig@santander.gov.co",
@@ -2184,8 +2184,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.8,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -2209,9 +2209,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.288,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Solicitar  una capacitacion al personal de planta y contratistas de la Oficina de Prensa sobre temas como Inventario de informacion clasificada/reservada y Código de Integridad a los responsables de la Política con el objetivo de realizar semestralmente cada una de ellas, estableciendo dos jornadas durante el año.",
@@ -2474,8 +2474,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 0.6,
    "zonaInherente": "Moderado",
    "controles": [
     {
@@ -2509,9 +2509,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.072,
+   "impResidual": 0.39,
+   "zonaResidual": "Bajo",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realiza  auditoría interna trimestral sobre los procesos de vinculación para verificar el cumplimiento de requisitos y la trazabilidad documental",
@@ -2853,8 +2853,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -2878,9 +2878,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.144,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar una socialización de la lista de chequeo a las entidades sin ánimo de lucro para la presentación de sus solicitudes",
@@ -3008,8 +3008,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -3033,9 +3033,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.144,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Suscribir el formato de declaración de ausencia de conflicto de intereses para adelanta la defensa judicial",
@@ -3102,8 +3102,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 0.6,
    "zonaInherente": "Moderado",
    "controles": [
     {
@@ -3127,9 +3127,9 @@
      "evidencia": "Sin Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.144,
+   "impResidual": 0.6,
+   "zonaResidual": "Moderado",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "Llevar a cabo la revisión y verificación de los requisitos exigidos dentro del convenio o proyecto para dar acceso a los beneficios",
@@ -3372,8 +3372,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -3387,9 +3387,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.24,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Revisar el cumplimiento de los requisitos a traves de la evaluación de las propuestas presentadas en los procesos contractuales",
@@ -3415,8 +3415,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -3440,9 +3440,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.144,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Programar y realizar reuniones periódicas entre supervisores y contratistas para revisar el avance de las actividades, el cumplimiento de metas y compromisos pendientes",
@@ -3611,8 +3611,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -3656,9 +3656,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.0504,
+   "impResidual": 0.75,
+   "zonaResidual": "Alto",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "Reportar a juridica el incumplimiento de los requisitos legales",
@@ -4121,8 +4121,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.6,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -4146,9 +4146,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.216,
+   "impResidual": 1.0,
+   "zonaResidual": "Extremo",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar 2 capacitaciones a los funcionarios adscritos a la Secretaría de Infraestructura",
@@ -4442,8 +4442,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.8,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -4457,9 +4457,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.48,
+   "impResidual": 1.0,
+   "zonaResidual": "Extremo",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "Solicitar a los entes municipales el reintegros de los recursos con los rendimientos financieros que correspondan a la no adecuada ejecución de los recursos de la estampilla para el bienestar del adulto mayor y proanciano, según la normatividad vigente.",
@@ -4733,8 +4733,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -4758,9 +4758,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.072,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Asignación de personal de  planta idóneo   para supervision de acuerdo con el Decreto 542 de 2021, Reglamento Manual de Funciones   de la Gobernacion de Santander",
@@ -4786,8 +4786,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -4821,9 +4821,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.0432,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Asignación de personal idóneo  en  los procesos licitatorios   y contractuales",
@@ -5139,8 +5139,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 0.6,
    "zonaInherente": "Moderado",
    "controles": [
     {
@@ -5174,9 +5174,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.1176,
+   "impResidual": 0.6,
+   "zonaResidual": "Moderado",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "El Director realizará certificación semestral sobre la revisión de novedades del almacén y reportará a Control Interno Disciplinario en caso de identificarse irregularidades.",
@@ -5501,8 +5501,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -5526,9 +5526,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.144,
+   "impResidual": 1.0,
+   "zonaResidual": "Extremo",
    "tratamiento": "Aceptar",
    "subestrategia": null,
    "planAccion": "El jefe de la oficina Jurídica reporta a la oficina de control interno la realización del cargue de la información presenta ante los entes de control",
@@ -5669,8 +5669,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 0.6,
    "zonaInherente": "Moderado",
    "controles": [
     {
@@ -5694,9 +5694,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.168,
+   "impResidual": 0.6,
+   "zonaResidual": "Moderado",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Dar cumplimiento al procedimiento y a la guia metodologica para la revisión de los soportes de cuentas.",
@@ -5970,8 +5970,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -5985,9 +5985,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.24,
+   "impResidual": 1.0,
+   "zonaResidual": "Extremo",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "Realizar reunioes trimestrales de seguimiento y contextualizacion para evitar la prescripcion de la accion",
@@ -6488,8 +6488,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -6523,9 +6523,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.084,
+   "impResidual": 0.6,
+   "zonaResidual": "Moderado",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "informar las novedades del incumplmiento a la labor de supervison  a Control Interno Disciplinario para adelantar el respectivo proceso de Investigacion",
@@ -6602,8 +6602,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -6637,9 +6637,9 @@
      "evidencia": "Sin Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.168,
+   "impResidual": 0.6,
+   "zonaResidual": "Moderado",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Asistir a las capacitaciones realizadaspor la entidad sobre  ética pública y prevención de corrupción",
@@ -6728,8 +6728,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 0.6,
    "zonaInherente": "Moderado",
    "controles": [
     {
@@ -6763,9 +6763,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.0432,
+   "impResidual": 0.6,
+   "zonaResidual": "Moderado",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "En el cuarto trimestre del año se hará envió ante las diferentes secretarias de la entidad, de una circular con el objetivo de identificar los enlaces encargados de hacer entrega de las publicaciones de los contenidos en la sede electrónica de cada secretaria (nombre completo, rol y correo electrónico)",
@@ -7053,8 +7053,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.8,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -7088,9 +7088,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.2352,
+   "impResidual": 1.0,
+   "zonaResidual": "Extremo",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "1) Parametrizar, registrar y verificar en la base de datos cada solicitud en orden de cronologico, trazabildad y respuesta para firma garantizando el control devolución de estampillas\n\n2) El Director verifica el acto de corrupción y en el caso de materiailzarse denuncia a control interno disciplinario para el debido proceso.",
@@ -7399,8 +7399,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -7444,9 +7444,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.0504,
+   "impResidual": 0.75,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar el cargue de los expedientes digitalizados al sistema de información con el fin de que estén disponibles solo para consulta",
@@ -7658,8 +7658,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 0.6,
    "zonaInherente": "Moderado",
    "controles": [
     {
@@ -7683,9 +7683,9 @@
      "evidencia": "Sin Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.168,
+   "impResidual": 0.6,
+   "zonaResidual": "Moderado",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "Realizar un analisis aleatorio que permita verificar que los pagos se realizan en los tiempos establecidos y de acuerdo al orden de llegada",
@@ -7712,8 +7712,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.6,
+   "impactoPct": 0.6,
    "zonaInherente": "Moderado",
    "controles": [
     {
@@ -7737,9 +7737,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.216,
+   "impResidual": 0.6,
+   "zonaResidual": "Moderado",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "Realizar un analisis aleatorio de los pagos realizados y la aplicación de las medidas cautelares según las registradas en la base de datos.",
@@ -7872,8 +7872,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -7907,9 +7907,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.0686,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar capacitarciones semestrales a los supervisores en el buen ejercicio de la supervisión contractual en el marco del cumplimiento de la normatividad legal vigente aplicable.",
@@ -8269,8 +8269,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.8,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -8294,9 +8294,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.288,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "Fortalecer los mecanismos de control, transparencia y prevención de riesgos de corrupción en el proceso de trámite de cuentas, mediante la implementación y seguimiento diario del portal y su indicador de corrupción",
@@ -8490,8 +8490,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.6,
+   "impactoPct": 0.6,
    "zonaInherente": "Moderado",
    "controles": [
     {
@@ -8505,9 +8505,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.36,
+   "impResidual": 0.6,
+   "zonaResidual": "Moderado",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "Mantener actualizados  los procedimientos de Expedición de Certificado de Disponibilidad Presupuestal (AP-GF-PR-56) y Expedición de Registro Presupuestal (AP-GF-PR-73) y emitir circular informativa en caso de realizar cambios en el procedimiento",
@@ -8668,8 +8668,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.8,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -8693,9 +8693,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.392,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar mesas de trabajo en equipo con frecuencia trimestral o acorde a la necesidad, para solicializar la normatividad aplicable a los trámites e identificar mejoras en los procedimientos.",
@@ -8794,8 +8794,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.6,
+   "impactoPct": 0.6,
    "zonaInherente": "Moderado",
    "controles": [
     {
@@ -8819,9 +8819,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.216,
+   "impResidual": 0.6,
+   "zonaResidual": "Moderado",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar una circular informativa recordando el cumplimiento de ejecucion de sus actividades contractuales de forma mensual para cargar el informe de supervisor correspondiente.",
@@ -8953,8 +8953,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.6,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -8966,31 +8966,11 @@
      "documentacion": "Documentado",
      "frecuencia": "Continua",
      "evidencia": "Con Registro"
-    },
-    {
-     "responsable": "",
-     "accion": "",
-     "complemento": "",
-     "tipo": "",
-     "implementacion": "Manual",
-     "documentacion": " ",
-     "frecuencia": " ",
-     "evidencia": " "
-    },
-    {
-     "responsable": "",
-     "accion": "",
-     "complemento": "",
-     "tipo": "",
-     "implementacion": "Manual",
-     "documentacion": " ",
-     "frecuencia": " ",
-     "evidencia": null
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.36,
+   "impResidual": 1.0,
+   "zonaResidual": "Extremo",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar el seguimiento, consolidación y entrega oportuna de los soportes de los comités primarios liderados por el Secretario de Salud cada vez que se desarrollen.",
@@ -9016,8 +8996,8 @@
    "factores": [
     "Evento Externo"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 0.6,
    "zonaInherente": "Moderado",
    "controles": [
     {
@@ -9041,9 +9021,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.072,
+   "impResidual": 0.6,
+   "zonaResidual": "Moderado",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar trimestralmente revisión aleatoria a las solicitudes pre-aprobadas para el reconocimeinto de una Sustitución de Pensión, con el animo de verificar el cumplimiento de los requisitos.",
@@ -10180,8 +10160,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -10195,9 +10175,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.12,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "Realizar revisión periodica trimestral de los procesos internos del grupo de acreditacion para verificar el cumplimiento de los tramites establecidos",
@@ -10589,8 +10569,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -10624,9 +10604,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.1008,
+   "impResidual": 1.0,
+   "zonaResidual": "Extremo",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar lista de chequeo para validar los requisitos según la normatividad vigente que debe cumplir un establecimiento educativo oficial y no oficial",
@@ -10849,8 +10829,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 1.0,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -10894,9 +10874,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.1296,
+   "impResidual": 1.0,
+   "zonaResidual": "Extremo",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar encuesta a los estudiantes beneficiados respecto a  la calidad de los alimentos entregados.  Esta encuesta debe ser realizada por la interventoria o supervisión",
@@ -10923,8 +10903,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.8,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -10958,9 +10938,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.1728,
+   "impResidual": 1.0,
+   "zonaResidual": "Extremo",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Solicitar al docente o directivo docente el acta de grado original para acceder al ascenso en el escalafón o bonificaciones especiales salariales por especialización, maestría o doctorado",
@@ -11108,8 +11088,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.6,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -11153,9 +11133,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.252,
+   "impResidual": 0.5625,
+   "zonaResidual": "Moderado",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar inducción al personal que se vincula a la Oficina de Control Interno, donde se les da a conocer el código de ética, código de integridad, procedimientos documentados en el proceso de evaluación y control, así como roles necesarios para el desempeño de sus obligaciones.\nRealizar la revisión y actualización de los procedimientos y formatos del proceso evaluación y control con el fin de ajustarlos a las novedades normativas o la necesidad de simplificación de procesos.",
@@ -11182,8 +11162,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.8,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -11207,9 +11187,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.48,
+   "impResidual": 0.6,
+   "zonaResidual": "Moderado",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar mesa de trabajo con el equipo de la oficina de control interno cuatrimestralmente, con el fin de fortalecer la importancia de la confidencialidad y tratamiento de la información producto del desarrollo de auditorias e informes de la oficina de control interno.",
@@ -11552,8 +11532,8 @@
    "factores": [
     "Procesos"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -11577,9 +11557,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.144,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar induccion al personal vinculado a la oficina de Contratacion se les da a conocer el Codigo de Etica y de integridad y los procedimientos documentados en el proceso de Compras y Contratacion",
@@ -11605,8 +11585,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.6,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -11640,9 +11620,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.1296,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar la evaluación final de la propuesta por parte del comité encargado, en el cuál debe estar incluidos los funcionarios de planta responsables del proceso licitatorio",
@@ -11668,8 +11648,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -11703,9 +11683,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.1176,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Realizar una mesa técnica por cada proyecto que se va a estructurar para garantizar el cumplimiento de los requisitos tecnicos y legales.",
@@ -11884,8 +11864,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 0.6,
    "zonaInherente": "Moderado",
    "controles": [
     {
@@ -11909,9 +11889,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.12,
+   "impResidual": 0.39,
+   "zonaResidual": "Bajo",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "El profesional designado del área de Talento Humano Bienestar Social, aplica el FORMATO VERIFICACION DE REQUISITOS AUXILIOS BIENESTAR SOCIAL, con el objetivo de realizar la verificación del cumplimiento de los requisitos establecidos y la documentación adecuada para respaldar las solicitudes",
@@ -12165,8 +12145,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.4,
+   "impactoPct": 1.0,
    "zonaInherente": "Extremo",
    "controles": [
     {
@@ -12200,9 +12180,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.168,
+   "impResidual": 0.75,
+   "zonaResidual": "Alto",
    "tratamiento": "Evitar",
    "subestrategia": "Mitigar",
    "planAccion": "Realizar el traslado formal  a la instancia competente para la apertura de procesos disciplinarios ante la identificación de situaciones que lo ameriten",
@@ -12229,8 +12209,8 @@
    "factores": [
     "Talento  Humano"
    ],
-   "probabilidadPct": null,
-   "impactoPct": null,
+   "probabilidadPct": 0.2,
+   "impactoPct": 0.8,
    "zonaInherente": "Alto",
    "controles": [
     {
@@ -12254,9 +12234,9 @@
      "evidencia": "Con Registro"
     }
    ],
-   "probResidual": null,
-   "impResidual": null,
-   "zonaResidual": null,
+   "probResidual": 0.084,
+   "impResidual": 0.8,
+   "zonaResidual": "Alto",
    "tratamiento": "Reducir",
    "subestrategia": null,
    "planAccion": "Verificación de la documentación producida en cada solicitud por parte del profesional encargado del control financiero de los convenios interadministrativos",
