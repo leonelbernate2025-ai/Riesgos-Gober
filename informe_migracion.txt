@@ -1,0 +1,19 @@
+INFORME DE MIGRACIÓN — consolidado V4 al modelo v7
+==============================================================
+Riesgos extraídos:        235
+Controles extraídos:      570
+Con proceso resuelto:     235
+Con unidad resuelta:      235
+
+VALIDACIÓN DEL MOTOR DE CÁLCULO
+--------------------------------------------------------------
+2 diferencias entre el Excel y el motor v7:
+  GF-DI- -5              impacto        Excel=0.6000000000000001  v7=0.8
+  GF-DI- -5              zona           Excel='Moderado'  v7='Alto'
+
+PENDIENTES DE REVISIÓN MANUAL
+--------------------------------------------------------------
+    62  Tratamiento «Evitar» con controles activos
+    50  Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.
+    44  Alcanzó el tope de 4 controles del formato anterior.
+     1  El instructivo prohíbe aceptar riesgos de corrupción.
