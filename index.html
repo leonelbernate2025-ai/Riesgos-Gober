@@ -1797,6 +1797,7 @@ function render(){
 
   enlazarFiltros();
   const on = (id, fn) => { const e = document.getElementById(id); if (e) e.onclick = fn; };
+  on("btnSemilla", () => recargarSemilla());
   on("btnNuevo", () => abrirFormulario(null));
   on("btnNuevoU", () => formUsuario(null));
 
