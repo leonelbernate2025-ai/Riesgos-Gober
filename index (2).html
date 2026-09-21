@@ -1,0 +1,2988 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mapa de Riesgos Institucional</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%230E5B63'/%3E%3Cpath d='M16 7l8 9-8 9-8-9z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16242C; --ink-2:#2C3E49; --muted:#657A86; --faint:#8FA3AD;
+  --bg:#EFF3F4; --surface:#FFFFFF; --surface-2:#F7FAFA; --line:#D5DFE3;
+  --accent:#0E5B63; --accent-soft:#D9EBEC; --accent-ink:#093C42;
+  --z-bajo:#2E7D4F; --z-mod:#B08A16; --z-alto:#C4671A; --z-ext:#AC2A22;
+  --z-bajo-bg:#E4F1E9; --z-mod-bg:#F8EFD4; --z-alto-bg:#FAE8D8; --z-ext-bg:#F8E0DE;
+  --radius:3px; --shadow:0 1px 2px rgba(22,36,44,.08);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ink:#E6EDEF; --ink-2:#C2D0D6; --muted:#8FA3AD; --faint:#6B7F89;
+  --bg:#10191E; --surface:#182329; --surface-2:#1E2A31; --line:#2C3B43;
+  --accent:#4FA8B0; --accent-soft:#1B3A3E; --accent-ink:#9FD4D9;
+  --z-bajo:#5FB07C; --z-mod:#D4B342; --z-alto:#E0904C; --z-ext:#DF6258;
+  --z-bajo-bg:#1C3527; --z-mod-bg:#38301A; --z-alto-bg:#3A2A1C; --z-ext-bg:#3A2220;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+}}
+:root[data-theme="dark"]{
+  --ink:#E6EDEF; --ink-2:#C2D0D6; --muted:#8FA3AD; --faint:#6B7F89;
+  --bg:#10191E; --surface:#182329; --surface-2:#1E2A31; --line:#2C3B43;
+  --accent:#4FA8B0; --accent-soft:#1B3A3E; --accent-ink:#9FD4D9;
+  --z-bajo:#5FB07C; --z-mod:#D4B342; --z-alto:#E0904C; --z-ext:#DF6258;
+  --z-bajo-bg:#1C3527; --z-mod-bg:#38301A; --z-alto-bg:#3A2A1C; --z-ext-bg:#3A2220;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;height:100%;background:var(--bg);color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+code,.mono,.rid{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em}
+h1{font-size:19px}h2{font-size:16px}h3{font-size:13px;font-weight:500;color:var(--muted)}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- shell ---------- */
+.app{display:grid;grid-template-columns:212px 1fr;min-height:100%}
+.rail{
+  background:var(--surface);border-right:1px solid var(--line);
+  display:flex;flex-direction:column;position:sticky;top:0;
+  height:100vh;height:100dvh;
+}
+.brand{padding:18px 16px 14px;border-bottom:1px solid var(--line)}
+.brand-mark{display:flex;align-items:baseline;gap:7px}
+.brand-mark b{font-size:15px;font-weight:600;letter-spacing:-.015em}
+.brand-mark span{font-size:10px;color:var(--faint);letter-spacing:.04em}
+.brand small{display:block;margin-top:3px;font-size:11px;color:var(--muted)}
+.nav{padding:8px;flex:1;overflow-y:auto}
+.nav button{
+  display:flex;align-items:center;gap:9px;width:100%;padding:7px 9px;margin-bottom:1px;
+  background:none;border:0;border-radius:var(--radius);color:var(--ink-2);
+  font-size:13px;text-align:left;cursor:pointer;
+}
+.nav button:hover{background:var(--surface-2)}
+.nav button[aria-current="page"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:500}
+.nav button .ic{width:15px;text-align:center;opacity:.75;font-size:12px}
+.nav-sep{margin:10px 9px 5px;font-size:10px;letter-spacing:.06em;color:var(--faint)}
+.rail-foot{padding:10px;border-top:1px solid var(--line)}
+.who{font-size:11px;color:var(--muted);margin-bottom:7px;line-height:1.35}
+.who b{display:block;color:var(--ink);font-size:12px;font-weight:500}
+
+.main{min-width:0;display:flex;flex-direction:column}
+.top{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:14px 22px;background:var(--surface);border-bottom:1px solid var(--line);
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:20;flex-wrap:wrap;
+}
+.top-t{display:flex;flex-direction:column;gap:1px;min-width:0}
+.top-t p{margin:0;font-size:12px;color:var(--muted)}
+.view{padding:20px 22px 44px;max-width:1240px}
+
+/* ---------- controls ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 12px;
+  background:var(--accent);color:#fff;border:1px solid var(--accent);
+  border-radius:var(--radius);font-size:13px;cursor:pointer;
+}
+.btn:hover{background:var(--accent-ink);border-color:var(--accent-ink)}
+.btn.ghost{background:transparent;color:var(--ink-2);border-color:var(--line)}
+.btn.ghost:hover{background:var(--surface-2);color:var(--ink)}
+.btn.danger{background:var(--z-ext);border-color:var(--z-ext)}
+.btn:disabled{opacity:.42;cursor:not-allowed}
+.btn.sm{padding:3px 8px;font-size:12px}
+label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+input[type=text],input[type=number],input[type=date],select,textarea{
+  width:100%;padding:6px 9px;background:var(--surface);color:var(--ink);
+  border:1px solid var(--line);border-radius:var(--radius);
+}
+textarea{resize:vertical;min-height:62px}
+input:disabled,select:disabled{background:var(--surface-2);color:var(--faint)}
+.field{margin-bottom:13px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+/* ---------- surfaces ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card>header{padding:11px 15px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.card>.body{padding:15px}
+.stack{display:flex;flex-direction:column;gap:16px}
+
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:auto}
+th{
+  text-align:left;padding:8px 10px;font-size:11px;font-weight:500;color:var(--muted);
+  border-bottom:1px solid var(--line);background:var(--surface-2);white-space:nowrap;
+  vertical-align:bottom;
+}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+/* Texto largo justificado. No se parten palabras: la línea solo se quiebra
+   cuando una palabra completa no cabe. La celda lleva ancho mínimo para que
+   entren unas cinco palabras por renglón. */
+td .just,.just{text-align:justify;text-justify:inter-word;
+  overflow-wrap:break-word;word-break:normal;hyphens:manual}
+td.desc,th.desc{min-width:280px;max-width:440px;vertical-align:top}
+td.desc .just{line-height:1.45}
+.scroll-x>table{min-width:760px}
+/* Números y códigos siempre alineados entre sí */
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.ctr,th.ctr{text-align:center}
+td.rid{white-space:nowrap;vertical-align:top;padding-top:10px}
+tbody tr:hover td{background:var(--surface-2)}
+.scroll-x{overflow-x:auto}
+
+/* Bloques de texto del cuerpo, justificados */
+.banner div,.empty,.kpi .d,.hint.just{text-align:justify}
+.banner div{text-align:left}
+.card>header h2{line-height:1.3}
+.card>header{min-height:42px}
+.stack>.card>header>span.tag{flex:0 0 auto}
+
+.tag{
+  display:inline-block;padding:1px 7px;border-radius:9px;font-size:11px;
+  border:1px solid var(--line);background:var(--surface-2);color:var(--muted);white-space:nowrap;
+}
+.zone{display:inline-block;padding:1px 8px;border-radius:9px;font-size:11px;font-weight:500;white-space:nowrap}
+.zone.Bajo{background:var(--z-bajo-bg);color:var(--z-bajo)}
+.zone.Moderado{background:var(--z-mod-bg);color:var(--z-mod)}
+.zone.Alto{background:var(--z-alto-bg);color:var(--z-alto)}
+.zone.Extremo{background:var(--z-ext-bg);color:var(--z-ext)}
+
+/* ---------- heat map: the one bold element ---------- */
+.heat-wrap{display:grid;grid-template-columns:auto 1fr;gap:9px;align-items:stretch}
+.heat-y{display:flex;flex-direction:column-reverse;justify-content:space-around;
+  font-size:11px;color:var(--muted);text-align:right;padding-bottom:22px}
+.heat-y span{height:52px;display:flex;align-items:center;justify-content:flex-end}
+.heat{display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,52px);gap:2px}
+.cell{
+  position:relative;border-radius:2px;display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;cursor:default;
+}
+.cell.Bajo{background:var(--z-bajo-bg);color:var(--z-bajo)}
+.cell.Moderado{background:var(--z-mod-bg);color:var(--z-mod)}
+.cell.Alto{background:var(--z-alto-bg);color:var(--z-alto)}
+.cell.Extremo{background:var(--z-ext-bg);color:var(--z-ext)}
+.cell.empty{opacity:.32}
+.cell.here{outline:2px solid var(--ink);outline-offset:-2px}
+.heat-x{grid-column:2;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;
+  font-size:11px;color:var(--muted);text-align:center;padding-top:5px}
+
+/* ---------- charts ---------- */
+.bars{display:flex;flex-direction:column;gap:7px}
+.bar-row{display:grid;grid-template-columns:150px 1fr 34px;gap:9px;align-items:center;font-size:12px}
+.bar-row .nm{color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{height:15px;background:var(--surface-2);border-radius:2px;overflow:hidden;display:flex}
+.bar-seg{height:100%}
+.bar-row .n{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:13px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:11px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(142px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:13px 15px}
+.kpi .v{font-size:27px;font-weight:300;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+.kpi .l{font-size:11px;color:var(--muted);margin-top:3px}
+.kpi .d{font-size:11px;margin-top:5px;color:var(--faint)}
+
+/* ---------- filters ---------- */
+.filters{display:flex;gap:9px;flex-wrap:wrap;align-items:flex-end}
+.filters .f{min-width:138px;flex:1 1 138px;max-width:210px}
+.filters label{font-size:11px;margin-bottom:3px}
+.filters select{padding:5px 8px;font-size:12px}
+
+/* ---------- misc ---------- */
+.banner{padding:9px 13px;border-radius:var(--radius);font-size:12px;border:1px solid;display:flex;gap:9px;align-items:flex-start}
+.banner.info{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+.banner.warn{background:var(--z-alto-bg);border-color:var(--z-alto);color:var(--z-alto)}
+.banner.ok{background:var(--z-bajo-bg);border-color:var(--z-bajo);color:var(--z-bajo)}
+.empty{padding:38px 20px;text-align:center;color:var(--muted);font-size:13px}
+.empty b{display:block;color:var(--ink);font-weight:500;margin-bottom:5px;font-size:14px}
+
+.modal-bg{position:fixed;inset:0;background:rgba(10,20,25,.5);display:flex;align-items:flex-start;
+  justify-content:center;padding:36px 16px;overflow-y:auto;z-index:100}
+.modal{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  width:100%;max-width:700px;box-shadow:0 8px 32px rgba(10,20,25,.24)}
+.modal>header{padding:13px 17px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.modal>.body{padding:17px;max-height:66vh;overflow-y:auto}
+.modal>footer{padding:12px 17px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:9px}
+.x{background:none;border:0;color:var(--muted);cursor:pointer;font-size:19px;line-height:1;padding:0 3px}
+
+.calc{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;font-size:12px}
+.calc-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dotted var(--line)}
+.calc-row:last-child{border-bottom:0;padding-top:7px;margin-top:3px;border-top:1px solid var(--line);font-weight:500}
+.calc-row .mono{color:var(--muted)}
+
+.ctrl-item{border:1px solid var(--line);border-radius:var(--radius);padding:11px;margin-bottom:9px;background:var(--surface-2)}
+.ctrl-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.ctrl-head b{font-size:12px;font-weight:500}
+
+.timeline{border-left:2px solid var(--line);margin-left:7px;padding-left:15px}
+.tl-item{position:relative;padding-bottom:16px}
+.tl-item::before{content:"";position:absolute;left:-21px;top:4px;width:9px;height:9px;
+  border-radius:50%;background:var(--accent);border:2px solid var(--surface)}
+.tl-when{font-size:11px;color:var(--faint)}
+.tl-what{font-size:13px;margin:1px 0 3px}
+.diff{font-size:12px;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:var(--radius);padding:7px 9px;margin-top:5px}
+.diff .old{color:var(--z-ext);text-decoration:line-through}
+.diff .new{color:var(--z-bajo)}
+
+.pw{background:var(--z-mod-bg);border:1px solid var(--z-mod);border-radius:var(--radius);
+  padding:13px;text-align:center;margin-top:13px}
+.pw .k{font-family:"IBM Plex Mono",monospace;font-size:19px;font-weight:500;
+  letter-spacing:.08em;color:var(--ink);margin:7px 0}
+.pw small{font-size:11px;color:var(--z-mod)}
+
+.hint{font-size:11px;color:var(--faint);margin-top:3px}
+.req::after{content:" *";color:var(--z-ext)}
+
+/* ---------- informe imprimible ---------- */
+#informe{display:none}
+.rep-cab{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;
+  border-bottom:2px solid #16242C;padding-bottom:9px;margin-bottom:15px}
+.rep-cab h1{font-size:17px;margin:0}
+.rep-cab p{margin:2px 0 0;font-size:10px;color:#555}
+.rep-meta{font-size:9px;color:#555;text-align:right;line-height:1.5}
+.rep-s{margin-bottom:16px}
+.rep-brk{break-before:page}
+.rep-h2{font-size:13px;margin:0 0 8px;padding-bottom:3px;border-bottom:1px solid #999}
+.rep-h3{font-size:11px;margin:12px 0 5px;color:#333;font-weight:600}
+.rep-t{width:100%;border-collapse:collapse;font-size:9px}
+.rep-t th{background:#EDF1F2;border:1px solid #B9C5CA;padding:4px 5px;text-align:left;
+  font-size:8.5px;font-weight:600;color:#26343C}
+.rep-t td{border:1px solid #CFD9DD;padding:3px 5px;vertical-align:top}
+.rep-t .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rep-t tbody tr{break-inside:avoid}
+.rep-tot td{background:#EDF1F2;font-weight:600}
+.rep-dis td{background:#F8E0DE}
+.rep-mini{max-width:430px}
+.rep-sub{font-size:8px;color:#666}
+.rep-n{font-size:8.5px;color:#666;margin:5px 0 0;text-align:justify}
+.rep-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.rep-k{border:1px solid #B9C5CA;padding:8px 10px}
+.rep-k b{display:block;font-size:20px;font-weight:400;line-height:1.1}
+.rep-k span{display:block;font-size:9px;color:#444;margin-top:2px}
+.rep-k i{display:block;font-size:8px;color:#777;font-style:normal;margin-top:2px}
+.rep-heats{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.rep-pie{margin-top:18px;padding-top:6px;border-top:1px solid #CFD9DD;
+  font-size:8px;color:#777;text-align:justify}
+
+@media print{
+  @page{size:A4 landscape;margin:11mm}
+  body.modo-informe .app,body.modo-informe #modalHost{display:none!important}
+  body.modo-informe #informe{display:block}
+  body{background:#fff;color:#000;font-size:10px;padding:0}
+  .zone,.cell,.bar-seg,.rep-t th,.rep-tot td,.rep-dis td{
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .zone{border:1px solid #999;padding:0 4px;font-size:8px}
+  .heat{grid-template-rows:repeat(5,30px);gap:1px}
+  .heat-y span{height:30px;font-size:8px}
+  .heat-x{font-size:8px}
+  .cell{font-size:11px}
+  .heat-wrap{gap:5px}
+  .scroll-x{overflow:visible}
+  .scroll-x>table,.rep-t{min-width:0}
+  td.desc,th.desc{min-width:0;max-width:300px}
+}
+@media(max-width:900px){
+  .app{grid-template-columns:1fr}
+  .rail{position:static;height:auto;flex-direction:row;align-items:center;overflow-x:auto;
+    border-right:0;border-bottom:1px solid var(--line)}
+  .brand{border-bottom:0;border-right:1px solid var(--line);padding:11px 13px;flex:0 0 auto}
+  .brand small{display:none}
+  .nav{display:flex;gap:3px;padding:7px;flex:1}
+  .nav button{white-space:nowrap;padding:6px 10px}
+  .nav button span:not(.ic){display:none}
+  .nav-sep{display:none}
+  .rail-foot{border-top:0;border-left:1px solid var(--line);flex:0 0 auto}
+  .who{display:none}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .view{padding:15px}
+  .top{padding:11px 15px}
+  .bar-row{grid-template-columns:96px 1fr 30px}
+  .heat{grid-template-rows:repeat(5,42px)}
+  .heat-y span{height:42px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="rail">
+    <div class="brand">
+      <div class="brand-mark"><b>Riesgos</b><span class="mono" title="Compilación del prototipo">v7 &middot; b11</span></div>
+      <small>Gobernación de Santander</small>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="rail-foot">
+      <div class="who"><b id="whoName">—</b><span id="whoRole"></span></div>
+      <button class="btn ghost sm" id="switchUser" style="width:100%">Cambiar sesión</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <div class="top-t"><h1 id="vTitle">Panel</h1><p id="vSub"></p></div>
+      <div id="vActions" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+    </header>
+    <main class="view" id="view"></main>
+  </div>
+</div>
+<div id="modalHost"></div>
+<div id="informe" aria-hidden="true"></div>
+
+<script>
+/* =====================================================================
+   CATÁLOGO METODOLÓGICO — Guía v7
+   Espejo de las tablas de la base de datos. Ningún valor está quemado
+   en la lógica: el motor de cálculo solo lee de aquí.
+   ===================================================================== */
+const CAT = {
+  version: "GUIA_V7",
+
+  /* Estructura organizacional SIG: macroproceso → proceso → dependencia */
+  macroprocesos:[
+    {c:"ESTRATEGICO", n:"Estratégicos"},
+    {c:"MISIONAL", n:"Misionales"},
+    {c:"APOYO", n:"Apoyo"},
+    {c:"EVALUACION", n:"Evaluación"}
+  ],
+
+  procesos:[
+    {c:"AC", n:"Atención al Ciudadano", m:"ESTRATEGICO"},
+    {c:"DYC", n:"Dirección y Comunicaciones", m:"ESTRATEGICO"},
+    {c:"GETH", n:"Gestión Estratégica del Talento Humano", m:"ESTRATEGICO"},
+    {c:"PE", n:"Planificación Estratégica", m:"ESTRATEGICO"},
+    {c:"SIG", n:"Sistemas Integrados de Gestión", m:"ESTRATEGICO"},
+    {c:"DSC", n:"Desarrollo Sostenible y Competitivo", m:"MISIONAL"},
+    {c:"GE", n:"Gestión Educativa", m:"MISIONAL"},
+    {c:"GSS", n:"Gestión en Salud y Seguridad Social", m:"MISIONAL"},
+    {c:"SC", n:"Seguridad y Convivencia", m:"MISIONAL"},
+    {c:"AI", n:"Administración Institucional", m:"APOYO"},
+    {c:"CCP", n:"Compras y Contratación Pública", m:"APOYO"},
+    {c:"GF", n:"Gestión Financiera", m:"APOYO"},
+    {c:"GJ", n:"Gestión Jurídica", m:"APOYO"},
+    {c:"TIC", n:"Tecnologías de la Información y la Comunicación", m:"APOYO"},
+    {c:"CE", n:"Control y Evaluación", m:"EVALUACION"}
+  ],
+
+  unidades:[
+    {c:"AC-01", n:"Oficina de Atencion al Ciudadano", p:"AC"},
+    {c:"AC-02", n:"Oficina de Pasaportes", p:"AC"},
+    {c:"DYC-01", n:"Despacho del Gobernador y Secretaria Privada", p:"DYC"},
+    {c:"DYC-02", n:"Direccion de Gestion y Relaciones Gubernamentales", p:"DYC"},
+    {c:"DYC-03", n:"Oficina de Prensa y Comunicaciones", p:"DYC"},
+    {c:"GETH-01", n:"Direccion de Talento Humano", p:"GETH"},
+    {c:"GETH-02", n:"Fondo de Vivienda", p:"GETH"},
+    {c:"PE-01", n:"Despacho Secretaria de Planeación", p:"PE"},
+    {c:"PE-02", n:"Dirección de Desarrollo Regional y Territorial", p:"PE"},
+    {c:"PE-03", n:"Dirección de Proyectos y Regalías", p:"PE"},
+    {c:"PE-04", n:"Grupo de Evaluación y Seguimiento", p:"PE"},
+    {c:"PE-05", n:"Grupo de Planificación e Información Territorial", p:"PE"},
+    {c:"PE-06", n:"Grupo de Proyectos", p:"PE"},
+    {c:"PE-07", n:"Grupo de Regalías", p:"PE"},
+    {c:"PE-08", n:"Grupo de Rendición de Cuentas", p:"PE"},
+    {c:"PE-09", n:"Secretaria de Planeacion", p:"PE"},
+    {c:"SIG-01", n:"Grupo de Gestion Ambiental", p:"SIG"},
+    {c:"SIG-02", n:"Grupo de Gestion de Calidad", p:"SIG"},
+    {c:"SIG-03", n:"Grupo de Seguridad y Salud en El Trabajo", p:"SIG"},
+    {c:"DSC-01", n:"Despacho Secretaria Agricultura y Desarrollo Rural", p:"DSC"},
+    {c:"DSC-02", n:"Despacho Secretaria Cultura y Turismo", p:"DSC"},
+    {c:"DSC-03", n:"Despacho Secretaria de Ambiente", p:"DSC"},
+    {c:"DSC-04", n:"Despacho Secretaria de Competitividad y Productividad", p:"DSC"},
+    {c:"DSC-05", n:"Despacho Secretaria de Desarrollo", p:"DSC"},
+    {c:"DSC-06", n:"Despacho Secretaria de Infraestructura", p:"DSC"},
+    {c:"DSC-07", n:"Despacho Secretaria de Mujer y Equidad de Genero", p:"DSC"},
+    {c:"DSC-08", n:"Despacho Secretaria de Vivienda y Hábitat Sustentable", p:"DSC"},
+    {c:"DSC-09", n:"Dirección de Adulto Mayor y Población con Discapacidad", p:"DSC"},
+    {c:"DSC-10", n:"Dirección de Aguas y Saneamiento Básico", p:"DSC"},
+    {c:"DSC-11", n:"Dirección de Asuntos Ambientales", p:"DSC"},
+    {c:"DSC-12", n:"Dirección de Asuntos Minero Energéticos", p:"DSC"},
+    {c:"DSC-13", n:"Dirección de Cultura, Turismo y Patrimonio", p:"DSC"},
+    {c:"DSC-14", n:"Dirección de Desarrollo de Programas de Vivienda y Hábitat", p:"DSC"},
+    {c:"DSC-15", n:"Dirección de Desarrollo Empresarial", p:"DSC"},
+    {c:"DSC-16", n:"Dirección de Desarrollo Social", p:"DSC"},
+    {c:"DSC-17", n:"Dirección de Equidad de Genero", p:"DSC"},
+    {c:"DSC-18", n:"Dirección de Gestión de Infraestructuras", p:"DSC"},
+    {c:"DSC-19", n:"Dirección de Gestión Rural e Innovación Agropecuaria", p:"DSC"},
+    {c:"DSC-20", n:"Dirección de Juventudes", p:"DSC"},
+    {c:"DSC-21", n:"Dirección de Proyectos de Infraestructura", p:"DSC"},
+    {c:"DSC-22", n:"Grupo Comunidad LGTBIQ", p:"DSC"},
+    {c:"DSC-23", n:"Grupo Consejo Departamental de Política Social", p:"DSC"},
+    {c:"DSC-24", n:"Grupo de Infancia y Adolescencia", p:"DSC"},
+    {c:"DSC-25", n:"Secretaria de Agricultura", p:"DSC"},
+    {c:"DSC-26", n:"Secretaria de Ambiente", p:"DSC"},
+    {c:"DSC-27", n:"Secretaria de Competitividad y Productividad", p:"DSC"},
+    {c:"DSC-28", n:"Secretaria de Cultura y Turismo", p:"DSC"},
+    {c:"DSC-29", n:"Secretaria de Desarrollo Social", p:"DSC"},
+    {c:"DSC-30", n:"Secretaria de Infraestructura", p:"DSC"},
+    {c:"DSC-31", n:"Secretaria de Mujer y Equidad de Genero", p:"DSC"},
+    {c:"DSC-32", n:"Secretaria de Vivienda", p:"DSC"},
+    {c:"GE-01", n:"Despacho Secretaria de Educación", p:"GE"},
+    {c:"GE-02", n:"Dirección de Permanencia Escolar", p:"GE"},
+    {c:"GE-03", n:"Dirección de Talento Humano Docente", p:"GE"},
+    {c:"GE-04", n:"Dirección Estratégica", p:"GE"},
+    {c:"GE-05", n:"Grupo Calidad Educativa", p:"GE"},
+    {c:"GE-06", n:"Grupo Cobertura Educativa", p:"GE"},
+    {c:"GE-07", n:"Grupo Inspección y Vigilancia", p:"GE"},
+    {c:"GE-08", n:"Grupo Planeación Educativa", p:"GE"},
+    {c:"GE-09", n:"Secretaria de Educación", p:"GE"},
+    {c:"GSS-01", n:"Dirección de Administración y Control Financiero - Salud", p:"GSS"},
+    {c:"GSS-02", n:"Dirección de Apoyo Jurídico de Contratación y Procesos Sancionatorio", p:"GSS"},
+    {c:"GSS-03", n:"Dirección de Desarrollo de Servicios Inspección Vigilancia y Control", p:"GSS"},
+    {c:"GSS-04", n:"Dirección de Planeación y Mejoramiento en Salud", p:"GSS"},
+    {c:"GSS-05", n:"Dirección de Salud Integral", p:"GSS"},
+    {c:"GSS-06", n:"Laboratorio Departamental de Salud", p:"GSS"},
+    {c:"GSS-07", n:"Secretaria de Salud", p:"GSS"},
+    {c:"SC-01", n:"Despacho Secretaria del Interior", p:"SC"},
+    {c:"SC-02", n:"Dirección de Atención Integral a las Víctimas del Departamento de Santander", p:"SC"},
+    {c:"SC-03", n:"Dirección de Participación Ciudadana y Acción Comunal", p:"SC"},
+    {c:"SC-04", n:"Dirección de Seguridad y Convivencia Ciudadana", p:"SC"},
+    {c:"SC-05", n:"Grupo Asuntos Religiosos", p:"SC"},
+    {c:"SC-06", n:"Grupo de Derechos de Autor", p:"SC"},
+    {c:"SC-07", n:"Grupo de Paz y Derechos Humanos", p:"SC"},
+    {c:"SC-08", n:"Grupo de Seguridad y Fortalecimiento Municipal", p:"SC"},
+    {c:"SC-09", n:"Oficina para la Gestión del Riesgo de Desastres", p:"SC"},
+    {c:"SC-10", n:"Secretaria del Interior", p:"SC"},
+    {c:"AI-01", n:"Control Disciplinario", p:"AI"},
+    {c:"AI-02", n:"Dirección de Recursos Físicos", p:"AI"},
+    {c:"AI-03", n:"Fondo de Cesantías - FONCESAN", p:"AI"},
+    {c:"AI-04", n:"Gestión Documental", p:"AI"},
+    {c:"AI-05", n:"Secretaria Administrativa", p:"AI"},
+    {c:"CCP-01", n:"Oficina de Contratación", p:"CCP"},
+    {c:"GF-01", n:"Despacho de Hacienda", p:"GF"},
+    {c:"GF-02", n:"Dirección Administrativa y Financiera - Secretaria de Educación", p:"GF"},
+    {c:"GF-03", n:"Dirección Administrativa y Financiera - Secretaria de Salud", p:"GF"},
+    {c:"GF-04", n:"Dirección de Cobro Coactivo", p:"GF"},
+    {c:"GF-05", n:"Dirección de Contabilidad", p:"GF"},
+    {c:"GF-06", n:"Dirección de Fondo Territorial de Pensiones", p:"GF"},
+    {c:"GF-07", n:"Dirección de Ingresos", p:"GF"},
+    {c:"GF-08", n:"Dirección de Presupuesto", p:"GF"},
+    {c:"GF-09", n:"Dirección de Tesorería", p:"GF"},
+    {c:"GF-10", n:"Secretaria de Hacienda", p:"GF"},
+    {c:"GJ-01", n:"Oficina Juridica", p:"GJ"},
+    {c:"GJ-02", n:"Grupo de Conceptos Juridicos", p:"GJ"},
+    {c:"GJ-03", n:"Grupo de Procesos Judiciales y Administrativos", p:"GJ"},
+    {c:"GJ-04", n:"Grupo de Entidades Sin Animo de Lucro", p:"GJ"},
+    {c:"TIC-01", n:"Despacho Secretaria TIC", p:"TIC"},
+    {c:"TIC-02", n:"Dirección de Gobierno Digital", p:"TIC"},
+    {c:"TIC-03", n:"Dirección de Sistemas de Información", p:"TIC"},
+    {c:"TIC-04", n:"Secretaria de Tecnología de la Información y Comunicación", p:"TIC"},
+    {c:"CE-01", n:"Control Interno", p:"CE"},
+    {c:"GE-10", n:"Grupo Financiero", p:"GE"},
+    {c:"GSS-08", n:"Grupo de Apoyo a la Gestión de Control y Calidad", p:"GSS"},
+    {c:"GSS-09", n:"Grupo de Gestión de Proyectos, Planes y Programas", p:"GSS"},
+    {c:"GSS-10", n:"Grupo de Laboratorio y Salud Pública", p:"GSS"},
+    {c:"GSS-11", n:"Grupo de Gestión de Salud Pública", p:"GSS"},
+    {c:"GSS-12", n:"Grupo Centro Reg. de Urgencias, Emergencias y Desastres CRUE", p:"GSS"},
+    {c:"GSS-13", n:"Grupo de Aseguramiento y Afiliación", p:"GSS"},
+    {c:"GSS-14", n:"Grupo Acreditación y Sist. Oblig. Garantía en Calidad", p:"GSS"},
+    {c:"GSS-15", n:"Grupo de Participación Social en Salud", p:"GSS"},
+    {c:"GSS-16", n:"Dirección de Apoyo Jurídico, Contratación y P. Sancionatorios", p:"GSS"},
+    {c:"GE-11", n:"Grupo de Calidad Educativa", p:"GE"},
+    {c:"GE-12", n:"Grupo de Cobertura Educativa", p:"GE"},
+    {c:"GE-13", n:"Grupo de Historias Laborales", p:"GE"},
+    {c:"GE-14", n:"Grupo de Carrera Docente", p:"GE"},
+    {c:"GE-15", n:"Grupo de Planeación Educativa", p:"GE"},
+    {c:"GE-16", n:"Grupo de Prestaciones Sociales del Magisterio", p:"GE"},
+    {c:"GSS-17", n:"Grupo de Promoción y Prevención", p:"GSS"}
+  ],
+
+  /* Tipos de riesgo: campos que se activan y plantilla de redacción.
+     Cambiar una plantilla aquí no requiere tocar el motor. */
+  tiposRiesgo:[
+    {c:"GES", n:"Riesgo de Gestión", impacto:"TABLA",
+     campos:["areaImpacto","causaRaiz","efectoInmediato"],
+     plantilla:"Posibilidad de pérdida {areaImpacto} por {efectoInmediato} debido a {causaRaiz}"},
+    {c:"SED", n:"Riesgo de Seguridad Digital", impacto:"TABLA",
+     campos:["activo","propiedadSD","efectoInmediato","causaRaiz"],
+     plantilla:"{propiedadSD} de {activo} por {efectoInmediato} debido a {causaRaiz}"},
+    {c:"RFI", n:"Riesgo Fiscal", impacto:"TABLA",
+     campos:["areaFiscal","causaRaiz","efectoInmediato"],
+     plantilla:"Posibilidad de efecto dañoso sobre {areaFiscal} por {efectoInmediato} debido a {causaRaiz}"},
+    {c:"COR", n:"Riesgo de Corrupción", impacto:"TABLA",
+     campos:["areaImpacto","accion","causaRaiz"],
+     plantilla:"Posibilidad de afectación {areaImpacto} por {accion} a causa de {causaRaiz}"},
+    {c:"CI",  n:"Conflicto de Intereses", impacto:"TABLA",
+     campos:["areaImpacto","accion","causaRaiz"],
+     plantilla:"Posibilidad de afectación {areaImpacto} por conflicto de intereses en {accion} a causa de {causaRaiz}"}
+  ],
+
+  etiquetas:{
+    areaImpacto:"Área de impacto", areaFiscal:"Área de impacto fiscal",
+    activo:"Activo de información", propiedadSD:"Propiedad afectada",
+    causaRaiz:"Causa raíz", efectoInmediato:"Efecto inmediato / Amenaza",
+    accion:"Acción"
+  },
+
+  areaImpacto:["Económica","Reputacional","Económica y reputacional"],
+  areaFiscal:["Bienes públicos","Recursos públicos","Intereses patrimoniales de naturaleza pública"],
+  propiedadSD:["Pérdida de la confidencialidad","Pérdida de la integridad","Pérdida de la disponibilidad"],
+  tipoActivo:["Información","Software","Hardware","Servicios","Intangibles","Componentes de red","Personas","Instalaciones"],
+
+  claseRiesgo:["Ejecución y administración de procesos","Fraude externo","Fraude interno",
+    "Fallas tecnológicas","Relaciones laborales","Usuarios, productos y prácticas",
+    "Daños a activos fijos / Eventos externos"],
+
+  factores:["Ejecución y administración de procesos","Transacción u Operación","Talento humano",
+    "Tecnología","Infraestructura","Evento externo"],
+
+  /* Tabla 4 — probabilidad por frecuencia de la actividad */
+  probabilidad:[
+    {n:"Muy Baja", pct:0.2, min:0,    max:2,    d:"Máximo 2 veces por año"},
+    {n:"Baja",     pct:0.4, min:3,    max:24,   d:"De 3 a 24 veces por año"},
+    {n:"Media",    pct:0.6, min:25,   max:500,  d:"De 25 a 500 veces por año"},
+    {n:"Alta",     pct:0.8, min:501,  max:5000, d:"Más de 500 y hasta 5.000 veces por año"},
+    {n:"Muy Alta", pct:1.0, min:5001, max:null, d:"Más de 5.000 veces por año"}
+  ],
+
+  /* Tabla 5 — impacto económico y reputacional */
+  impacto:[
+    {n:"Leve",        pct:0.2, eco:"Menor a 10 SMLMV",        rep:"Afecta la imagen de algún área"},
+    {n:"Menor",       pct:0.4, eco:"Entre 10 y 50 SMLMV",     rep:"Afecta la imagen a nivel interno"},
+    {n:"Moderado",    pct:0.6, eco:"Entre 50 y 100 SMLMV",    rep:"Afecta la imagen ante usuarios de relevancia"},
+    {n:"Mayor",       pct:0.8, eco:"Entre 100 y 500 SMLMV",   rep:"Efecto publicitario a nivel sectorial o departamental"},
+    {n:"Catastrófico",pct:1.0, eco:"Mayor a 500 SMLMV",       rep:"Efecto publicitario sostenido a nivel país"}
+  ],
+
+  /* Figura 18 — matriz de severidad inherente. Clave "prob|imp" */
+  matrizInherente:{
+    "0.2|1":"Extremo","0.4|1":"Extremo","0.6|1":"Extremo","0.8|1":"Extremo","1|1":"Extremo",
+    "0.2|0.8":"Alto","0.4|0.8":"Alto","0.6|0.8":"Alto","0.8|0.8":"Alto","1|0.8":"Alto",
+    "0.2|0.6":"Moderado","0.4|0.6":"Moderado","0.6|0.6":"Moderado","0.8|0.6":"Alto","1|0.6":"Alto",
+    "0.2|0.4":"Bajo","0.4|0.4":"Moderado","0.6|0.4":"Moderado","0.8|0.4":"Moderado","1|0.4":"Alto",
+    "0.2|0.2":"Bajo","0.4|0.2":"Bajo","0.6|0.2":"Moderado","0.8|0.2":"Moderado","1|0.2":"Alto"
+  },
+
+  /* Matriz residual: rangos continuos, evaluados por prioridad */
+  matrizResidual:[
+    {iMin:.80,iMax:1.00,pMin:0,  pMax:1.00,z:"Extremo"},
+    {iMin:.60,iMax:.80, pMin:0,  pMax:1.00,z:"Alto"},
+    {iMin:0,  iMax:.80, pMin:.80,pMax:1.00,z:"Alto"},
+    {iMin:.40,iMax:.60, pMin:.60,pMax:.80, z:"Alto"},
+    {iMin:.40,iMax:.60, pMin:0,  pMax:.60, z:"Moderado"},
+    {iMin:.20,iMax:.40, pMin:.20,pMax:.80, z:"Moderado"},
+    {iMin:0,  iMax:.20, pMin:.40,pMax:.80, z:"Moderado"},
+    {iMin:.20,iMax:.40, pMin:0,  pMax:.20, z:"Bajo"},
+    {iMin:0,  iMax:.20, pMin:0,  pMax:.40, z:"Bajo"}
+  ],
+
+  /* Tabla 6 — pesos de control */
+  pesoControl:{
+    tipo:{Preventivo:.25, Detectivo:.15, Correctivo:.10},
+    implementacion:{"Automático":.25, Manual:.15}
+  },
+  formalizacion:{
+    documentacion:["Procedimientos","Sistemas de información","Otros esquemas"],
+    frecuencia:["Siempre que se ejecuta la actividad","Periódicamente"],
+    evidencia:["Con registro manual","Con registro electrónico"],
+    ejecucion:["Interna","Externa","Mixta"]
+  },
+
+  /* Opciones de tratamiento con sus reglas declarativas */
+  tratamiento:[
+    {c:"Reducir",  exigePlan:true,  exigeSub:false, zonas:null, excluye:[]},
+    {c:"Compartir",exigePlan:false, exigeSub:false, zonas:null, excluye:[]},
+    {c:"Aceptar",  exigePlan:false, exigeSub:false, zonas:["Bajo","Moderado"], excluye:["COR","CI"]},
+    {c:"Evitar",   exigePlan:false, exigeSub:true,  zonas:null, excluye:[]}
+  ],
+  subestrategia:["Transferir","Mitigar","Cesar la actividad"],
+
+  /* Evaluación del diseño del control (7 criterios que suman 100%) */
+  evaluacionControl:[
+    {c:"asignacion", n:"Asignación del responsable", op:[
+      ["Asignado", .15], ["No asignado", 0]]},
+    {c:"segregacion", n:"Segregación y autoridad del responsable", op:[
+      ["Adecuado", .15], ["Inadecuado", 0]]},
+    {c:"periodicidad", n:"Periodicidad", op:[
+      ["Oportuna", .15], ["Inoportuna", 0]]},
+    {c:"proposito", n:"Propósito", op:[
+      ["Prevenir", .15], ["Detectar", .10], ["No es un control", 0]]},
+    {c:"efecto", n:"Efecto en el nivel de riesgo", op:[
+      ["Confiable", .15], ["No es un control", 0]]},
+    {c:"desviaciones", n:"¿Las desviaciones se investigan y resuelven oportunamente?", op:[
+      ["Se investigan y resuelven oportunamente", .15],
+      ["No se investigan y resuelven oportunamente", 0]]},
+    {c:"evidencia", n:"Evidencia de la ejecución del control", op:[
+      ["Completa", .10], ["Incompleta", .05], ["No existe", 0]]}
+  ],
+  rangoDiseno:[
+    {min:.96, max:1.00, n:"Fuerte"},
+    {min:.86, max:.95,  n:"Moderado"},
+    {min:0,   max:.85,  n:"Débil"}
+  ],
+
+  estadoAccion:["Cerrada","En Curso","Vencida"],
+  siNo:["Si","No"],
+  instancias:["SIG","Hacienda","TICS","Control Interno"],
+
+  /* Ayudas didácticas: ejemplo y guía por campo del formulario */
+  ayuda:{
+    causaRaiz:{
+      q:"¿Por qué puede ocurrir? Es la falla de fondo que los controles deben atacar.",
+      ej:"la inexistencia de un procedimiento documentado para la verificación de soportes"},
+    efectoInmediato:{
+      q:"¿Qué pasa justo antes de que se materialice? Es el hecho concreto que desencadena.",
+      ej:"la aprobación de pagos sin verificación previa de los soportes contractuales"},
+    areaImpacto:{
+      q:"Sobre qué recae el daño: el patrimonio, la imagen institucional, o ambos.",
+      ej:""},
+    accion:{
+      q:"La conducta concreta que haría un servidor para materializar el riesgo.",
+      ej:"favorecer a un proponente entregándole información privilegiada del proceso"},
+    activo:{
+      q:"Nombre exacto del activo como aparece en el inventario de información.",
+      ej:"Base de datos del Sistema de Información de Hacienda"},
+    frecuencia:{
+      q:"Cuántas veces al año se pasa por el punto de riesgo. No es cuántas veces ha ocurrido: es la exposición.",
+      ej:"Si se tramitan 40 contratos al año, escriba 40"},
+    controlResponsable:{
+      q:"Quién ejecuta el control. Siempre un cargo, nunca un nombre propio.",
+      ej:"El profesional universitario de la Dirección de Contabilidad"},
+    controlAccion:{
+      q:"Qué hace. Verbo en presente, tercera persona.",
+      ej:"verifica y aprueba"},
+    controlComplemento:{
+      q:"Sobre qué y con qué periodicidad, más qué pasa con las desviaciones.",
+      ej:"mensualmente las conciliaciones bancarias contra el extracto; las diferencias se documentan en acta"},
+    planAccion:{
+      q:"Actividades concretas y verificables, no intenciones.",
+      ej:"Documentar el procedimiento de verificación de soportes y socializarlo con los seis profesionales del área"},
+    kri:{
+      q:"Una fórmula que se pueda medir cada trimestre.",
+      ej:"(Nº de pagos con soporte verificado / Nº total de pagos del periodo) × 100"}
+  },
+
+  roles:[
+    {c:"ADMIN",       n:"Administrador",     d:"Acceso total, sin restricción de ventana"},
+    {c:"ENLACE_SIG",  n:"Enlace SIG",        d:"Crea, edita y elimina riesgos de su dependencia, solo en ventana"},
+    {c:"MONITOREO",   n:"Monitoreo calidad", d:"Registra el monitoreo trimestral"},
+    {c:"SEGUIMIENTO", n:"Control Interno",   d:"Registra seguimiento y contrasta el monitoreo de SIG"},
+    {c:"PUBLICO",     n:"Consulta pública",  d:"Solo lectura, sin autenticación"}
+  ]
+};
+
+/* =====================================================================
+   MOTOR DE CÁLCULO — solo consulta el catálogo
+   ===================================================================== */
+const Motor = {
+  nivelProbabilidad(frec){
+    return CAT.probabilidad.find(p => frec >= p.min && (p.max === null || frec <= p.max)) || null;
+  },
+  pesoControl(tipo, impl){
+    return (CAT.pesoControl.tipo[tipo] || 0) + (CAT.pesoControl.implementacion[impl] || 0);
+  },
+  afectacion(tipo){ return tipo === "Correctivo" ? "Impacto" : "Probabilidad"; },
+  zonaInherente(p, i){
+    return CAT.matrizInherente[`${+p}|${+i}`] || null;
+  },
+  zonaResidual(p, i){
+    const r = CAT.matrizResidual.find(r =>
+      i > r.iMin && i <= r.iMax && p > r.pMin && p <= r.pMax);
+    return r ? r.z : "Bajo";
+  },
+  /* Mitigación acumulativa: P × Π(1−peso) */
+  residual(probInh, impInh, controles){
+    let mp = 1, mi = 1;
+    const detalle = [];
+    (controles || []).forEach((c, k) => {
+      const peso = this.pesoControl(c.tipo, c.implementacion);
+      const af = this.afectacion(c.tipo);
+      if (af === "Probabilidad"){
+        const antes = probInh * mp;
+        mp *= (1 - peso);
+        detalle.push({n:k+1, af, peso, antes, despues: probInh * mp});
+      } else {
+        const antes = impInh * mi;
+        mi *= (1 - peso);
+        detalle.push({n:k+1, af, peso, antes, despues: impInh * mi});
+      }
+    });
+    const p = probInh * mp, i = impInh * mi;
+    return {probabilidad:p, impacto:i, multP:mp, multI:mi,
+            zona:this.zonaResidual(p, i), detalle};
+  },
+  describir(tipoC, datos){
+    const t = CAT.tiposRiesgo.find(x => x.c === tipoC);
+    if (!t) return "";
+    return t.plantilla.replace(/\{(\w+)\}/g, (_, k) => {
+      const v = (datos[k] || "").toString().trim();
+      return v ? (k === "areaImpacto" ? v.toLowerCase() : v) : `[${CAT.etiquetas[k] || k}]`;
+    });
+  },
+  validarTratamiento(opcion, tipoRiesgoC, zonaResidual, subestrategia, acta){
+    const o = CAT.tratamiento.find(t => t.c === opcion);
+    if (!o) return "Opción de tratamiento no válida en esta versión.";
+    if (o.excluye.includes(tipoRiesgoC))
+      return `El tratamiento «${opcion}» no aplica a este tipo de riesgo.`;
+    if (o.zonas && zonaResidual && !o.zonas.includes(zonaResidual) && !acta)
+      return `«${opcion}» en zona ${zonaResidual} requiere acta de comité.`;
+    if (o.exigeSub && !subestrategia)
+      return `«${opcion}» exige especificar la subestrategia.`;
+    return null;
+  }
+};
+
+/* =====================================================================
+   ALMACENAMIENTO
+   ===================================================================== */
+const Store = {
+  db:null, local:{},
+  async init(){
+    try { this.db = await window.claude?.use?.("db") || null; } catch(e){ this.db = null; }
+    if (!this.db){
+      try { this.local = JSON.parse(localStorage.getItem("mriesgos") || "{}"); } catch(e){ this.local = {}; }
+    }
+  },
+  async get(col){
+    if (this.db){
+      try { const s = await this.db.collection(col).get(); return s.map(d => ({id:d.id, ...d.data})); }
+      catch(e){ return []; }
+    }
+    return Object.values(this.local[col] || {});
+  },
+  async set(col, id, data){
+    if (this.db){
+      try { await this.db.doc(`${col}/${id}`).set(data); return; } catch(e){}
+    }
+    this.local[col] = this.local[col] || {};
+    this.local[col][id] = {id, ...data};
+    this.flush();
+  },
+  async del(col, id){
+    if (this.db){ try { await this.db.doc(`${col}/${id}`).delete(); return; } catch(e){} }
+    if (this.local[col]) delete this.local[col][id];
+    this.flush();
+  },
+  flush(){ try { localStorage.setItem("mriesgos", JSON.stringify(this.local)); } catch(e){} }
+};
+
+/* =====================================================================
+   ESTADO
+   ===================================================================== */
+const S = {
+  riesgos:[], usuarios:[], ventanas:[], historico:[],
+  seguimientos:[], monitoreos:[], internos:[], evaluaciones:[],
+  periodo: null,
+  intervencion: false,   // el administrador actúa sobre una vista operativa
+  sesion:null, vista:"panel",
+  filtros:{macroproceso:"",proceso:"",unidad:"",tipo:"",zona:""}
+};
+
+const uid = () => Math.random().toString(36).slice(2, 10);
+
+/* Ayuda didáctica reutilizable bajo un campo del formulario */
+function ayudaCampo(k){
+  const a = CAT.ayuda[k]; if (!a) return "";
+  return `<p class="hint">${esc(a.q)}${a.ej ? ` <b>Ejemplo:</b> «${esc(a.ej)}»` : ""}</p>`;
+}
+
+/* Periodo trimestral vigente, derivado de la fecha */
+function periodoActual(){
+  const d = new Date(), t = Math.floor(d.getMonth() / 3) + 1;
+  return `${d.getFullYear()}-T${t}`;
+}
+function periodosConocidos(){
+  const set = new Set([periodoActual()]);
+  [...S.seguimientos, ...S.monitoreos, ...S.internos].forEach(x => set.add(x.periodo));
+  return [...set].sort().reverse();
+}
+
+/* Nombre y ruta sugeridos del archivo de evidencia en Drive */
+function rutaEvidencia(r, periodo, nombreArchivo){
+  const [anio, tri] = periodo.split("-");
+  const base = `${r.proceso}-${r.unidad || ""}-${r.codigo}`
+    .replace(/\s+/g, "");
+  const ext = (nombreArchivo.split(".").pop() || "pdf").toLowerCase();
+  return {carpeta:`Riesgos/${anio}/${tri}`, archivo:`${base}.${ext}`};
+}
+
+/* Calificación del diseño del control a partir de los 7 criterios */
+function calificarDiseno(resp){
+  let total = 0;
+  CAT.evaluacionControl.forEach(cr => {
+    const op = cr.op.find(o => o[0] === resp[cr.c]);
+    if (op) total += op[1];
+  });
+  total = Math.round(total * 1e4) / 1e4;
+  const r = CAT.rangoDiseno.find(x => total >= x.min && total <= x.max);
+  return {total, calificacion: r ? r.n : "Débil"};
+}
+const esc = s => (s ?? "").toString().replace(/[&<>"']/g, c =>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pct = n => (n * 100).toFixed(1).replace(/\.0$/, "") + "%";
+const proc = c => CAT.procesos.find(p => p.c === c);
+const uni  = c => CAT.unidades.find(u => u.c === c);
+const dep  = uni;
+const macro = c => CAT.macroprocesos.find(m => m.c === c);
+const tipo = c => CAT.tiposRiesgo.find(t => t.c === c);
+/* Estructura plana: cada dependencia cuelga directamente de un proceso */
+const dependenciasDe = pc => CAT.unidades.filter(u => u.p === pc);
+const rutaUnidad = c => {
+  const u = uni(c); if (!u) return "";
+  return `${proc(u.p)?.n || ""} › ${u.n}`;
+};
+
+/* El administrador ve todo, pero para escribir en las vistas operativas
+   debe activar la intervención. Así el histórico distingue quién cumplió
+   de quién intervino. */
+function esAdmin(){ return S.sesion?.rol === "ADMIN"; }
+function puedeEscribirOperativo(tipoVentana){
+  if (esAdmin()) return S.intervencion;
+  return ventanaAbierta(tipoVentana);
+}
+function bannerAdmin(){
+  if (!esAdmin()) return "";
+  return S.intervencion
+    ? `<div class="banner warn"><span>&#9888;</span><div>
+        <b>Intervención administrativa activa.</b> Lo que registres quedará marcado como hecho por
+        la administración, no por el responsable del proceso.
+        <button class="btn ghost sm" id="btnInterv" style="margin-left:9px">Desactivar</button></div></div>`
+    : `<div class="banner info"><span>&#9432;</span><div>
+        Estás viendo esta sección como administrador, en modo consulta. La ejecución corresponde a
+        los roles operativos.
+        <button class="btn ghost sm" id="btnInterv" style="margin-left:9px">Intervenir</button></div></div>`;
+}
+
+function ventanaAbierta(kind){
+  const now = Date.now();
+  return S.ventanas.some(v => v.tipo === kind &&
+    now >= new Date(v.desde).getTime() && now <= new Date(v.hasta + "T23:59:59").getTime());
+}
+function puede(accion){
+  const r = S.sesion?.rol;
+  if (r === "ADMIN") return true;
+  if (accion === "leer") return true;
+  if (accion === "riesgo" && r === "ENLACE_SIG") return ventanaAbierta("ACTUALIZACION");
+  if (accion === "ejecucion" && r === "ENLACE_SIG") return ventanaAbierta("EJECUCION");
+  if (accion === "monitoreo" && r === "MONITOREO") return ventanaAbierta("MONITOREO");
+  if (accion === "seguimiento" && r === "SEGUIMIENTO") return ventanaAbierta("SEGUIMIENTO");
+  if (accion === "usuarios") return false;
+  return false;
+}
+
+/* =====================================================================
+   HISTÓRICO
+   ===================================================================== */
+async function registrarVersion(riesgo, operacion, motivo, previo){
+  const cambios = [];
+  if (previo){
+    const campos = {codigo:"Código", descripcion:"Descripción", tipo:"Tipo de riesgo",
+      causaRaiz:"Causa raíz", efectoInmediato:"Efecto inmediato", areaImpacto:"Área de impacto",
+      macroproceso:"Macroproceso", proceso:"Proceso", unidad:"Dependencia", frecuencia:"Frecuencia anual",
+      impactoNivel:"Nivel de impacto", estado:"Estado"};
+    Object.entries(campos).forEach(([k, et]) => {
+      if ((previo[k] ?? "") !== (riesgo[k] ?? ""))
+        cambios.push({campo:et, antes:previo[k] ?? "—", ahora:riesgo[k] ?? "—"});
+    });
+    const ca = (previo.controles || []).length, cb = (riesgo.controles || []).length;
+    if (ca !== cb) cambios.push({campo:"Número de controles", antes:ca, ahora:cb});
+  }
+  const v = {
+    id: uid(), riesgoId: riesgo.id, version: (S.historico.filter(h => h.riesgoId === riesgo.id).length) + 1,
+    operacion, motivo: motivo || "", cambios,
+    snapshot: JSON.parse(JSON.stringify(riesgo)),
+    usuario: S.sesion?.nombre || "—", rol: S.sesion?.rol || "—",
+    fecha: new Date().toISOString()
+  };
+  S.historico.push(v);
+  await Store.set("historico", v.id, v);
+}
+
+/* =====================================================================
+   RENDER — navegación
+   ===================================================================== */
+const VISTAS = [
+  {id:"panel",     n:"Panel",        ic:"◼", grupo:"Consulta"},
+  {id:"riesgos",   n:"Riesgos",      ic:"▤", grupo:"Consulta"},
+  {id:"matriz",    n:"Mapa de calor",ic:"▦", grupo:"Consulta"},
+  {id:"historico", n:"Histórico",    ic:"◷", grupo:"Consulta"},
+  {id:"seguimiento",n:"Reporte de ejecución", ic:"▶", grupo:"Ciclo trimestral", roles:["ADMIN","ENLACE_SIG"]},
+  {id:"monitoreo", n:"Monitoreo",    ic:"◎", grupo:"Ciclo trimestral", roles:["ADMIN","MONITOREO"]},
+  {id:"interno",   n:"Control Interno",ic:"⬡", grupo:"Ciclo trimestral", roles:["ADMIN","SEGUIMIENTO"]},
+  {id:"usuarios",  n:"Usuarios",     ic:"◉", grupo:"Administración", soloAdmin:true},
+  {id:"perfiles",  n:"Perfiles por proceso", ic:"◇", grupo:"Administración", soloAdmin:true},
+  {id:"ventanas",  n:"Ventanas",     ic:"◑", grupo:"Administración", soloAdmin:true},
+  {id:"metodo",    n:"Metodología",  ic:"◈", grupo:"Administración"}
+];
+
+function pintarNav(){
+  const nav = document.getElementById("nav");
+  let html = "", grupo = "";
+  VISTAS.forEach(v => {
+    if (v.soloAdmin && S.sesion?.rol !== "ADMIN") return;
+    if (v.roles && !v.roles.includes(S.sesion?.rol)) return;
+    if (v.grupo !== grupo){ grupo = v.grupo; html += `<div class="nav-sep">${grupo}</div>`; }
+    html += `<button data-v="${v.id}" ${S.vista === v.id ? 'aria-current="page"' : ""}>
+      <span class="ic">${v.ic}</span><span>${v.n}</span></button>`;
+  });
+  nav.innerHTML = html;
+  nav.querySelectorAll("button").forEach(b =>
+    b.onclick = () => { S.vista = b.dataset.v; render(); });
+
+  document.getElementById("whoName").textContent = S.sesion?.nombre || "Sin sesión";
+  const rol = CAT.roles.find(r => r.c === S.sesion?.rol);
+  document.getElementById("whoRole").textContent = rol ? rol.n : "";
+}
+
+/* =====================================================================
+   VISTA: PANEL
+   ===================================================================== */
+const ORDEN_MACRO = {ESTRATEGICO:1, MISIONAL:2, APOYO:3, EVALUACION:4};
+function ordenarRiesgos(rs){
+  return [...rs].sort((a, b) => {
+    const ma = ORDEN_MACRO[proc(a.proceso)?.m] || 9, mb = ORDEN_MACRO[proc(b.proceso)?.m] || 9;
+    if (ma !== mb) return ma - mb;
+    const pa = proc(a.proceso)?.n || "", pb = proc(b.proceso)?.n || "";
+    if (pa !== pb) return pa.localeCompare(pb, "es");
+    const ua = uni(a.unidad)?.n || "", ub = uni(b.unidad)?.n || "";
+    if (ua !== ub) return ua.localeCompare(ub, "es");
+    return (a.codigo || "").localeCompare(b.codigo || "", "es", {numeric:true});
+  });
+}
+
+function riesgosFiltrados(){
+  const f = S.filtros;
+  return ordenarRiesgos(S.riesgos.filter(r => {
+    if (r.estado === "OBSOLETO") return false;
+    if (f.macroproceso && proc(r.proceso)?.m !== f.macroproceso) return false;
+    if (f.proceso && r.proceso !== f.proceso) return false;
+    if (f.unidad && r.unidad !== f.unidad) return false;
+    if (f.tipo && r.tipo !== f.tipo) return false;
+    if (f.zona && r.zonaResidual !== f.zona) return false;
+    return true;
+  }));
+}
+
+function barrasFiltros(){
+  const opts = (arr, val, fn) => arr.map(x => {
+    const [v, t] = fn(x);
+    return `<option value="${esc(v)}" ${val === v ? "selected" : ""}>${esc(t)}</option>`;
+  }).join("");
+  const f = S.filtros;
+  const procs = f.macroproceso ? CAT.procesos.filter(p => p.m === f.macroproceso) : CAT.procesos;
+  const unis = f.proceso ? dependenciasDe(f.proceso)
+    : CAT.unidades.slice().sort((a, b) => a.n.localeCompare(b.n, "es"));
+
+  return `<div class="card"><div class="body"><div class="filters">
+    <div class="f"><label for="f1">Macroproceso</label><select id="f1" autocomplete="off"><option value="">Todos</option>
+      ${opts(CAT.macroprocesos, f.macroproceso, m => [m.c, m.n])}</select></div>
+    <div class="f"><label for="f2">Proceso</label><select id="f2" autocomplete="off"><option value="">Todos</option>
+      ${opts(procs, f.proceso, p => [p.c, p.n])}</select></div>
+    <div class="f"><label for="f3">Dependencia</label><select id="f3" autocomplete="off"><option value="">Todas</option>
+      ${opts(unis, f.unidad, u => [u.c, u.n])}</select></div>
+    <div class="f"><label for="f4">Tipo de riesgo</label><select id="f4" autocomplete="off"><option value="">Todos</option>
+      ${opts(CAT.tiposRiesgo, f.tipo, t => [t.c, t.n])}</select></div>
+    <div class="f"><label for="f5">Zona residual</label><select id="f5" autocomplete="off"><option value="">Todas</option>
+      ${opts(["Bajo","Moderado","Alto","Extremo"], f.zona, z => [z, z])}</select></div>
+    <button class="btn ghost" id="fClear">Limpiar</button>
+  </div></div></div>`;
+}
+function enlazarFiltros(){
+  const map = {f1:"macroproceso", f2:"proceso", f3:"unidad", f4:"tipo", f5:"zona"};
+  Object.entries(map).forEach(([id, k]) => {
+    const el = document.getElementById(id);
+    if (el) el.onchange = () => {
+      S.filtros[k] = el.value;
+      if (k === "macroproceso"){ S.filtros.proceso = ""; S.filtros.unidad = ""; }
+      if (k === "proceso") S.filtros.unidad = "";
+      render();
+    };
+  });
+  const c = document.getElementById("fClear");
+  if (c) c.onclick = () => {
+    S.filtros = {macroproceso:"",proceso:"",unidad:"",tipo:"",zona:""}; render();
+  };
+}
+
+const ZCOL = {Bajo:"var(--z-bajo)", Moderado:"var(--z-mod)", Alto:"var(--z-alto)", Extremo:"var(--z-ext)"};
+
+function barrasApiladas(grupos){
+  const max = Math.max(1, ...grupos.map(g => g.total));
+  return `<div class="bars">${grupos.map(g => `
+    <div class="bar-row">
+      <span class="nm" title="${esc(g.nombre)}">${esc(g.nombre)}</span>
+      <div class="bar-track" style="width:${(g.total / max * 100).toFixed(1)}%">
+        ${["Bajo","Moderado","Alto","Extremo"].map(z => g[z]
+          ? `<div class="bar-seg" style="width:${(g[z] / g.total * 100).toFixed(1)}%;background:${ZCOL[z]}" title="${z}: ${g[z]}"></div>`
+          : "").join("")}
+      </div>
+      <span class="n">${g.total}</span>
+    </div>`).join("")}</div>
+    <div class="legend">${["Bajo","Moderado","Alto","Extremo"].map(z =>
+      `<span><i style="background:${ZCOL[z]}"></i>${z}</span>`).join("")}</div>`;
+}
+
+function agrupar(rs, keyFn, nameFn){
+  const m = new Map();
+  rs.forEach(r => {
+    const k = keyFn(r); if (k == null) return;
+    if (!m.has(k)) m.set(k, {nombre:nameFn(k), total:0, Bajo:0, Moderado:0, Alto:0, Extremo:0});
+    const g = m.get(k); g.total++; if (r.zonaResidual) g[r.zonaResidual]++;
+  });
+  return [...m.values()].sort((a, b) => b.total - a.total);
+}
+
+function vistaPanel(){
+  const rs = riesgosFiltrados();
+  const n = rs.length;
+  const crit = rs.filter(r => ["Alto","Extremo"].includes(r.zonaResidual)).length;
+  const ord = {Bajo:1, Moderado:2, Alto:3, Extremo:4};
+  const bajaron = rs.filter(r => ord[r.zonaResidual] < ord[r.zonaInherente]).length;
+  const ctrls = rs.reduce((a, r) => a + (r.controles || []).length, 0);
+
+  if (!n) return (S.semilla?.estado === "error"
+      ? `<div class="banner warn" style="margin-bottom:16px"><span>&#9888;</span>
+         <div><b>No se pudieron cargar los datos de prueba.</b><br>${esc(S.semilla.detalle)}</div></div>`
+      : "")
+    + barrasFiltros() + `<div class="card" style="margin-top:16px"><div class="empty">
+    <b>Todavía no hay riesgos que mostrar</b>
+    ${S.riesgos.length ? "Ningún riesgo coincide con los filtros aplicados."
+      : "Registra el primer riesgo desde la sección Riesgos, o carga los datos de prueba."}
+    ${S.riesgos.length ? "" : `<div style="margin-top:13px">
+      <button class="btn ghost" id="btnSemilla">Cargar datos de prueba</button></div>`}
+    </div></div>`;
+
+  return barrasFiltros() + `
+  <div class="stack" style="margin-top:16px">
+    <div class="kpis">
+      <div class="kpi"><div class="v">${n}</div><div class="l">Riesgos vigentes</div></div>
+      <div class="kpi"><div class="v" style="color:${crit ? "var(--z-alto)" : "inherit"}">${crit}</div>
+        <div class="l">En zona Alto o Extremo</div>
+        <div class="d">${n ? Math.round(crit / n * 100) : 0}% del total</div></div>
+      <div class="kpi"><div class="v">${bajaron}</div><div class="l">Bajaron de zona</div>
+        <div class="d">Tras aplicar controles</div></div>
+      <div class="kpi"><div class="v">${ctrls}</div><div class="l">Controles</div>
+        <div class="d">${n ? (ctrls / n).toFixed(1) : 0} por riesgo</div></div>
+    </div>
+
+    ${(() => { const k = rs.filter(r => (r.revisar || []).length).length;
+      return k ? `<div class="banner warn"><span>&#9888;</span><div>
+        <b>${k} riesgos migrados requieren revisión.</b> Vienen del consolidado V4 y arrastran
+        situaciones que la versión 7 resuelve distinto: impacto de corrupción calculado con el
+        cuestionario de 19 preguntas, tratamiento «Evitar» sin subestrategia, o riesgos topados
+        en 4 controles.</div></div>` : ""; })()}
+
+    <div class="grid2">
+      <div class="card"><header><h2>Por proceso</h2><span class="tag">Zona residual</span></header>
+        <div class="body">${barrasApiladas(agrupar(rs, r => r.proceso, k => proc(k)?.n || k))}</div></div>
+      <div class="card"><header><h2>Por tipo de riesgo</h2><span class="tag">Zona residual</span></header>
+        <div class="body">${barrasApiladas(agrupar(rs, r => r.tipo, k => tipo(k)?.n || k))}</div></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card"><header><h2>Por macroproceso</h2><span class="tag">Zona residual</span></header>
+        <div class="body">${barrasApiladas(agrupar(rs, r => proc(r.proceso)?.m,
+          k => macro(k)?.n || k))}</div></div>
+      <div class="card"><header><h2>Por dependencia</h2><span class="tag">Zona residual</span></header>
+        <div class="body">${barrasApiladas(agrupar(rs, r => r.unidad, k => uni(k)?.n || k))}</div></div>
+    </div>
+  </div>`;
+}
+
+/* =====================================================================
+   VISTA: MAPA DE CALOR
+   ===================================================================== */
+function mapaCalor(rs, modo){
+  const probs = CAT.probabilidad.map(p => p.pct);
+  const imps = CAT.impacto.map(i => i.pct);
+  const conteo = {};
+  rs.forEach(r => {
+    const p = modo === "inh" ? r.probabilidadPct : r.probResidual;
+    const i = modo === "inh" ? r.impactoPct : r.impResidual;
+    if (p == null || i == null) return;
+    const pp = probs.reduce((a, b) => Math.abs(b - p) < Math.abs(a - p) ? b : a);
+    const ii = imps.reduce((a, b) => Math.abs(b - i) < Math.abs(a - i) ? b : a);
+    const k = `${pp}|${ii}`; conteo[k] = (conteo[k] || 0) + 1;
+  });
+  let cells = "";
+  [...imps].reverse().forEach(i => probs.forEach(p => {
+    const k = `${p}|${i}`, z = CAT.matrizInherente[`${+p}|${+i}`], c = conteo[k] || 0;
+    cells += `<div class="cell ${z} ${c ? "" : "empty"}" title="${z} · Probabilidad ${pct(p)} · Impacto ${pct(i)}">${c || ""}</div>`;
+  }));
+  return `<div class="heat-wrap">
+    <div class="heat-y">${CAT.impacto.map(i => `<span>${i.n}</span>`).join("")}</div>
+    <div class="heat">${cells}</div>
+    <div class="heat-x">${CAT.probabilidad.map(p => `<span>${p.n}</span>`).join("")}</div>
+  </div>`;
+}
+
+function vistaMatriz(){
+  const rs = riesgosFiltrados();
+  return barrasFiltros() + `<div class="grid2" style="margin-top:16px">
+    <div class="card"><header><h2>Riesgo inherente</h2><span class="tag">${rs.length} riesgos</span></header>
+      <div class="body">${mapaCalor(rs, "inh")}
+        <p class="hint" style="margin-top:12px">El eje vertical es el impacto; el horizontal, la probabilidad.
+        Con impacto Mayor o Catastrófico la zona es Alto o Extremo sin importar la probabilidad.</p></div></div>
+    <div class="card"><header><h2>Riesgo residual</h2><span class="tag">Después de controles</span></header>
+      <div class="body">${mapaCalor(rs, "res")}
+        <p class="hint" style="margin-top:12px">Solo los controles correctivos mueven el impacto.
+        Preventivos y detectivos mueven únicamente la probabilidad.</p></div></div>
+  </div>`;
+}
+
+/* =====================================================================
+   VISTA: RIESGOS
+   ===================================================================== */
+function vistaRiesgos(){
+  const rs = riesgosFiltrados();
+  const puedeEditar = puede("riesgo");
+  const aviso = !puedeEditar && S.sesion?.rol === "ENLACE_SIG"
+    ? `<div class="banner warn" style="margin-bottom:16px"><span>⚠</span>
+       <div>La ventana de actualización está cerrada. Puedes consultar los riesgos, pero no crear,
+       editar ni eliminar hasta que el administrador habilite la siguiente ventana.</div></div>` : "";
+
+  const filas = rs.map(r => `<tr>
+    <td class="rid">${esc(r.codigo)}</td>
+    <td class="desc"><div class="just">${esc(r.descripcion)}</div>
+      <div style="margin-top:4px"><span class="tag">${esc(tipo(r.tipo)?.n || r.tipo)}</span></div></td>
+    <td style="max-width:230px"><div class="just">${esc(proc(r.proceso)?.n || "")}</div>
+      <div class="hint just">${esc(uni(r.unidad)?.n || "")}</div></td>
+    <td class="ctr"><span class="zone ${r.zonaInherente}">${r.zonaInherente || "—"}</span></td>
+    <td class="num">${(r.controles || []).length}</td>
+    <td class="ctr"><span class="zone ${r.zonaResidual}">${r.zonaResidual || "—"}</span></td>
+    <td>${esc(r.tratamiento || "—")}</td>
+    <td style="white-space:nowrap">
+      <button class="btn ghost sm" data-ver="${r.id}">Ver</button>
+      ${puedeEditar ? `<button class="btn ghost sm" data-edit="${r.id}">Editar</button>
+        <button class="btn ghost sm" data-del="${r.id}">Eliminar</button>` : ""}
+    </td></tr>`).join("");
+
+  return aviso + barrasFiltros() + `<div class="card" style="margin-top:16px">
+    <header><h2>Inventario de riesgos</h2><span class="tag">${rs.length} de ${S.riesgos.filter(r => r.estado !== "OBSOLETO").length}</span></header>
+    ${rs.length ? `<div class="scroll-x"><table><thead><tr>
+      <th>Identificador</th><th class="desc">Riesgo</th><th>Proceso y dependencia</th><th class="ctr">Inherente</th>
+      <th class="num">Controles</th><th class="ctr">Residual</th><th>Tratamiento</th><th></th>
+    </tr></thead><tbody>${filas}</tbody></table></div>`
+    : `<div class="empty"><b>Sin riesgos registrados</b>
+       ${puedeEditar ? "Usa el botón «Registrar riesgo» para crear el primero."
+         : "Cuando las dependencias registren riesgos, aparecerán aquí."}
+       <div style="margin-top:13px">
+         <button class="btn ghost" id="btnSemilla">Cargar datos de prueba</button></div>
+       </div>`}
+  </div>`;
+}
+
+/* =====================================================================
+   FORMULARIO DE RIESGO
+   ===================================================================== */
+let F = null;
+
+function abrirFormulario(id){
+  const existente = id ? S.riesgos.find(r => r.id === id) : null;
+  F = existente ? JSON.parse(JSON.stringify(existente)) : {
+    id: uid(), tipo:"GES", macroproceso:"", proceso:"", unidad:"", dependencia:"", clase:"", factores:[],
+    areaImpacto:"", areaFiscal:"", activo:"", tipoActivo:"", propiedadSD:"",
+    causaRaiz:"", efectoInmediato:"", accion:"",
+    frecuencia:"", impactoNivel:"", controles:[], tratamiento:"", subestrategia:"",
+    acta:"", planAccion:"", responsablePlan:"", kri:"", fechaPlan:"",
+    estado:"VIGENTE", motivo:""
+  };
+  F._nuevo = !existente;
+  pintarFormulario();
+}
+
+function recalcular(){
+  const np = F.frecuencia !== "" ? Motor.nivelProbabilidad(Number(F.frecuencia)) : null;
+  const ni = CAT.impacto.find(i => i.n === F.impactoNivel) || null;
+  F.probabilidadPct = np ? np.pct : null;
+  F.probabilidadNivel = np ? np.n : null;
+  F.impactoPct = ni ? ni.pct : null;
+  F.zonaInherente = (np && ni) ? Motor.zonaInherente(np.pct, ni.pct) : null;
+  if (np && ni){
+    const res = Motor.residual(np.pct, ni.pct, F.controles);
+    F.probResidual = res.probabilidad; F.impResidual = res.impacto;
+    F.zonaResidual = res.zona; F._detalle = res.detalle;
+    F._multP = res.multP; F._multI = res.multI;
+  } else { F.probResidual = F.impResidual = F.zonaResidual = null; F._detalle = []; }
+  F.descripcion = Motor.describir(F.tipo, F);
+}
+
+function pintarFormulario(){
+  recalcular();
+  const t = tipo(F.tipo);
+  const campos = t.campos;
+  const pr = proc(F.proceso);
+  const procsDe = F.macroproceso ? CAT.procesos.filter(p => p.m === F.macroproceso) : [];
+  const unisDe = pr ? dependenciasDe(pr.c) : [];
+
+  const sel = (id, val, arr, fn, ph) => `<select id="${id}">
+    <option value="">${ph}</option>
+    ${arr.map(x => { const [v, tx] = fn(x);
+      return `<option value="${esc(v)}" ${val === v ? "selected" : ""}>${esc(tx)}</option>`; }).join("")}
+  </select>`;
+
+  let condicionales = "";
+  if (campos.includes("areaImpacto")) condicionales += `<div class="field">
+    <label class="req">Área de impacto</label>
+    ${sel("fArea", F.areaImpacto, CAT.areaImpacto, x => [x, x], "Seleccione")}</div>`;
+  if (campos.includes("areaFiscal")) condicionales += `<div class="field">
+    <label class="req">Área de impacto fiscal</label>
+    ${sel("fAreaF", F.areaFiscal, CAT.areaFiscal, x => [x, x], "Seleccione")}
+    <p class="hint">Patrimonio público sobre el que recae el efecto dañoso.</p></div>`;
+  if (campos.includes("propiedadSD")) condicionales += `<div class="grid2">
+    <div class="field"><label class="req">Tipo de activo</label>
+      ${sel("fTipoAct", F.tipoActivo, CAT.tipoActivo, x => [x, x], "Seleccione")}</div>
+    <div class="field"><label class="req">Propiedad afectada</label>
+      ${sel("fProp", F.propiedadSD, CAT.propiedadSD, x => [x, x], "Seleccione")}</div></div>
+    <div class="field"><label class="req">Nombre del activo de información</label>
+      <input type="text" id="fActivo" value="${esc(F.activo)}" placeholder="Base de datos de contribuyentes"></div>`;
+  if (campos.includes("accion")) condicionales += `<div class="field">
+    <label class="req">Acción</label>
+    <input type="text" id="fAccion" value="${esc(F.accion)}" placeholder="${esc(CAT.ayuda.accion.ej)}">
+    ${ayudaCampo("accion")}</div>`;
+  if (campos.includes("efectoInmediato")) condicionales += `<div class="field">
+    <label class="req">${F.tipo === "SED" ? "Amenaza" : "Efecto inmediato"}</label>
+    <input type="text" id="fEfecto" value="${esc(F.efectoInmediato)}"
+      placeholder="${F.tipo === "SED" ? "acceso no autorizado a la base de datos" : esc(CAT.ayuda.efectoInmediato.ej)}">
+    ${ayudaCampo("efectoInmediato")}</div>`;
+  if (campos.includes("causaRaiz")) condicionales += `<div class="field">
+    <label class="req">${F.tipo === "SED" ? "Vulnerabilidad" : "Causa raíz"}</label>
+    <input type="text" id="fCausa" value="${esc(F.causaRaiz)}"
+      placeholder="${F.tipo === "SED" ? "la ausencia de control de acceso por perfiles" : esc(CAT.ayuda.causaRaiz.ej)}">
+    ${ayudaCampo("causaRaiz")}</div>`;
+
+  const npNivel = F.probabilidadNivel;
+  const controles = (F.controles || []).map((c, k) => {
+    const peso = Motor.pesoControl(c.tipo, c.implementacion);
+    return `<div class="ctrl-item">
+      <div class="ctrl-head"><b>Control ${k + 1}</b>
+        <div style="display:flex;gap:7px;align-items:center">
+          <span class="tag">${Motor.afectacion(c.tipo)} · ${pct(peso)}</span>
+          <button class="btn ghost sm" data-delctrl="${k}">Quitar</button></div></div>
+      <div class="grid3">
+        <div class="field" style="margin-bottom:9px"><label>Responsable</label>
+          <input type="text" data-c="${k}" data-f="responsable" value="${esc(c.responsable)}"
+            placeholder="${esc(CAT.ayuda.controlResponsable.ej)}"></div>
+        <div class="field" style="margin-bottom:9px"><label>Acción</label>
+          <input type="text" data-c="${k}" data-f="accion" value="${esc(c.accion)}"
+            placeholder="${esc(CAT.ayuda.controlAccion.ej)}"></div>
+        <div class="field" style="margin-bottom:9px"><label>Complemento</label>
+          <input type="text" data-c="${k}" data-f="complemento" value="${esc(c.complemento)}"
+            placeholder="${esc(CAT.ayuda.controlComplemento.ej)}"></div>
+      </div>
+      <div class="grid2">
+        <div class="field" style="margin-bottom:0"><label>Tipo</label>
+          <select data-c="${k}" data-f="tipo">
+            ${Object.keys(CAT.pesoControl.tipo).map(x =>
+              `<option ${c.tipo === x ? "selected" : ""}>${x}</option>`).join("")}</select></div>
+        <div class="field" style="margin-bottom:0"><label>Implementación</label>
+          <select data-c="${k}" data-f="implementacion">
+            ${Object.keys(CAT.pesoControl.implementacion).map(x =>
+              `<option ${c.implementacion === x ? "selected" : ""}>${x}</option>`).join("")}</select></div>
+      </div>
+    </div>`;
+  }).join("");
+
+  const detalle = (F._detalle || []).map(d =>
+    `<div class="calc-row"><span>Control ${d.n} · ${d.af}</span>
+     <span class="mono">${pct(d.antes)} × (1 − ${pct(d.peso)}) = ${pct(d.despues)}</span></div>`).join("");
+
+  const trat = CAT.tratamiento.find(x => x.c === F.tratamiento);
+  const errTrat = F.tratamiento
+    ? Motor.validarTratamiento(F.tratamiento, F.tipo, F.zonaResidual, F.subestrategia, F.acta)
+    : null;
+
+  modal(F._nuevo ? "Registrar riesgo" : "Editar riesgo", `
+    <div class="grid2">
+      <div class="field"><label class="req">Macroproceso</label>
+        ${sel("fMacro", F.macroproceso, CAT.macroprocesos, m => [m.c, m.n], "Seleccione")}</div>
+      <div class="field"><label class="req">Proceso</label>
+        ${F.macroproceso ? sel("fProc", F.proceso, procsDe, p => [p.c, p.n], "Seleccione el proceso")
+          : `<select disabled><option>Seleccione primero el macroproceso</option></select>`}</div>
+    </div>
+    <div class="field"><label class="req">Dependencia</label>
+      ${F.proceso ? sel("fUni", F.unidad, unisDe, u => [u.c, u.n], "Seleccione la dependencia")
+        : `<select disabled><option>Seleccione primero el proceso</option></select>`}
+      <p class="hint">Solo aparecen las dependencias que participan en el proceso, según el
+        organigrama vigente. Define quién responde por el riesgo.</p></div>
+
+    <div class="grid2">
+      <div class="field"><label class="req">Tipo de riesgo</label>
+        ${sel("fTipo", F.tipo, CAT.tiposRiesgo, t => [t.c, t.n], "")}
+        <p class="hint">Determina qué campos se habilitan y cómo se redacta el riesgo.</p></div>
+      <div class="field"><label>Clase de riesgo</label>
+        ${sel("fClase", F.clase, CAT.claseRiesgo, x => [x, x], "Seleccione")}</div>
+    </div>
+
+    ${condicionales}
+
+    <div class="field"><label>Factores de riesgo</label>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        ${CAT.factores.map(f => `<label style="display:flex;align-items:center;gap:5px;margin:0;
+          padding:4px 9px;border:1px solid var(--line);border-radius:14px;cursor:pointer;
+          background:${(F.factores || []).includes(f) ? "var(--accent-soft)" : "var(--surface)"};
+          color:${(F.factores || []).includes(f) ? "var(--accent-ink)" : "var(--ink-2)"};font-size:12px">
+          <input type="checkbox" data-fac="${esc(f)}" ${(F.factores || []).includes(f) ? "checked" : ""}
+            style="width:auto;margin:0">${esc(f)}</label>`).join("")}
+      </div></div>
+
+    <div class="field">
+      <label>Descripción generada</label>
+      <div class="calc" style="line-height:1.55">${esc(F.descripcion)}</div>
+      <p class="hint">Se arma con la plantilla del tipo de riesgo. Si cambia la guía, se ajusta la plantilla, no el código.</p>
+    </div>
+
+    <h2 style="margin:22px 0 11px;padding-top:15px;border-top:1px solid var(--line)">Riesgo inherente</h2>
+    <div class="grid2">
+      <div class="field"><label class="req">Frecuencia anual de la actividad</label>
+        <input type="number" id="fFrec" min="0" value="${esc(F.frecuencia)}" placeholder="Número de veces al año">
+        ${npNivel ? `<p class="hint">Probabilidad: <b>${npNivel}</b> (${pct(F.probabilidadPct)})</p>`
+          : ayudaCampo("frecuencia")}</div>
+      <div class="field"><label class="req">Nivel de impacto</label>
+        ${sel("fImp", F.impactoNivel, CAT.impacto, i => [i.n, `${i.n} — ${i.eco}`], "Seleccione")}
+        <p class="hint">Se toma el mayor entre el impacto económico y el reputacional.</p></div>
+    </div>
+    ${F.zonaInherente ? `<div class="banner ${F.zonaInherente === "Extremo" || F.zonaInherente === "Alto" ? "warn" : "info"}">
+      <span>◆</span><div>Zona inherente: <b>${F.zonaInherente}</b> —
+      probabilidad ${pct(F.probabilidadPct)} × impacto ${pct(F.impactoPct)}</div></div>` : ""}
+
+    <h2 style="margin:22px 0 11px;padding-top:15px;border-top:1px solid var(--line)">Controles</h2>
+    <div class="banner info" style="margin-bottom:13px"><span>&#9432;</span><div>
+      Un control se escribe como una frase: <b>responsable + acción + complemento</b>.
+      Ejemplo: «${esc(CAT.ayuda.controlResponsable.ej)} ${esc(CAT.ayuda.controlAccion.ej)}
+      ${esc(CAT.ayuda.controlComplemento.ej)}». Los preventivos y detectivos bajan la probabilidad;
+      solo los correctivos bajan el impacto.</div></div>
+    ${controles || `<p class="hint" style="margin-bottom:11px">Sin controles registrados. El riesgo residual será igual al inherente.</p>`}
+    <button class="btn ghost sm" id="addCtrl">Agregar control</button>
+
+    ${F.zonaResidual ? `
+    <h2 style="margin:22px 0 11px;padding-top:15px;border-top:1px solid var(--line)">Mitigación del riesgo</h2>
+    <div class="grid2" style="margin-bottom:13px">
+      <div class="kpi"><div class="v mono" style="font-size:22px">${(F._multP ?? 1).toFixed(4)}</div>
+        <div class="l">Multiplicador probabilidad</div>
+        <div class="d">Producto de (1 − peso) de los controles preventivos y detectivos</div></div>
+      <div class="kpi"><div class="v mono" style="font-size:22px">${(F._multI ?? 1).toFixed(4)}</div>
+        <div class="l">Multiplicador impacto</div>
+        <div class="d">Producto de (1 − peso) de los controles correctivos</div></div>
+    </div>
+    <div class="calc">
+      <div class="calc-row"><span>Probabilidad inherente</span><span class="mono">${pct(F.probabilidadPct)}</span></div>
+      <div class="calc-row"><span>Impacto inherente</span><span class="mono">${pct(F.impactoPct)}</span></div>
+      ${detalle}
+      <div class="calc-row"><span>Multiplicadores aplicados</span>
+        <span class="mono">P × ${(F._multP ?? 1).toFixed(4)} · I × ${(F._multI ?? 1).toFixed(4)}</span></div>
+    </div>
+
+    <h2 style="margin:22px 0 11px;padding-top:15px;border-top:1px solid var(--line)">Riesgo residual</h2>
+    <div class="grid3">
+      <div class="kpi"><div class="v mono" style="font-size:22px">${pct(F.probResidual)}</div>
+        <div class="l">Probabilidad residual</div></div>
+      <div class="kpi"><div class="v mono" style="font-size:22px">${pct(F.impResidual)}</div>
+        <div class="l">Impacto residual</div></div>
+      <div class="kpi" style="display:flex;flex-direction:column;justify-content:center">
+        <div><span class="zone ${F.zonaResidual}" style="font-size:14px;padding:4px 13px">${F.zonaResidual}</span></div>
+        <div class="l" style="margin-top:6px">Zona de riesgo final</div></div>
+    </div>` : ""}
+
+    <h2 style="margin:22px 0 11px;padding-top:15px;border-top:1px solid var(--line)">Tratamiento</h2>
+    <div class="grid2">
+      <div class="field"><label class="req">Opción</label>
+        ${sel("fTrat", F.tratamiento, CAT.tratamiento, t => [t.c, t.c], "Seleccione")}</div>
+      ${trat?.exigeSub ? `<div class="field"><label class="req">Subestrategia</label>
+        ${sel("fSub", F.subestrategia, CAT.subestrategia, x => [x, x], "Seleccione")}</div>` : ""}
+    </div>
+    ${errTrat ? `<div class="banner warn"><span>⚠</span><div>${esc(errTrat)}</div></div>` : ""}
+    ${trat?.exigePlan ? `
+      <div class="field"><label class="req">Plan de acción</label>
+        <textarea id="fPlan" placeholder="${esc(CAT.ayuda.planAccion.ej)}">${esc(F.planAccion)}</textarea>
+        ${ayudaCampo("planAccion")}</div>
+      <div class="grid3">
+        <div class="field"><label>Responsable</label>
+          <input type="text" id="fRespPlan" value="${esc(F.responsablePlan)}" placeholder="Cargo"></div>
+        <div class="field"><label>Indicador clave (KRI)</label>
+          <input type="text" id="fKri" value="${esc(F.kri)}" placeholder="${esc(CAT.ayuda.kri.ej)}">
+          ${ayudaCampo("kri")}</div>
+        <div class="field"><label>Fecha de cumplimiento</label>
+          <input type="date" id="fFecha" value="${esc(F.fechaPlan)}"></div>
+      </div>
+      <div class="banner info"><span>◉</span><div>Al guardar, el enlace deberá cargar las evidencias
+        de ejecución del plan. En el sistema definitivo el archivo va a Drive institucional y la base
+        guarda solo la referencia.</div></div>` : ""}
+
+    ${!F._nuevo ? `<div class="field" style="margin-top:17px">
+      <label class="req">Motivo del cambio</label>
+      <textarea id="fMotivo" placeholder="Describa por qué se modifica este riesgo (mínimo 20 caracteres)">${esc(F.motivo)}</textarea>
+      <p class="hint">Queda registrado en el histórico junto con los campos que cambiaron.</p></div>` : ""}
+  `, [
+    {t:"Cancelar", cls:"ghost", fn: cerrarModal},
+    {t: F._nuevo ? "Registrar riesgo" : "Guardar cambios", cls:"", fn: guardarRiesgo}
+  ]);
+
+  enlazarFormulario();
+}
+
+function enlazarFormulario(){
+  const on = (id, ev, fn) => { const e = document.getElementById(id); if (e) e[ev] = fn; };
+  const bind = (id, key, refresca) => on(id, "onchange", e => {
+    F[key] = e.target.value;
+    if (refresca) pintarFormulario(); else { recalcular(); pintarFormulario(); }
+  });
+
+  on("fMacro", "onchange", e => {
+    F.macroproceso = e.target.value; F.proceso = ""; F.unidad = ""; F.dependencia = ""; pintarFormulario(); });
+  on("fProc", "onchange", e => {
+    F.proceso = e.target.value; F.unidad = ""; F.dependencia = ""; pintarFormulario(); });
+  on("fUni", "onchange", e => { F.unidad = e.target.value; pintarFormulario(); });
+  on("fTipo", "onchange", e => { F.tipo = e.target.value; pintarFormulario(); });
+  bind("fClase", "clase");
+  bind("fArea", "areaImpacto"); bind("fAreaF", "areaFiscal");
+  bind("fTipoAct", "tipoActivo"); bind("fProp", "propiedadSD");
+  bind("fImp", "impactoNivel"); bind("fTrat", "tratamiento"); bind("fSub", "subestrategia");
+
+  ["fActivo:activo","fAccion:accion","fEfecto:efectoInmediato","fCausa:causaRaiz",
+   "fFrec:frecuencia"].forEach(pair => {
+    const [id, key] = pair.split(":");
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.oninput = () => { F[key] = el.value; };
+    el.onblur  = () => { pintarFormulario(); };
+  });
+  ["fPlan:planAccion","fRespPlan:responsablePlan","fKri:kri","fFecha:fechaPlan","fMotivo:motivo"]
+    .forEach(pair => {
+      const [id, key] = pair.split(":");
+      const el = document.getElementById(id);
+      if (el) el.oninput = () => { F[key] = el.value; };
+    });
+
+  document.querySelectorAll("[data-fac]").forEach(cb => cb.onchange = () => {
+    F.factores = F.factores || [];
+    const v = cb.dataset.fac;
+    F.factores = cb.checked ? [...F.factores, v] : F.factores.filter(x => x !== v);
+    pintarFormulario();
+  });
+
+  on("addCtrl", "onclick", () => {
+    F.controles = F.controles || [];
+    F.controles.push({responsable:"", accion:"", complemento:"",
+      tipo:"Preventivo", implementacion:"Manual"});
+    pintarFormulario();
+  });
+  document.querySelectorAll("[data-delctrl]").forEach(b => b.onclick = () => {
+    F.controles.splice(Number(b.dataset.delctrl), 1); pintarFormulario();
+  });
+  document.querySelectorAll("[data-c]").forEach(el => {
+    const k = Number(el.dataset.c), f = el.dataset.f;
+    if (el.tagName === "SELECT") el.onchange = () => { F.controles[k][f] = el.value; pintarFormulario(); };
+    else { el.oninput = () => { F.controles[k][f] = el.value; };
+           el.onblur = () => pintarFormulario(); }
+  });
+}
+
+async function guardarRiesgo(){
+  const falta = [];
+  if (!F.macroproceso) falta.push("macroproceso");
+  if (!F.proceso) falta.push("proceso");
+  if (!F.unidad) falta.push("dependencia");
+  if (F.frecuencia === "") falta.push("frecuencia anual");
+  if (!F.impactoNivel) falta.push("nivel de impacto");
+  if (!F.tratamiento) falta.push("tratamiento");
+  tipo(F.tipo).campos.forEach(c => {
+    const v = c === "propiedadSD" ? F.propiedadSD : F[c];
+    if (!v) falta.push((CAT.etiquetas[c] || c).toLowerCase());
+  });
+  if (falta.length) return aviso("Faltan datos", `Completa: ${falta.join(", ")}.`);
+
+  const err = Motor.validarTratamiento(F.tratamiento, F.tipo, F.zonaResidual, F.subestrategia, F.acta);
+  if (err) return aviso("Tratamiento no válido", err);
+
+  const previo = S.riesgos.find(r => r.id === F.id);
+  if (previo && (!F.motivo || F.motivo.trim().length < 20))
+    return aviso("Falta el motivo", "Los cambios exigen un motivo de al menos 20 caracteres. Queda en el histórico.");
+
+  recalcular();
+  if (F._nuevo){
+    const n = S.riesgos.filter(r => r.proceso === F.proceso && r.unidad === F.unidad).length + 1;
+    F.codigo = `${F.unidad}-${String(n).padStart(2, "0")}`;
+    F.fechaCreacion = new Date().toISOString().slice(0, 10);
+  }
+  F.fechaActualizacion = new Date().toISOString().slice(0, 10);
+  const previoCopia = previo ? JSON.parse(JSON.stringify(previo)) : null;
+  const nuevo = JSON.parse(JSON.stringify(F));
+  delete nuevo._nuevo; delete nuevo._detalle;
+
+  const ix = S.riesgos.findIndex(r => r.id === F.id);
+  if (ix >= 0) S.riesgos[ix] = nuevo; else S.riesgos.push(nuevo);
+  await Store.set("riesgos", nuevo.id, nuevo);
+  await registrarVersion(nuevo, previoCopia ? "ACTUALIZACION" : "CREACION", F.motivo, previoCopia);
+
+  cerrarModal(); F = null; render();
+}
+
+function verRiesgo(id){
+  const r = S.riesgos.find(x => x.id === id); if (!r) return;
+  const res = Motor.residual(r.probabilidadPct, r.impactoPct, r.controles);
+  const hist = S.historico.filter(h => h.riesgoId === id).sort((a, b) => b.version - a.version);
+  modal(r.codigo, `
+    <p class="just" style="font-size:15px;line-height:1.6;margin:0 0 15px">${esc(r.descripcion)}</p>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:17px">
+      <span class="tag">${esc(tipo(r.tipo)?.n)}</span>
+      <span class="tag">${esc(proc(r.proceso)?.n)}</span>
+      <span class="tag">${esc(macro(proc(r.proceso)?.m)?.n || "")}</span>
+      <span class="tag">${esc(uni(r.unidad)?.n || "")}</span>
+      ${(r.factores || []).map(f => `<span class="tag">${esc(f)}</span>`).join("")}
+    </div>
+    <div class="grid2" style="margin-bottom:17px">
+      <div class="card"><div class="body" style="text-align:center">
+        <div class="l" style="font-size:11px;color:var(--muted)">Riesgo inherente</div>
+        <div style="margin:7px 0"><span class="zone ${r.zonaInherente}" style="font-size:13px;padding:3px 12px">${r.zonaInherente}</span></div>
+        <div class="mono" style="font-size:11px;color:var(--muted)">P ${pct(r.probabilidadPct)} · I ${pct(r.impactoPct)}</div>
+      </div></div>
+      <div class="card"><div class="body" style="text-align:center">
+        <div class="l" style="font-size:11px;color:var(--muted)">Riesgo residual</div>
+        <div style="margin:7px 0"><span class="zone ${r.zonaResidual}" style="font-size:13px;padding:3px 12px">${r.zonaResidual}</span></div>
+        <div class="mono" style="font-size:11px;color:var(--muted)">P ${pct(r.probResidual)} · I ${pct(r.impResidual)}</div>
+      </div></div>
+    </div>
+    ${(r.revisar || []).length ? `<div class="banner warn" style="margin-bottom:15px"><span>&#9888;</span>
+      <div><b>Pendiente de revisión</b><ul style="margin:6px 0 0;padding-left:17px">
+      ${r.revisar.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div></div>` : ""}
+    ${(r.revisar || []).length ? `<div class="banner warn" style="margin-bottom:15px">
+      <span>&#9888;</span><div><b>Pendiente de revisión</b>
+      <ul style="margin:6px 0 0;padding-left:17px">${r.revisar.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+      </div></div>` : ""}
+    <h3 style="margin-bottom:9px">Controles</h3>
+    ${(r.controles || []).length ? (r.controles || []).map((c, k) => `<div class="ctrl-item">
+      <div class="ctrl-head"><b>Control ${k + 1}</b>
+        <span class="tag">${c.tipo} · ${c.implementacion} · ${pct(Motor.pesoControl(c.tipo, c.implementacion))}</span></div>
+      <div style="font-size:13px">${esc([c.responsable, c.accion, c.complemento].filter(Boolean).join(" "))}</div>
+    </div>`).join("") : `<p class="hint">Sin controles registrados.</p>`}
+    <h3 style="margin:17px 0 9px">Cálculo del residual</h3>
+    <div class="calc">
+      ${res.detalle.map(d => `<div class="calc-row"><span>Control ${d.n} · ${d.af}</span>
+        <span class="mono">${pct(d.antes)} × (1 − ${pct(d.peso)}) = ${pct(d.despues)}</span></div>`).join("")
+        || `<div class="calc-row"><span>Sin controles</span><span class="mono">residual = inherente</span></div>`}
+      <div class="calc-row"><span>Resultado</span>
+        <span class="mono">P ${pct(res.probabilidad)} · I ${pct(res.impacto)} → ${res.zona}</span></div>
+    </div>
+    <h3 style="margin:17px 0 9px">Tratamiento</h3>
+    <p style="font-size:13px;margin:0">${esc(r.tratamiento)}${r.subestrategia ? " · " + esc(r.subestrategia) : ""}</p>
+    ${r.planAccion ? `<div class="calc" style="margin-top:9px">${esc(r.planAccion)}
+      ${r.fechaPlan ? `<div class="hint" style="margin-top:5px">Cumplimiento: ${esc(r.fechaPlan)}</div>` : ""}</div>` : ""}
+    <h3 style="margin:17px 0 9px">Histórico · ${hist.length} ${hist.length === 1 ? "versión" : "versiones"}</h3>
+    <div class="timeline">${hist.map(h => `<div class="tl-item">
+      <div class="tl-when">${new Date(h.fecha).toLocaleString("es-CO")} · ${esc(h.usuario)}</div>
+      <div class="tl-what">Versión ${h.version} — ${h.operacion.toLowerCase()}</div>
+      ${h.motivo ? `<div class="hint">${esc(h.motivo)}</div>` : ""}
+      ${h.cambios.length ? `<div class="diff">${h.cambios.map(c =>
+        `<div><b>${esc(c.campo)}:</b> <span class="old">${esc(c.antes)}</span> →
+         <span class="new">${esc(c.ahora)}</span></div>`).join("")}</div>` : ""}
+    </div>`).join("")}</div>
+  `, [{t:"Cerrar", cls:"ghost", fn: cerrarModal}]);
+}
+
+function eliminarRiesgo(id){
+  const r = S.riesgos.find(x => x.id === id); if (!r) return;
+  modal("Eliminar riesgo", `
+    <div class="banner warn"><span>⚠</span><div>El riesgo <b class="rid">${esc(r.codigo)}</b>
+      no se borra: se marca como obsoleto y deja de aparecer en el inventario.
+      Su histórico se conserva y puede restaurarse.</div></div>
+    <div class="field" style="margin-top:15px"><label class="req">Motivo de la eliminación</label>
+      <textarea id="delMotivo" placeholder="Explique por qué se elimina (mínimo 20 caracteres)"></textarea></div>
+  `, [
+    {t:"Cancelar", cls:"ghost", fn: cerrarModal},
+    {t:"Eliminar", cls:"danger", fn: async () => {
+      const m = document.getElementById("delMotivo").value.trim();
+      if (m.length < 20) return aviso("Falta el motivo", "Escribe al menos 20 caracteres.");
+      r.estado = "OBSOLETO"; r.eliminadoEn = new Date().toISOString();
+      r.eliminadoPor = S.sesion?.nombre; r.motivoEliminacion = m;
+      await Store.set("riesgos", r.id, r);
+      await registrarVersion(r, "ELIMINACION", m, null);
+      cerrarModal(); render();
+    }}
+  ]);
+}
+
+/* =====================================================================
+   VISTA: HISTÓRICO
+   ===================================================================== */
+function vistaHistorico(){
+  const hs = [...S.historico].sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+  const eliminados = S.riesgos.filter(r => r.estado === "OBSOLETO");
+
+  return `<div class="stack">
+    ${eliminados.length ? `<div class="card">
+      <header><h2>Riesgos eliminados</h2><span class="tag">${eliminados.length}</span></header>
+      <div class="scroll-x"><table><thead><tr>
+        <th>Identificador</th><th>Riesgo</th><th>Eliminado por</th><th>Motivo</th><th></th>
+      </tr></thead><tbody>${eliminados.map(r => `<tr>
+        <td class="rid">${esc(r.codigo)}</td>
+        <td class="desc"><div class="just">${esc(r.descripcion)}</div></td>
+        <td>${esc(r.eliminadoPor || "—")}<div class="hint">${r.eliminadoEn
+          ? new Date(r.eliminadoEn).toLocaleDateString("es-CO") : ""}</div></td>
+        <td style="max-width:240px">${esc(r.motivoEliminacion || "")}</td>
+        <td>${S.sesion?.rol === "ADMIN"
+          ? `<button class="btn ghost sm" data-restore="${r.id}">Restaurar</button>` : ""}</td>
+      </tr>`).join("")}</tbody></table></div></div>` : ""}
+
+    <div class="card"><header><h2>Registro de cambios</h2><span class="tag">${hs.length} eventos</span></header>
+      <div class="body">${hs.length ? `<div class="timeline">${hs.slice(0, 60).map(h => {
+        const r = S.riesgos.find(x => x.id === h.riesgoId);
+        return `<div class="tl-item">
+          <div class="tl-when">${new Date(h.fecha).toLocaleString("es-CO")} · ${esc(h.usuario)}
+            <span class="tag" style="margin-left:5px">${esc(h.rol)}</span></div>
+          <div class="tl-what"><span class="rid">${esc(r?.codigo || "—")}</span> ·
+            versión ${h.version} — ${h.operacion.toLowerCase()}</div>
+          ${h.motivo ? `<div class="hint">${esc(h.motivo)}</div>` : ""}
+          ${h.cambios.length ? `<div class="diff">${h.cambios.map(c =>
+            `<div><b>${esc(c.campo)}:</b> <span class="old">${esc(c.antes)}</span> →
+             <span class="new">${esc(c.ahora)}</span></div>`).join("")}</div>` : ""}
+        </div>`;
+      }).join("")}</div>` : `<div class="empty"><b>Sin movimientos todavía</b>
+        Cada creación, edición o eliminación de un riesgo queda registrada aquí de forma permanente.</div>`}
+      </div></div>
+  </div>`;
+}
+
+/* =====================================================================
+   VISTA: USUARIOS
+   ===================================================================== */
+function generarClave(){
+  const a = "ABCDEFGHJKLMNPQRSTUVWXYZ", b = "abcdefghijkmnopqrstuvwxyz",
+        n = "23456789", s = "!@#$%&*";
+  const pick = x => x[Math.floor(Math.random() * x.length)];
+  let p = [pick(a), pick(a), pick(b), pick(b), pick(b), pick(n), pick(n), pick(n), pick(s), pick(s)];
+  for (let i = p.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [p[i], p[j]] = [p[j], p[i]]; }
+  return p.join("");
+}
+
+function vistaUsuarios(){
+  return `<div class="stack">
+    <div class="banner info"><span>◉</span><div>El sistema genera la contraseña temporal y te la muestra
+      una sola vez para que la entregues. No queda almacenada en ningún lado: en el servidor solo vive su
+      hash. El usuario debe cambiarla en su primer ingreso.</div></div>
+    <div class="card">
+      <header><h2>Usuarios del sistema</h2><span class="tag">${S.usuarios.length}</span></header>
+      ${S.usuarios.length ? `<div class="scroll-x"><table><thead><tr>
+        <th>Nombre</th><th>Correo</th><th>Rol</th><th>Dependencia</th><th>Estado</th><th></th>
+      </tr></thead><tbody>${S.usuarios.map(u => {
+        const rol = CAT.roles.find(r => r.c === u.rol);
+        return `<tr>
+          <td><b style="font-weight:500">${esc(u.nombre)}</b></td>
+          <td class="mono" style="font-size:12px">${esc(u.correo)}</td>
+          <td>${esc(rol?.n || u.rol)}</td>
+          <td>${esc(u.dependencia ? uni(u.dependencia)?.n : "Todas")}</td>
+          <td>${u.activo === false ? `<span class="tag">Inactivo</span>`
+            : u.requiereCambio ? `<span class="zone Moderado">Clave temporal</span>`
+            : `<span class="zone Bajo">Activo</span>`}</td>
+          <td style="white-space:nowrap">
+            <button class="btn ghost sm" data-uedit="${u.id}">Editar</button>
+            <button class="btn ghost sm" data-ureset="${u.id}">Restablecer clave</button>
+            <button class="btn ghost sm" data-udel="${u.id}">Eliminar</button>
+          </td></tr>`;
+      }).join("")}</tbody></table></div>`
+      : `<div class="empty"><b>Aún no hay usuarios</b>
+         Crea el primero con «Nuevo usuario». Asígnale un rol y, si es enlace SIG, su dependencia.</div>`}
+    </div>
+    <div class="card"><header><h2>Qué puede hacer cada rol</h2></header>
+      <div class="scroll-x"><table><thead><tr><th>Rol</th><th>Alcance</th></tr></thead>
+      <tbody>${CAT.roles.map(r => `<tr><td style="white-space:nowrap"><b style="font-weight:500">${esc(r.n)}</b>
+        <div class="hint mono">${esc(r.c)}</div></td><td>${esc(r.d)}</td></tr>`).join("")}</tbody></table></div>
+    </div>
+  </div>`;
+}
+
+function formUsuario(id){
+  const u = id ? S.usuarios.find(x => x.id === id) : null;
+  const d = u ? {...u} : {id:uid(), nombre:"", correo:"", rol:"ENLACE_SIG", dependencia:"", activo:true};
+  modal(u ? "Editar usuario" : "Nuevo usuario", `
+    <div class="field"><label class="req">Nombre completo</label>
+      <input type="text" id="uNom" value="${esc(d.nombre)}" placeholder="Nombre y apellidos"></div>
+    <div class="field"><label class="req">Correo institucional</label>
+      <input type="text" id="uMail" value="${esc(d.correo)}" placeholder="nombre.apellido@santander.gov.co">
+      <p class="hint">Es el usuario de ingreso.</p></div>
+    <div class="grid2">
+      <div class="field"><label class="req">Rol</label><select id="uRol">
+        ${CAT.roles.filter(r => r.c !== "PUBLICO").map(r =>
+          `<option value="${r.c}" ${d.rol === r.c ? "selected" : ""}>${esc(r.n)}</option>`).join("")}
+      </select></div>
+      <div class="field"><label>Dependencia</label><select id="uDep" autocomplete="off">
+        <option value="">Todas las dependencias</option>
+        ${CAT.procesos.flatMap(pp => dependenciasDe(pp.c).map(x =>
+          `<option value="${x.c}" ${d.dependencia === x.c ? "selected" : ""}>${esc(pp.n)} · ${esc(x.n)}</option>`)).join("")}
+      </select><p class="hint">Obligatoria para el rol Enlace SIG: limita lo que puede editar.</p></div>
+    </div>
+    ${u ? `<div class="field"><label>Estado</label><select id="uAct">
+      <option value="1" ${d.activo !== false ? "selected" : ""}>Activo</option>
+      <option value="0" ${d.activo === false ? "selected" : ""}>Inactivo</option></select>
+      <p class="hint">Desactivar conserva el histórico de sus acciones; eliminar no.</p></div>` : ""}
+  `, [
+    {t:"Cancelar", cls:"ghost", fn: cerrarModal},
+    {t: u ? "Guardar cambios" : "Crear usuario", cls:"", fn: async () => {
+      d.nombre = document.getElementById("uNom").value.trim();
+      d.correo = document.getElementById("uMail").value.trim().toLowerCase();
+      d.rol = document.getElementById("uRol").value;
+      d.dependencia = document.getElementById("uDep").value;
+      const act = document.getElementById("uAct");
+      if (act) d.activo = act.value === "1";
+
+      if (!d.nombre || !d.correo) return aviso("Faltan datos", "El nombre y el correo son obligatorios.");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.correo))
+        return aviso("Correo no válido", "Escribe una dirección de correo completa.");
+      if (S.usuarios.some(x => x.correo === d.correo && x.id !== d.id))
+        return aviso("Correo repetido", "Ya existe un usuario con ese correo.");
+      if (d.rol === "ENLACE_SIG" && !d.dependencia)
+        return aviso("Falta la dependencia", "El rol Enlace SIG debe tener una dependencia asignada.");
+
+      const nuevo = !u;
+      if (nuevo) d.requiereCambio = true;
+      const ix = S.usuarios.findIndex(x => x.id === d.id);
+      if (ix >= 0) S.usuarios[ix] = d; else S.usuarios.push(d);
+      await Store.set("usuarios", d.id, d);
+      cerrarModal();
+      if (nuevo) mostrarClave(d, generarClave()); else render();
+    }}
+  ]);
+}
+
+function mostrarClave(u, clave){
+  modal("Contraseña temporal", `
+    <p style="margin:0 0 4px">Entrega esta contraseña a <b>${esc(u.nombre)}</b> por un canal seguro.</p>
+    <p class="hint" style="margin:0">Es la única vez que se muestra. El sistema guarda solo su hash.</p>
+    <div class="pw">
+      <small>Contraseña de primer ingreso</small>
+      <div class="k">${esc(clave)}</div>
+      <small>Se exigirá cambiarla al iniciar sesión</small>
+    </div>
+    <div class="banner warn" style="margin-top:14px"><span>⚠</span>
+      <div>No la envíes por chat ni por correo sin cifrar. Si se pierde, genera una nueva
+      con «Restablecer clave»; no hay forma de recuperarla.</div></div>
+  `, [{t:"Ya la copié", cls:"", fn:() => { cerrarModal(); render(); }}]);
+}
+
+/* =====================================================================
+   VISTA: VENTANAS
+   ===================================================================== */
+function vistaVentanas(){
+  const tipos = [
+    {c:"ACTUALIZACION", n:"Actualización de riesgos", r:"Enlace SIG",
+     d:"Dos veces al año. Habilita crear, editar y eliminar riesgos y controles."},
+    {c:"EJECUCION",     n:"Reporte de ejecución", r:"Enlace SIG",
+     d:"Cuatro veces al año. Habilita reportar indicador, actividades, soportes y evaluación de controles."},
+    {c:"MONITOREO",     n:"Monitoreo de calidad", r:"Monitoreo calidad",
+     d:"Cuatro veces al año. Habilita el monitoreo de la Dirección SIG. Abre después del reporte de ejecución."},
+    {c:"SEGUIMIENTO",   n:"Seguimiento Control Interno", r:"Control Interno",
+     d:"Cuatro veces al año. Habilita el seguimiento independiente. Abre después del monitoreo."}
+  ];
+  return `<div class="stack">
+    <div class="banner info"><span>&#9432;</span><div>Fuera de ventana el sistema queda en solo lectura
+      para todos los roles salvo el administrador. La validación ocurre al guardar, no solo en la
+      pantalla.</div></div>
+
+    <div class="card"><header><h2>Calendario del año</h2></header>
+      <div class="scroll-x"><table><thead><tr>
+        <th>Ventana</th><th>Rol</th><th>Veces al año</th><th>Qué habilita</th></tr></thead>
+      <tbody>
+        <tr><td><b style="font-weight:500">Actualización de riesgos</b></td><td>Enlace SIG</td>
+          <td class="mono">2</td><td class="hint">Crear, editar y eliminar riesgos, controles,
+          tratamiento y plan de acción</td></tr>
+        <tr><td><b style="font-weight:500">Reporte de ejecución</b></td><td>Enlace SIG</td>
+          <td class="mono">4</td><td class="hint">Resultado del indicador, actividades, soportes,
+          estado de la acción y evaluación del diseño de controles</td></tr>
+        <tr><td><b style="font-weight:500">Monitoreo de calidad</b></td><td>Monitoreo calidad</td>
+          <td class="mono">4</td><td class="hint">Las cuatro preguntas sobre descripción del riesgo,
+          del control, eficacia y materialización</td></tr>
+        <tr><td><b style="font-weight:500">Seguimiento</b></td><td>Control Interno</td>
+          <td class="mono">4</td><td class="hint">Verificación independiente, criterio propio sobre
+          materialización y acciones correctivas</td></tr>
+      </tbody></table></div>
+      <div class="body" style="border-top:1px solid var(--line)"><p class="hint" style="margin:0">
+        Las tres ventanas trimestrales deberían abrir en cadena: primero la dependencia reporta,
+        luego calidad monitorea lo reportado, y al final Control Interno verifica. Si se superponen,
+        cada instancia trabaja sobre información incompleta.</p></div></div>
+    ${tipos.map(t => {
+      const vs = S.ventanas.filter(v => v.tipo === t.c)
+        .sort((a, b) => new Date(b.desde) - new Date(a.desde));
+      const abierta = ventanaAbierta(t.c);
+      return `<div class="card">
+        <header><div><h2>${t.n}</h2>
+          <p class="hint" style="margin:2px 0 0"><span class="tag">${esc(t.r)}</span> ${t.d}</p></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="zone ${abierta ? "Bajo" : "Moderado"}">${abierta ? "Abierta" : "Cerrada"}</span>
+            <button class="btn ghost sm" data-newv="${t.c}">Programar</button></div></header>
+        ${vs.length ? `<div class="scroll-x"><table><thead><tr>
+          <th>Nombre</th><th>Desde</th><th>Hasta</th><th>Estado</th><th></th></tr></thead>
+          <tbody>${vs.map(v => {
+            const ini = new Date(v.desde).getTime(), fin = new Date(v.hasta + "T23:59:59").getTime();
+            const now = Date.now();
+            const e = now < ini ? "Programada" : now > fin ? "Cerrada" : "Abierta";
+            return `<tr><td>${esc(v.nombre)}</td><td class="mono">${esc(v.desde)}</td>
+              <td class="mono">${esc(v.hasta)}</td>
+              <td><span class="zone ${e === "Abierta" ? "Bajo" : e === "Programada" ? "Moderado" : ""}">${e}</span></td>
+              <td><button class="btn ghost sm" data-delv="${v.id}">Quitar</button></td></tr>`;
+          }).join("")}</tbody></table></div>`
+        : `<div class="empty" style="padding:22px">Sin ventanas programadas para este ciclo.</div>`}
+      </div>`;
+    }).join("")}
+  </div>`;
+}
+
+function formVentana(tipoV){
+  const hoy = new Date().toISOString().slice(0, 10);
+  modal("Programar ventana", `
+    <div class="field"><label class="req">Nombre</label>
+      <input type="text" id="vNom" placeholder="Actualización I semestre ${new Date().getFullYear()}"></div>
+    <div class="grid2">
+      <div class="field"><label class="req">Desde</label><input type="date" id="vDesde" value="${hoy}"></div>
+      <div class="field"><label class="req">Hasta</label><input type="date" id="vHasta"></div>
+    </div>
+    <p class="hint">Durante este rango, los roles correspondientes podrán guardar cambios.</p>
+  `, [
+    {t:"Cancelar", cls:"ghost", fn: cerrarModal},
+    {t:"Programar", cls:"", fn: async () => {
+      const v = {id:uid(), tipo:tipoV,
+        nombre: document.getElementById("vNom").value.trim(),
+        desde: document.getElementById("vDesde").value,
+        hasta: document.getElementById("vHasta").value};
+      if (!v.nombre || !v.desde || !v.hasta)
+        return aviso("Faltan datos", "Completa el nombre y las dos fechas.");
+      if (new Date(v.hasta) < new Date(v.desde))
+        return aviso("Fechas invertidas", "La fecha de cierre debe ser posterior a la de apertura.");
+      S.ventanas.push(v); await Store.set("ventanas", v.id, v);
+      cerrarModal(); render();
+    }}
+  ]);
+}
+
+/* =====================================================================
+   VISTA: METODOLOGÍA
+   ===================================================================== */
+function vistaMetodo(){
+  return `<div class="stack">
+    <div class="banner info"><span>◈</span><div>Todos estos valores viven en tablas, no en el código.
+      Cuando salga la versión 8 de la guía se cargan como una versión nueva y los riesgos existentes
+      siguen calculándose con la versión con la que fueron formulados.</div></div>
+
+    <div class="grid2">
+      <div class="card"><header><h2>Probabilidad</h2><span class="tag">Tabla 4</span></header>
+        <div class="scroll-x"><table><thead><tr><th>Nivel</th><th>%</th><th>Frecuencia de la actividad</th></tr></thead>
+          <tbody>${CAT.probabilidad.map(p => `<tr><td>${p.n}</td>
+            <td class="mono">${pct(p.pct)}</td><td>${p.d}</td></tr>`).join("")}</tbody></table></div></div>
+      <div class="card"><header><h2>Impacto</h2><span class="tag">Tabla 5</span></header>
+        <div class="scroll-x"><table><thead><tr><th>Nivel</th><th>%</th><th>Afectación económica</th></tr></thead>
+          <tbody>${CAT.impacto.map(i => `<tr><td>${i.n}</td>
+            <td class="mono">${pct(i.pct)}</td><td>${i.eco}</td></tr>`).join("")}</tbody></table></div></div>
+    </div>
+
+    <div class="card"><header><h2>Estructura de procesos</h2></header>
+      <div class="scroll-x"><table><thead><tr><th>Macroproceso</th><th>Proceso</th><th class="num">Dep.</th><th>Dependencias</th></tr></thead>
+      <tbody>${CAT.macroprocesos.flatMap(m => CAT.procesos.filter(p => p.m === m.c).map((p, i) => `<tr>
+        <td>${i === 0 ? esc(m.n) : ""}</td><td>${esc(p.n)}</td>
+        <td class="num">${dependenciasDe(p.c).length}</td>
+        <td class="hint just" style="font-size:12px">${dependenciasDe(p.c).map(u => esc(u.n)).join(" · ")}</td>
+      </tr>`)).join("")}</tbody></table></div>
+      <div class="body" style="border-top:1px solid var(--line)"><p class="hint" style="margin:0">
+        Estructura tomada del organigrama SIG. Estas son las dependencias que aparecen al registrar
+        un riesgo, según el proceso seleccionado.</p></div></div>
+
+    <div class="card"><header><h2>Matriz de severidad</h2><span class="tag">Figura 18</span></header>
+      <div class="body">${mapaCalor([], "inh")}
+        <p class="hint" style="margin-top:12px">La guía indica que esta matriz no es ajustable por la entidad.</p></div></div>
+
+    <div class="grid2">
+      <div class="card"><header><h2>Pesos de control</h2><span class="tag">Tabla 6</span></header>
+        <div class="scroll-x"><table><thead><tr><th>Atributo</th><th>Valor</th><th>Peso</th></tr></thead><tbody>
+          ${Object.entries(CAT.pesoControl.tipo).map(([k, v]) =>
+            `<tr><td>Tipo</td><td>${k}</td><td class="mono">${pct(v)}</td></tr>`).join("")}
+          ${Object.entries(CAT.pesoControl.implementacion).map(([k, v]) =>
+            `<tr><td>Implementación</td><td>${k}</td><td class="mono">${pct(v)}</td></tr>`).join("")}
+        </tbody></table></div>
+        <div class="body" style="border-top:1px solid var(--line)">
+          <p class="hint" style="margin:0">El peso de un control es la suma de su tipo más su implementación.
+          Preventivo automático da 50%; correctivo manual, 25%.</p></div></div>
+
+      <div class="card"><header><h2>Opciones de tratamiento</h2></header>
+        <div class="scroll-x"><table><thead><tr><th>Opción</th><th>Reglas</th></tr></thead><tbody>
+          ${CAT.tratamiento.map(t => `<tr><td>${t.c}</td><td class="hint" style="font-size:12px">
+            ${[t.exigePlan ? "Exige plan de acción" : null,
+               t.exigeSub ? "Exige subestrategia" : null,
+               t.zonas ? `Solo en zona ${t.zonas.join(" o ")}` : null,
+               t.excluye.length ? `No aplica a ${t.excluye.join(", ")}` : null]
+              .filter(Boolean).join(" · ") || "Sin restricciones"}</td></tr>`).join("")}
+        </tbody></table></div></div>
+    </div>
+
+    <div class="card"><header><h2>Tipos de riesgo y sus plantillas</h2></header>
+      <div class="scroll-x"><table><thead><tr><th>Tipo</th><th>Campos que activa</th><th>Plantilla de redacción</th></tr></thead>
+        <tbody>${CAT.tiposRiesgo.map(t => `<tr>
+          <td style="white-space:nowrap">${esc(t.n)}<div class="hint mono">${t.c}</div></td>
+          <td class="hint" style="font-size:12px">${t.campos.map(c => CAT.etiquetas[c] || c).join(", ")}</td>
+          <td class="mono" style="font-size:11px">${esc(t.plantilla)}</td></tr>`).join("")}</tbody></table></div></div>
+  </div>`;
+}
+
+/* =====================================================================
+   EXPORTACIÓN
+   ===================================================================== */
+function descargar(nombre, contenido, mime){
+  const blob = new Blob(["\ufeff" + contenido], {type: mime + ";charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = nombre;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+
+/* CSV con punto y coma: es lo que Excel en español abre sin pedir importación */
+function aCSV(cabeceras, filas){
+  const q = v => {
+    const t = (v ?? "").toString().replace(/"/g, '""').replace(/\r?\n/g, " ");
+    return /[";]/.test(t) ? `"${t}"` : t;
+  };
+  return [cabeceras.map(q).join(";"), ...filas.map(f => f.map(q).join(";"))].join("\r\n");
+}
+
+function sufijoFiltros(){
+  const f = S.filtros, p = [];
+  if (f.macroproceso) p.push(macro(f.macroproceso)?.n);
+  if (f.proceso) p.push(proc(f.proceso)?.n);
+  if (f.unidad) p.push(uni(f.unidad)?.n);
+  if (f.tipo) p.push(tipo(f.tipo)?.n);
+  if (f.zona) p.push("Zona " + f.zona);
+  return p.length ? " (" + p.join(", ") + ")" : "";
+}
+
+function exportarRiesgosCSV(){
+  const rs = riesgosFiltrados();
+  if (!rs.length) return aviso("Nada que exportar", "No hay riesgos con los filtros aplicados.");
+
+  /* Cuántas columnas de control hace falta: tantas como el riesgo con más
+     controles, para que ninguna información quede fuera del archivo. */
+  const maxC = Math.max(1, ...rs.map(r => (r.controles || []).length));
+  const cabC = [];
+  for (let k = 1; k <= maxC; k++)
+    cabC.push(`Control ${k}`, `Tipo ${k}`, `Implementación ${k}`, `Peso ${k}`,
+              `Afectación ${k}`, `Documentación ${k}`, `Frecuencia ${k}`, `Evidencia ${k}`,
+              `Diseño ${k}`);
+
+  const cab = ["Identificador","Macroproceso","Proceso","Dependencia",
+    "Tipo de riesgo","Clase de riesgo","Factores","Descripción del riesgo",
+    "Causa raíz","Efecto inmediato","Área de impacto","Activo","Propiedad afectada",
+    "Frecuencia anual","Probabilidad inherente","Impacto inherente","Zona inherente",
+    "Nº de controles", ...cabC,
+    "Multiplicador probabilidad","Multiplicador impacto",
+    "Probabilidad residual","Impacto residual","Zona residual",
+    "Tratamiento","Subestrategia","Plan de acción","Responsable del plan","Indicador (KRI)",
+    "Fecha de cumplimiento",
+    "Periodo","Resultado del indicador","Actividades ejecutadas","Soporte de ejecución",
+    "Estado de la acción",
+    "Monitoreo: descripción conforme","Monitoreo: control conforme","Monitoreo: control eficaz",
+    "Monitoreo: se materializó","Monitoreo: instancia","Monitoreo: recomendaciones",
+    "CI: actividades verificadas","CI: se materializó","CI: justificación",
+    "CI: acciones correctivas","CI: soporte",
+    "Estado del riesgo","Pendientes de revisión"];
+
+  const filas = rs.map(r => {
+    const res = Motor.residual(r.probabilidadPct || 0, r.impactoPct || 0, r.controles || []);
+    const ctrl = [];
+    for (let k = 0; k < maxC; k++){
+      const c = (r.controles || [])[k];
+      if (!c){ ctrl.push("", "", "", "", "", "", "", "", ""); continue; }
+      const e = S.evaluaciones.find(x => x.controlId === r.id + ":" + k && x.periodo === S.periodo);
+      ctrl.push([c.responsable, c.accion, c.complemento].filter(Boolean).join(" "),
+        c.tipo, c.implementacion, pct(Motor.pesoControl(c.tipo, c.implementacion)),
+        Motor.afectacion(c.tipo), c.documentacion || "", c.frecuencia || "", c.evidencia || "",
+        e ? `${e.calificacion} (${pct(e.total)})` : "");
+    }
+    const g = S.seguimientos.find(x => x.riesgoId === r.id && x.periodo === S.periodo) || {};
+    const m = S.monitoreos.find(x => x.riesgoId === r.id && x.periodo === S.periodo) || {};
+    const ci = S.internos.find(x => x.riesgoId === r.id && x.periodo === S.periodo) || {};
+
+    return [r.codigo, macro(proc(r.proceso)?.m)?.n, proc(r.proceso)?.n, uni(r.unidad)?.n,
+      tipo(r.tipo)?.n, r.clase || "",
+      (r.factores || []).join(" | "), r.descripcion,
+      r.causaRaiz || "", r.efectoInmediato || "", r.areaImpacto || r.areaFiscal || "",
+      r.activo || "", r.propiedadSD || "",
+      r.frecuencia ?? "", pct(r.probabilidadPct || 0), pct(r.impactoPct || 0), r.zonaInherente,
+      (r.controles || []).length, ...ctrl,
+      res.multP.toFixed(4), res.multI.toFixed(4),
+      pct(r.probResidual || 0), pct(r.impResidual || 0), r.zonaResidual,
+      r.tratamiento || "", r.subestrategia || "", r.planAccion || "", r.responsablePlan || "",
+      r.kri || "", r.fechaPlan || "",
+      S.periodo, g.resultado || "", g.actividades || "", g.soporte || "", g.estadoAccion || "",
+      m.descripcionConforme || "", m.controlConforme || "", m.controlEficaz || "",
+      m.materializo || "", m.instancia || "", m.recomendaciones || "",
+      ci.actividades || "", ci.materializo || "", ci.justificacion || "",
+      ci.accionesCorrectivas || "", ci.soporteAccion || "",
+      r.estado, (r.revisar || []).join(" | ")];
+  });
+  descargar(`mapa-de-riesgos${sufijoFiltros()}.csv`, aCSV(cab, filas), "text/csv");
+}
+
+function exportarControlesCSV(){
+  const rs = riesgosFiltrados();
+  const cab = ["Identificador del riesgo","Proceso","Nº control","Descripción del control",
+    "Tipo","Implementación","Peso","Afectación","Documentación","Frecuencia","Evidencia"];
+  const filas = [];
+  rs.forEach(r => (r.controles || []).forEach((c, k) => filas.push([
+    r.codigo, proc(r.proceso)?.n, k + 1,
+    [c.responsable, c.accion, c.complemento].filter(Boolean).join(" "),
+    c.tipo, c.implementacion, pct(Motor.pesoControl(c.tipo, c.implementacion)),
+    Motor.afectacion(c.tipo), c.documentacion, c.frecuencia, c.evidencia])));
+  if (!filas.length) return aviso("Nada que exportar", "No hay controles con los filtros aplicados.");
+  descargar(`controles${sufijoFiltros()}.csv`, aCSV(cab, filas), "text/csv");
+}
+
+function exportarResumenCSV(){
+  const rs = riesgosFiltrados();
+  if (!rs.length) return aviso("Nada que exportar", "No hay riesgos con los filtros aplicados.");
+  const ord = {Bajo:1, Moderado:2, Alto:3, Extremo:4};
+  const cab = ["Agrupación","Categoría","Riesgos","Bajo","Moderado","Alto","Extremo",
+    "Alto o Extremo","% crítico","Bajaron de zona","% reducidos"];
+  const filas = [];
+  const bloque = (etiqueta, keyFn, nameFn) => {
+    agrupar(rs, keyFn, nameFn).forEach(g => {
+      const sub = rs.filter(r => nameFn(keyFn(r)) === g.nombre);
+      const crit = g.Alto + g.Extremo;
+      const baj = sub.filter(r => ord[r.zonaResidual] < ord[r.zonaInherente]).length;
+      filas.push([etiqueta, g.nombre, g.total, g.Bajo, g.Moderado, g.Alto, g.Extremo,
+        crit, g.total ? Math.round(crit / g.total * 100) + "%" : "0%",
+        baj, g.total ? Math.round(baj / g.total * 100) + "%" : "0%"]);
+    });
+  };
+  bloque("Macroproceso", r => proc(r.proceso)?.m, k => macro(k)?.n || k);
+  bloque("Proceso", r => r.proceso, k => proc(k)?.n || k);
+  bloque("Dependencia", r => r.unidad, k => uni(k)?.n || k);
+  bloque("Tipo de riesgo", r => r.tipo, k => tipo(k)?.n || k);
+  descargar(`resumen-riesgos${sufijoFiltros()}.csv`, aCSV(cab, filas), "text/csv");
+}
+
+function exportarSeguimientoCSV(){
+  const cab = ["Periodo","Identificador","Proceso","Dependencia","Indicador (KRI)",
+    "Resultado de la medición","Actividades del plan","Soporte","Estado de la acción"];
+  const filas = S.seguimientos.map(x => {
+    const r = S.riesgos.find(y => y.id === x.riesgoId) || {};
+    return [x.periodo, r.codigo, proc(r.proceso)?.n, uni(r.unidad)?.n,
+      r.kri, x.resultado, x.actividades, x.soporte, x.estadoAccion];
+  });
+  if (!filas.length) return aviso("Nada que exportar", "Todavía no hay reportes de seguimiento.");
+  descargar("seguimiento.csv", aCSV(cab, filas), "text/csv");
+}
+
+
+/* =====================================================================
+   INFORME COMPLETO PARA PDF
+   Arma un documento con portada, filtros aplicados, indicadores,
+   gráficas, mapas de calor y el detalle de todos los riesgos en orden.
+   Se imprime desde el navegador: no requiere librerías externas.
+   ===================================================================== */
+function filtrosAplicados(){
+  const f = S.filtros, out = [];
+  if (f.macroproceso) out.push(["Macroproceso", macro(f.macroproceso)?.n]);
+  if (f.proceso)      out.push(["Proceso", proc(f.proceso)?.n]);
+  if (f.unidad)       out.push(["Dependencia", uni(f.unidad)?.n]);
+  if (f.tipo)         out.push(["Tipo de riesgo", tipo(f.tipo)?.n]);
+  if (f.zona)         out.push(["Zona residual", f.zona]);
+  return out;
+}
+
+function tablaAgrupada(titulo, grupos){
+  if (!grupos.length) return "";
+  const tot = grupos.reduce((a, g) => a + g.total, 0);
+  return `<h3 class="rep-h3">${esc(titulo)}</h3>
+  <table class="rep-t"><thead><tr>
+    <th>${esc(titulo)}</th><th class="num">Riesgos</th><th class="num">Bajo</th>
+    <th class="num">Moderado</th><th class="num">Alto</th><th class="num">Extremo</th>
+    <th class="num">% crítico</th><th>Distribución</th>
+  </tr></thead><tbody>
+  ${grupos.map(g => `<tr>
+    <td>${esc(g.nombre)}</td>
+    <td class="num">${g.total}</td><td class="num">${g.Bajo}</td><td class="num">${g.Moderado}</td>
+    <td class="num">${g.Alto}</td><td class="num">${g.Extremo}</td>
+    <td class="num">${g.total ? Math.round((g.Alto + g.Extremo) / g.total * 100) : 0}%</td>
+    <td style="width:170px"><div class="bar-track" style="height:11px">
+      ${["Bajo","Moderado","Alto","Extremo"].map(z => g[z]
+        ? `<div class="bar-seg" style="width:${(g[z] / g.total * 100).toFixed(1)}%;background:${ZCOL[z]}"></div>`
+        : "").join("")}</div></td>
+  </tr>`).join("")}
+  <tr class="rep-tot"><td>Total</td><td class="num">${tot}</td>
+    <td class="num">${grupos.reduce((a, g) => a + g.Bajo, 0)}</td>
+    <td class="num">${grupos.reduce((a, g) => a + g.Moderado, 0)}</td>
+    <td class="num">${grupos.reduce((a, g) => a + g.Alto, 0)}</td>
+    <td class="num">${grupos.reduce((a, g) => a + g.Extremo, 0)}</td>
+    <td class="num"></td><td></td></tr>
+  </tbody></table>`;
+}
+
+function construirInforme(){
+  const rs = riesgosFiltrados();
+  const ord = {Bajo:1, Moderado:2, Alto:3, Extremo:4};
+  const crit = rs.filter(r => ["Alto","Extremo"].includes(r.zonaResidual)).length;
+  const baj = rs.filter(r => ord[r.zonaResidual] < ord[r.zonaInherente]).length;
+  const ctrl = rs.reduce((a, r) => a + (r.controles || []).length, 0);
+  const fa = filtrosAplicados();
+  const hoy = new Date().toLocaleString("es-CO", {dateStyle:"long", timeStyle:"short"});
+
+  let html = `
+  <header class="rep-cab">
+    <div>
+      <h1>Mapa de Riesgos Institucional</h1>
+      <p>Gobernación de Santander · Guía para la Gestión Integral del Riesgo, versión 7</p>
+    </div>
+    <div class="rep-meta">
+      <div>Generado: ${esc(hoy)}</div>
+      <div>Periodo: ${esc(S.periodo || "—")}</div>
+      <div>Emitido por: ${esc(S.sesion?.nombre || "—")}</div>
+    </div>
+  </header>
+
+  <section class="rep-s">
+    <h2 class="rep-h2">1. Alcance del informe</h2>
+    <table class="rep-t rep-mini"><tbody>
+      <tr><td>Riesgos incluidos</td><td class="num">${rs.length}</td></tr>
+      <tr><td>Riesgos vigentes en el sistema</td>
+        <td class="num">${S.riesgos.filter(r => r.estado !== "OBSOLETO").length}</td></tr>
+      ${fa.length ? fa.map(([k, v]) => `<tr><td>Filtro · ${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")
+        : `<tr><td>Filtros aplicados</td><td>Ninguno: informe del inventario completo</td></tr>`}
+    </tbody></table>
+  </section>
+
+  <section class="rep-s">
+    <h2 class="rep-h2">2. Indicadores</h2>
+    <div class="rep-kpis">
+      <div class="rep-k"><b>${rs.length}</b><span>Riesgos</span></div>
+      <div class="rep-k"><b>${crit}</b><span>En zona Alto o Extremo</span>
+        <i>${rs.length ? Math.round(crit / rs.length * 100) : 0}% del total</i></div>
+      <div class="rep-k"><b>${baj}</b><span>Bajaron de zona</span>
+        <i>${rs.length ? Math.round(baj / rs.length * 100) : 0}% tras controles</i></div>
+      <div class="rep-k"><b>${ctrl}</b><span>Controles</span>
+        <i>${rs.length ? (ctrl / rs.length).toFixed(1) : 0} por riesgo</i></div>
+    </div>
+  </section>
+
+  <section class="rep-s">
+    <h2 class="rep-h2">3. Distribución del riesgo residual</h2>
+    ${tablaAgrupada("Macroproceso", agrupar(rs, r => proc(r.proceso)?.m, k => macro(k)?.n || k))}
+    ${tablaAgrupada("Proceso", agrupar(rs, r => r.proceso, k => proc(k)?.n || k))}
+    ${tablaAgrupada("Dependencia", agrupar(rs, r => r.unidad, k => uni(k)?.n || k))}
+    ${tablaAgrupada("Tipo de riesgo", agrupar(rs, r => r.tipo, k => tipo(k)?.n || k))}
+    ${tablaAgrupada("Tratamiento", agrupar(rs, r => r.tratamiento || "Sin definir", k => k))}
+  </section>
+
+  <section class="rep-s rep-brk">
+    <h2 class="rep-h2">4. Mapa de calor</h2>
+    <div class="rep-heats">
+      <div><h3 class="rep-h3">Riesgo inherente</h3>${mapaCalor(rs, "inh")}</div>
+      <div><h3 class="rep-h3">Riesgo residual</h3>${mapaCalor(rs, "res")}</div>
+    </div>
+    <p class="rep-n">El eje vertical corresponde al impacto y el horizontal a la probabilidad.
+    Cada celda indica cuántos riesgos se ubican en esa combinación.</p>
+  </section>
+
+  <section class="rep-s rep-brk">
+    <h2 class="rep-h2">5. Inventario de riesgos</h2>
+    <p class="rep-n">Ordenado por macroproceso, proceso, dependencia e identificador.</p>
+    <table class="rep-t"><thead><tr>
+      <th>Identificador</th><th>Riesgo</th><th>Proceso y dependencia</th>
+      <th>Tipo</th><th class="num">P inh.</th><th class="num">I inh.</th><th>Inherente</th>
+      <th class="num">Ctrl</th><th class="num">P res.</th><th class="num">I res.</th>
+      <th>Residual</th><th>Tratamiento</th>
+    </tr></thead><tbody>
+    ${rs.map(r => `<tr>
+      <td class="mono">${esc(r.codigo)}</td>
+      <td class="just" style="min-width:200px;max-width:300px">${esc(r.descripcion)}</td>
+      <td>${esc(proc(r.proceso)?.n || "")}<br><span class="rep-sub">${esc(uni(r.unidad)?.n || "")}</span></td>
+      <td>${esc(tipo(r.tipo)?.n || "")}</td>
+      <td class="num">${pct(r.probabilidadPct || 0)}</td>
+      <td class="num">${pct(r.impactoPct || 0)}</td>
+      <td><span class="zone ${r.zonaInherente}">${esc(r.zonaInherente || "—")}</span></td>
+      <td class="num">${(r.controles || []).length}</td>
+      <td class="num">${pct(r.probResidual || 0)}</td>
+      <td class="num">${pct(r.impResidual || 0)}</td>
+      <td><span class="zone ${r.zonaResidual}">${esc(r.zonaResidual || "—")}</span></td>
+      <td>${esc(r.tratamiento || "—")}${r.subestrategia ? "<br><span class='rep-sub'>" + esc(r.subestrategia) + "</span>" : ""}</td>
+    </tr>`).join("")}
+    </tbody></table>
+  </section>
+
+  <section class="rep-s rep-brk">
+    <h2 class="rep-h2">6. Controles</h2>
+    <table class="rep-t"><thead><tr>
+      <th>Riesgo</th><th>Nº</th><th>Descripción del control</th>
+      <th>Tipo</th><th>Implementación</th><th class="num">Peso</th><th>Afecta</th><th>Diseño</th>
+    </tr></thead><tbody>
+    ${rs.flatMap(r => (r.controles || []).map((c, k) => {
+      const e = S.evaluaciones.find(x => x.controlId === r.id + ":" + k && x.periodo === S.periodo);
+      return `<tr>
+        <td class="mono">${k === 0 ? esc(r.codigo) : ""}</td>
+        <td class="num">${k + 1}</td>
+        <td class="just" style="min-width:220px;max-width:340px">${esc([c.responsable, c.accion, c.complemento].filter(Boolean).join(" "))}</td>
+        <td>${esc(c.tipo)}</td><td>${esc(c.implementacion)}</td>
+        <td class="num">${pct(Motor.pesoControl(c.tipo, c.implementacion))}</td>
+        <td>${esc(Motor.afectacion(c.tipo))}</td>
+        <td>${e ? esc(e.calificacion) + " (" + pct(e.total) + ")" : "—"}</td>
+      </tr>`;
+    })).join("") || `<tr><td colspan="8">Sin controles registrados.</td></tr>`}
+    </tbody></table>
+  </section>`;
+
+  /* Sección del ciclo trimestral, solo si hay algo reportado */
+  const conCiclo = rs.filter(r =>
+    S.seguimientos.some(x => x.riesgoId === r.id && x.periodo === S.periodo) ||
+    S.monitoreos.some(x => x.riesgoId === r.id && x.periodo === S.periodo) ||
+    S.internos.some(x => x.riesgoId === r.id && x.periodo === S.periodo));
+
+  if (conCiclo.length){
+    html += `<section class="rep-s rep-brk">
+      <h2 class="rep-h2">7. Ciclo trimestral · ${esc(S.periodo)}</h2>
+      <table class="rep-t"><thead><tr>
+        <th>Riesgo</th><th>Resultado del indicador</th><th>Estado acción</th>
+        <th>Descr. conforme</th><th>Ctrl. conforme</th><th>Ctrl. eficaz</th>
+        <th>Materializó SIG</th><th>Materializó CI</th><th>Recomendaciones</th>
+      </tr></thead><tbody>
+      ${conCiclo.map(r => {
+        const g = S.seguimientos.find(x => x.riesgoId === r.id && x.periodo === S.periodo) || {};
+        const m = S.monitoreos.find(x => x.riesgoId === r.id && x.periodo === S.periodo) || {};
+        const ci = S.internos.find(x => x.riesgoId === r.id && x.periodo === S.periodo) || {};
+        const dis = m.materializo && ci.materializo && m.materializo !== ci.materializo;
+        return `<tr${dis ? ' class="rep-dis"' : ""}>
+          <td class="mono">${esc(r.codigo)}</td>
+          <td>${esc(g.resultado || "—")}</td><td>${esc(g.estadoAccion || "—")}</td>
+          <td>${esc(m.descripcionConforme || "—")}</td><td>${esc(m.controlConforme || "—")}</td>
+          <td>${esc(m.controlEficaz || "—")}</td>
+          <td>${esc(m.materializo || "—")}</td><td>${esc(ci.materializo || "—")}</td>
+          <td class="just" style="max-width:220px">${esc(m.recomendaciones || "")}</td>
+        </tr>`;
+      }).join("")}
+      </tbody></table>
+      <p class="rep-n">Las filas resaltadas corresponden a riesgos donde el criterio de la Dirección
+      SIG y el de Control Interno sobre la materialización no coinciden.</p>
+    </section>`;
+  }
+
+  const pend = rs.filter(r => (r.revisar || []).length);
+  if (pend.length){
+    html += `<section class="rep-s rep-brk">
+      <h2 class="rep-h2">${conCiclo.length ? 8 : 7}. Pendientes de revisión</h2>
+      <table class="rep-t"><thead><tr><th>Riesgo</th><th>Situación</th></tr></thead><tbody>
+      ${pend.map(r => `<tr><td class="mono">${esc(r.codigo)}</td>
+        <td class="just">${r.revisar.map(x => esc(x)).join("<br>")}</td></tr>`).join("")}
+      </tbody></table></section>`;
+  }
+
+  html += `<footer class="rep-pie">Documento generado automáticamente por el sistema de gestión
+    del riesgo. Los valores de probabilidad, impacto y zona se calculan con los parámetros vigentes
+    de la Guía para la Gestión Integral del Riesgo, versión 7.</footer>`;
+
+  return html;
+}
+
+function exportarPDF(){
+  const cont = document.getElementById("informe");
+  cont.innerHTML = construirInforme();
+  document.body.classList.add("modo-informe");
+  window.print();
+  setTimeout(() => {
+    document.body.classList.remove("modo-informe");
+    cont.innerHTML = "";
+  }, 800);
+}
+
+
+
+/* =====================================================================
+   CICLO TRIMESTRAL — SEGUIMIENTO (Enlace SIG)
+   Indicador, actividades, soportes y evaluación de los controles.
+   ===================================================================== */
+function misRiesgos(){
+  const u = S.sesion;
+  let rs = S.riesgos.filter(r => r.estado !== "OBSOLETO");
+  if (u?.rol === "ENLACE_SIG" && u.dependencia)
+    rs = rs.filter(r => r.unidad === u.dependencia);
+  return rs;
+}
+
+function selPeriodo(){
+  return `<select id="selPeriodo" autocomplete="off" style="max-width:150px">
+    ${periodosConocidos().map(p =>
+      `<option value="${p}" ${S.periodo === p ? "selected" : ""}>${p.replace("-", " · ")}</option>`).join("")}
+  </select>`;
+}
+
+function vistaSeguimiento(){
+  const abierta = puedeEscribirOperativo("EJECUCION");
+  const rs = misRiesgos();
+  const seg = id => S.seguimientos.find(x => x.riesgoId === id && x.periodo === S.periodo) || {};
+  const ev  = cid => S.evaluaciones.find(x => x.controlId === cid && x.periodo === S.periodo);
+
+  const filas = rs.map(r => {
+    const g = seg(r.id);
+    const nctrl = (r.controles || []).length;
+    const nev = (r.controles || []).filter((c, k) => ev(r.id + ":" + k)).length;
+    const completo = g.resultado && g.actividades && nev === nctrl;
+    return `<tr>
+      <td class="rid">${esc(r.codigo)}</td>
+      <td class="desc"><div class="just">${esc(r.descripcion)}</div>
+        <div class="hint">${esc(uni(r.unidad)?.n || "")}</div></td>
+      <td>${r.kri ? esc(r.kri) : `<span class="hint">Sin indicador</span>`}</td>
+      <td class="mono">${g.resultado ?? "—"}</td>
+      <td>${nev}/${nctrl}</td>
+      <td>${g.estadoAccion ? `<span class="zone ${g.estadoAccion === "Cerrada" ? "Bajo"
+        : g.estadoAccion === "Vencida" ? "Extremo" : "Moderado"}">${esc(g.estadoAccion)}</span>` : "—"}</td>
+      <td>${completo ? `<span class="zone Bajo">Completo</span>` : `<span class="tag">Pendiente</span>`}
+        ${g.porAdministracion ? `<div class="hint">Registrado por administración</div>` : ""}</td>
+      <td><button class="btn ${completo ? "ghost" : ""} sm" data-seg="${r.id}">
+        ${abierta ? "Reportar" : "Ver"}</button></td>
+    </tr>`;
+  }).join("");
+
+  return `<div class="stack">
+    ${bannerAdmin()}
+    ${S.sesion?.rol === "ENLACE_SIG" ? `<div class="banner info"><span>&#9432;</span><div>
+      Aquí reportas la <b>ejecución</b> del trimestre: resultado del indicador, actividades del plan
+      de acción, soportes y evaluación del diseño de tus controles. La revisión de calidad la hace
+      después el perfil de Monitoreo, y el seguimiento independiente, Control Interno.</div></div>` : ""}
+    ${abierta ? `<div class="banner ok"><span>&#9679;</span><div>La ventana de reporte de ejecución
+      está abierta. Registra el resultado del indicador, las actividades del plan de acción, el
+      soporte y la evaluación del diseño de cada control.</div></div>`
+      : `<div class="banner warn"><span>&#9888;</span><div>La ventana de reporte de ejecución está
+      cerrada. Puedes consultar lo reportado, pero no modificarlo. Recuerda que la actualización de
+      riesgos tiene su propia ventana, dos veces al año.</div></div>`}
+
+    <div class="card">
+      <header><div style="display:flex;gap:10px;align-items:center">
+        <h2>Reporte de ejecución</h2>${selPeriodo()}</div>
+        <span class="tag">${rs.length} riesgos a cargo</span></header>
+      ${rs.length ? `<div class="scroll-x"><table><thead><tr>
+        <th>Identificador</th><th class="desc">Riesgo</th><th>Indicador</th><th class="num">Resultado</th>
+        <th>Controles evaluados</th><th>Estado acción</th><th></th><th></th>
+      </tr></thead><tbody>${filas}</tbody></table></div>`
+      : `<div class="empty"><b>No tienes riesgos asignados</b>
+         Los riesgos se asignan por la dependencia del usuario.</div>`}
+    </div>
+  </div>`;
+}
+
+function formSeguimiento(rid){
+  const r = S.riesgos.find(x => x.id === rid); if (!r) return;
+  const abierta = puedeEscribirOperativo("EJECUCION");
+  const g = S.seguimientos.find(x => x.riesgoId === rid && x.periodo === S.periodo)
+    || {id:uid(), riesgoId:rid, periodo:S.periodo, resultado:"", actividades:"",
+        soporte:"", estadoAccion:"", observacion:""};
+  const ruta = rutaEvidencia(r, S.periodo, g.soporte || "soporte.pdf");
+
+  const evalCtrl = (r.controles || []).map((c, k) => {
+    const cid = rid + ":" + k;
+    const e = S.evaluaciones.find(x => x.controlId === cid && x.periodo === S.periodo)
+      || {controlId:cid, periodo:S.periodo, resp:{}};
+    const cal = calificarDiseno(e.resp);
+    return `<div class="ctrl-item">
+      <div class="ctrl-head"><b>Control ${k + 1} · ${esc(c.tipo)} ${esc(c.implementacion)}</b>
+        <span class="zone ${cal.calificacion === "Fuerte" ? "Bajo"
+          : cal.calificacion === "Moderado" ? "Moderado" : "Extremo"}">
+          ${pct(cal.total)} · ${cal.calificacion}</span></div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:9px">
+        ${esc([c.responsable, c.accion, c.complemento].filter(Boolean).join(" "))}</div>
+      ${CAT.evaluacionControl.map(cr => `<div class="field" style="margin-bottom:7px">
+        <label style="font-size:11px">${esc(cr.n)}</label>
+        <select data-ec="${k}" data-cr="${cr.c}" ${abierta ? "" : "disabled"} autocomplete="off">
+          <option value="">Seleccione</option>
+          ${cr.op.map(o => `<option value="${esc(o[0])}" ${e.resp[cr.c] === o[0] ? "selected" : ""}>
+            ${esc(o[0])} (${pct(o[1])})</option>`).join("")}
+        </select></div>`).join("")}
+    </div>`;
+  }).join("");
+
+  modal(`Reporte de ejecución · ${r.codigo} · ${S.periodo.replace("-", " ")}`, `
+    <p style="margin:0 0 15px;font-size:13px">${esc(r.descripcion)}</p>
+
+    <h3 style="margin-bottom:9px">Indicador clave del riesgo</h3>
+    <div class="calc" style="margin-bottom:13px">${r.kri ? esc(r.kri)
+      : `<span class="hint">Este riesgo no tiene indicador formulado. Debe definirse en la ventana de actualización.</span>`}</div>
+    <div class="field"><label>Resultado de la medición del indicador</label>
+      <input type="text" id="sgRes" value="${esc(g.resultado)}" ${abierta ? "" : "disabled"}
+        placeholder="Ejemplo: 92% (46 de 50 pagos con soporte verificado)">
+      <p class="hint">Escriba el resultado obtenido aplicando la fórmula del indicador en este trimestre.</p></div>
+
+    <div class="field"><label>Actividades para implementar el plan de acción</label>
+      <textarea id="sgAct" ${abierta ? "" : "disabled"}
+        placeholder="Describa brevemente lo ejecutado en el periodo">${esc(g.actividades)}</textarea>
+      ${r.planAccion ? `<p class="hint"><b>Plan formulado:</b> ${esc(r.planAccion)}</p>` : ""}</div>
+
+    <div class="field"><label>Soporte de ejecución del plan de acción</label>
+      <input type="text" id="sgSop" value="${esc(g.soporte)}" ${abierta ? "" : "disabled"}
+        placeholder="acta-comite-marzo.pdf">
+      <div class="banner info" style="margin-top:7px"><span>&#9432;</span><div>
+        El archivo se guardará en Drive como<br>
+        <b class="mono">${esc(ruta.carpeta)}/${esc(ruta.archivo)}</b><br>
+        En el prototipo solo se registra el nombre; la carga real llega con el backend.</div></div></div>
+
+    <div class="field"><label>Estado de la acción</label>
+      <select id="sgEst" ${abierta ? "" : "disabled"} autocomplete="off">
+        <option value="">Seleccione</option>
+        ${CAT.estadoAccion.map(x => `<option ${g.estadoAccion === x ? "selected" : ""}>${x}</option>`).join("")}
+      </select>
+      <p class="hint">En la guía v7 el plan de tratamiento conserva su estado de avance.
+      Quien lo determina en firme es la Dirección SIG.</p></div>
+
+    <h3 style="margin:20px 0 9px;padding-top:15px;border-top:1px solid var(--line)">
+      Evaluación del diseño de los controles</h3>
+    <p class="hint" style="margin-top:-4px">Los siete criterios suman 100%. El resultado clasifica
+      el diseño en Fuerte, Moderado o Débil. No modifica el riesgo residual: es insumo de auditoría.</p>
+    ${evalCtrl || `<p class="hint">Este riesgo no tiene controles registrados.</p>`}
+  `, abierta ? [
+    {t:"Cancelar", cls:"ghost", fn: cerrarModal},
+    {t:"Guardar reporte", cls:"", fn: async () => {
+      g.resultado = document.getElementById("sgRes").value.trim();
+      g.actividades = document.getElementById("sgAct").value.trim();
+      g.soporte = document.getElementById("sgSop").value.trim();
+      g.estadoAccion = document.getElementById("sgEst").value;
+      g.reportadoPor = S.sesion?.nombre; g.reportadoEn = new Date().toISOString();
+      g.porAdministracion = esAdmin();
+      const ix = S.seguimientos.findIndex(x => x.id === g.id);
+      if (ix >= 0) S.seguimientos[ix] = g; else S.seguimientos.push(g);
+      await Store.set("seguimientos", g.id, g);
+
+      for (let k = 0; k < (r.controles || []).length; k++){
+        const cid = rid + ":" + k;
+        const resp = {};
+        document.querySelectorAll(`[data-ec="${k}"]`).forEach(el => {
+          if (el.value) resp[el.dataset.cr] = el.value;
+        });
+        if (!Object.keys(resp).length) continue;
+        const cal = calificarDiseno(resp);
+        const prev = S.evaluaciones.find(x => x.controlId === cid && x.periodo === S.periodo);
+        const e = prev || {id:uid(), controlId:cid, riesgoId:rid, periodo:S.periodo};
+        e.resp = resp; e.total = cal.total; e.calificacion = cal.calificacion;
+        e.evaluadoPor = S.sesion?.nombre;
+        if (!prev) S.evaluaciones.push(e);
+        await Store.set("evaluaciones", e.id, e);
+      }
+      cerrarModal(); render();
+    }}
+  ] : [{t:"Cerrar", cls:"ghost", fn: cerrarModal}]);
+
+  document.querySelectorAll("[data-ec]").forEach(el => el.onchange = () => {
+    cerrarModal(); formSeguimiento(rid);
+  });
+}
+
+/* =====================================================================
+   CICLO TRIMESTRAL — MONITOREO (Dirección SIG)
+   ===================================================================== */
+function vistaMonitoreo(){
+  const abierta = puedeEscribirOperativo("MONITOREO");
+  const rs = riesgosFiltrados();
+  const mon = id => S.monitoreos.find(x => x.riesgoId === id && x.periodo === S.periodo) || {};
+  const si = v => v === "Si" ? `<span class="zone Bajo">Sí</span>`
+    : v === "No" ? `<span class="zone Alto">No</span>` : "—";
+
+  return bannerAdmin() + barrasFiltros() + `<div class="card" style="margin-top:16px">
+    <header><div style="display:flex;gap:10px;align-items:center">
+      <h2>Monitoreo</h2>${selPeriodo()}</div>
+      <span class="tag">${rs.filter(r => mon(r.id).revisado).length} de ${rs.length} revisados</span></header>
+    ${!abierta ? `<div class="body" style="padding-bottom:0"><div class="banner warn">
+      <span>&#9888;</span><div>La ventana de monitoreo está cerrada.</div></div></div>` : ""}
+    ${rs.length ? `<div class="scroll-x"><table><thead><tr>
+      <th>Identificador</th><th class="desc">Riesgo</th>
+      <th class="ctr">Descripción<br>conforme</th><th>Control<br>conforme</th>
+      <th>Control<br>eficaz</th><th>Se<br>materializó</th><th>Recomendaciones</th><th></th>
+    </tr></thead><tbody>${rs.map(r => { const m = mon(r.id); return `<tr>
+      <td class="rid">${esc(r.codigo)}</td>
+      <td class="desc"><div class="just">${esc(r.descripcion)}</div>
+        <div class="hint">${esc(proc(r.proceso)?.n || "")}</div></td>
+      <td>${si(m.descripcionConforme)}</td>
+      <td>${si(m.controlConforme)}</td>
+      <td>${si(m.controlEficaz)}</td>
+      <td>${m.materializo === "Si" ? `<span class="zone Extremo">Sí</span>`
+        : m.materializo === "No" ? `<span class="zone Bajo">No</span>` : "—"}</td>
+      <td style="max-width:200px" class="hint">${esc(m.recomendaciones || "")}
+        ${m.porAdministracion ? `<div><span class="tag">Por administración</span></div>` : ""}</td>
+      <td><button class="btn ${m.revisado ? "ghost" : ""} sm" data-mon="${r.id}">
+        ${abierta ? "Monitorear" : "Ver"}</button></td>
+    </tr>`; }).join("")}</tbody></table></div>`
+    : `<div class="empty"><b>Sin riesgos</b> No hay riesgos con los filtros aplicados.</div>`}
+  </div>`;
+}
+
+function formMonitoreo(rid){
+  const r = S.riesgos.find(x => x.id === rid); if (!r) return;
+  const abierta = puedeEscribirOperativo("MONITOREO");
+  const m = S.monitoreos.find(x => x.riesgoId === rid && x.periodo === S.periodo)
+    || {id:uid(), riesgoId:rid, periodo:S.periodo, instancia:"SIG"};
+  const rolActual = CAT.roles.find(x => x.c === S.sesion?.rol)?.n || "";
+  const pregunta = (id, etiqueta, val, ayuda) => `<div class="field">
+    <label>${etiqueta}</label>
+    <select id="${id}" ${abierta ? "" : "disabled"} autocomplete="off">
+      <option value="">Seleccione</option>
+      ${CAT.siNo.map(x => `<option ${val === x ? "selected" : ""}>${x}</option>`).join("")}
+    </select>${ayuda ? `<p class="hint">${ayuda}</p>` : ""}</div>`;
+
+  modal(`Monitoreo · ${r.codigo}`, `
+    <p style="margin:0 0 6px;font-size:13px">${esc(r.descripcion)}</p>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:15px">
+      <span class="tag">${esc(proc(r.proceso)?.n)}</span>
+      <span class="zone ${r.zonaResidual}">${esc(r.zonaResidual || "")}</span>
+      <span class="tag">${(r.controles || []).length} controles</span></div>
+
+    ${pregunta("moDesc", "¿La descripción del riesgo se ajusta a los lineamientos de la política?",
+      m.descripcionConforme,
+      "Verifique que inicie con «Posibilidad de» y contenga impacto, causa inmediata y causa raíz.")}
+    ${pregunta("moCtrl", "¿La descripción del control se ajusta a los lineamientos de la política?",
+      m.controlConforme,
+      "Cada control debe tener responsable, acción y complemento, con periodicidad explícita.")}
+    ${pregunta("moEfic", "¿El control ha sido eficaz?", m.controlEficaz,
+      "Contraste con el resultado del indicador y los soportes aportados por la dependencia.")}
+    ${pregunta("moMat", "¿El riesgo se materializó en el periodo evaluado?", m.materializo,
+      "Si responde Sí, debe existir una acción correctiva formulada en el formato ES-SIG-RG-02.")}
+
+    <div class="field"><label>Instancia que monitorea</label>
+      <select id="moInst" ${abierta ? "" : "disabled"} autocomplete="off">
+        ${CAT.instancias.map(x => `<option ${m.instancia === x ? "selected" : ""}>${x}</option>`).join("")}
+      </select>
+      <p class="hint">Registrando como <b>${esc(rolActual)}</b>.
+        Este concepto es independiente de lo que reportó la dependencia: esa separación es lo que
+        le da validez. Cada instancia guarda el suyo por separado.</p></div>
+
+    <div class="field"><label>Recomendaciones</label>
+      <textarea id="moRec" ${abierta ? "" : "disabled"}
+        placeholder="Qué debe ajustar la dependencia">${esc(m.recomendaciones || "")}</textarea></div>
+
+    ${(() => { const g = S.seguimientos.find(x => x.riesgoId === rid && x.periodo === S.periodo);
+      return g ? `<div class="calc"><b style="font-size:12px">Lo reportado por la dependencia</b>
+        <div class="calc-row"><span>Resultado del indicador</span><span class="mono">${esc(g.resultado || "—")}</span></div>
+        <div class="calc-row"><span>Estado de la acción</span><span class="mono">${esc(g.estadoAccion || "—")}</span></div>
+        <div style="margin-top:7px;font-size:12px">${esc(g.actividades || "Sin actividades reportadas")}</div>
+        </div>` : `<div class="banner warn"><span>&#9888;</span><div>La dependencia todavía no ha
+        reportado el seguimiento de este periodo.</div></div>`; })()}
+  `, abierta ? [
+    {t:"Cancelar", cls:"ghost", fn: cerrarModal},
+    {t:"Guardar monitoreo", cls:"", fn: async () => {
+      m.descripcionConforme = document.getElementById("moDesc").value;
+      m.controlConforme = document.getElementById("moCtrl").value;
+      m.controlEficaz = document.getElementById("moEfic").value;
+      m.materializo = document.getElementById("moMat").value;
+      m.instancia = document.getElementById("moInst").value;
+      m.recomendaciones = document.getElementById("moRec").value.trim();
+      m.revisado = true; m.monitoreadoPor = S.sesion?.nombre;
+      m.porAdministracion = esAdmin();
+      m.monitoreadoEn = new Date().toISOString();
+      const ix = S.monitoreos.findIndex(x => x.id === m.id);
+      if (ix >= 0) S.monitoreos[ix] = m; else S.monitoreos.push(m);
+      await Store.set("monitoreos", m.id, m);
+      cerrarModal(); render();
+    }}
+  ] : [{t:"Cerrar", cls:"ghost", fn: cerrarModal}]);
+}
+
+/* =====================================================================
+   CICLO TRIMESTRAL — CONTROL INTERNO
+   ===================================================================== */
+function vistaInterno(){
+  const abierta = puedeEscribirOperativo("SEGUIMIENTO");
+  const rs = riesgosFiltrados();
+  const ci = id => S.internos.find(x => x.riesgoId === id && x.periodo === S.periodo) || {};
+
+  const discrepa = r => {
+    const m = S.monitoreos.find(x => x.riesgoId === r.id && x.periodo === S.periodo);
+    const c = ci(r.id);
+    return m?.materializo && c.materializo && m.materializo !== c.materializo;
+  };
+  const enDisputa = rs.filter(discrepa);
+
+  return bannerAdmin() + barrasFiltros() + `<div class="stack" style="margin-top:16px">
+    ${enDisputa.length ? `<div class="banner warn"><span>&#9888;</span><div>
+      <b>${enDisputa.length} riesgos con criterio discrepante.</b> Control Interno y la Dirección SIG
+      responden distinto sobre la materialización: ${enDisputa.map(r => esc(r.codigo)).join(", ")}.
+      Requieren conciliación con acta.</div></div>` : ""}
+
+    <div class="card">
+      <header><div style="display:flex;gap:10px;align-items:center">
+        <h2>Seguimiento de Control Interno</h2>${selPeriodo()}</div>
+        <span class="tag">${rs.filter(r => ci(r.id).revisado).length} de ${rs.length}</span></header>
+      ${!abierta ? `<div class="body" style="padding-bottom:0"><div class="banner warn">
+        <span>&#9888;</span><div>La ventana de seguimiento está cerrada.</div></div></div>` : ""}
+      ${rs.length ? `<div class="scroll-x"><table><thead><tr>
+        <th>Identificador</th><th class="desc">Riesgo</th><th>Actividades verificadas</th>
+        <th>Se materializó</th><th>Acción correctiva</th><th></th>
+      </tr></thead><tbody>${rs.map(r => { const c = ci(r.id); return `<tr>
+        <td class="rid">${esc(r.codigo)}${discrepa(r) ? ` <span class="zone Extremo">Discrepa</span>` : ""}</td>
+        <td class="desc"><div class="just">${esc(r.descripcion)}</div></td>
+        <td class="hint" style="max-width:200px">${esc(c.actividades || "")}</td>
+        <td>${c.materializo === "Si" ? `<span class="zone Extremo">Sí</span>`
+          : c.materializo === "No" ? `<span class="zone Bajo">No</span>` : "—"}</td>
+        <td class="hint" style="max-width:180px">${esc(c.accionesCorrectivas || "")}</td>
+        <td><button class="btn ${c.revisado ? "ghost" : ""} sm" data-int="${r.id}">
+          ${abierta ? "Registrar" : "Ver"}</button></td>
+      </tr>`; }).join("")}</tbody></table></div>`
+      : `<div class="empty"><b>Sin riesgos</b> No hay riesgos con los filtros aplicados.</div>`}
+    </div>
+  </div>`;
+}
+
+function formInterno(rid){
+  const r = S.riesgos.find(x => x.id === rid); if (!r) return;
+  const abierta = puedeEscribirOperativo("SEGUIMIENTO");
+  const c = S.internos.find(x => x.riesgoId === rid && x.periodo === S.periodo)
+    || {id:uid(), riesgoId:rid, periodo:S.periodo};
+  const m = S.monitoreos.find(x => x.riesgoId === rid && x.periodo === S.periodo);
+  const ruta = rutaEvidencia(r, S.periodo, c.soporteAccion || "ES-SIG-RG-02.pdf");
+
+  modal(`Control Interno · ${r.codigo}`, `
+    <p style="margin:0 0 15px;font-size:13px">${esc(r.descripcion)}</p>
+
+    <div class="field"><label>Descripción de las actividades realizadas para la ejecución del control</label>
+      <textarea id="ciAct" ${abierta ? "" : "disabled"}
+        placeholder="Describa brevemente las actividades realizadas y los soportes aportados">${esc(c.actividades || "")}</textarea></div>
+
+    <div class="field"><label>Según su criterio, durante el periodo evaluado ¿se materializó el riesgo?</label>
+      <select id="ciMat" ${abierta ? "" : "disabled"} autocomplete="off">
+        <option value="">Seleccione</option>
+        ${CAT.siNo.map(x => `<option ${c.materializo === x ? "selected" : ""}>${x}</option>`).join("")}
+      </select>
+      ${m?.materializo ? `<p class="hint">La Dirección SIG respondió <b>${esc(m.materializo)}</b>.
+        Si su criterio difiere, la discrepancia queda registrada y requiere conciliación.</p>` : ""}</div>
+
+    <div class="field"><label>Justifique brevemente por qué considera que se materializó el riesgo</label>
+      <textarea id="ciJus" ${abierta ? "" : "disabled"}
+        placeholder="En caso de no haberse materializado, escriba No Aplica">${esc(c.justificacion || "")}</textarea></div>
+
+    <div class="field"><label>¿Qué acciones correctivas se realizaron ante la materialización del riesgo?</label>
+      <textarea id="ciAcc" ${abierta ? "" : "disabled"}
+        placeholder="En caso que no se haya materializado escriba No Aplica">${esc(c.accionesCorrectivas || "")}</textarea></div>
+
+    <div class="field"><label>Soporte de formulación de la acción correctiva</label>
+      <input type="text" id="ciSop" value="${esc(c.soporteAccion || "")}" ${abierta ? "" : "disabled"}
+        placeholder="ES-SIG-RG-02.pdf">
+      <div class="banner info" style="margin-top:7px"><span>&#9432;</span><div>
+        Cargue el formato ES-SIG-RG-02. Se guardará en Drive como<br>
+        <b class="mono">${esc(ruta.carpeta)}/${esc(ruta.archivo)}</b></div></div></div>
+  `, abierta ? [
+    {t:"Cancelar", cls:"ghost", fn: cerrarModal},
+    {t:"Guardar", cls:"", fn: async () => {
+      c.actividades = document.getElementById("ciAct").value.trim();
+      c.materializo = document.getElementById("ciMat").value;
+      c.justificacion = document.getElementById("ciJus").value.trim();
+      c.accionesCorrectivas = document.getElementById("ciAcc").value.trim();
+      c.soporteAccion = document.getElementById("ciSop").value.trim();
+      if (c.materializo === "Si" && !c.accionesCorrectivas)
+        return aviso("Falta la acción correctiva",
+          "Si el riesgo se materializó debe registrar qué acciones correctivas se realizaron.");
+      c.revisado = true; c.evaluadoPor = S.sesion?.nombre;
+      c.porAdministracion = esAdmin();
+      c.evaluadoEn = new Date().toISOString();
+      const ix = S.internos.findIndex(x => x.id === c.id);
+      if (ix >= 0) S.internos[ix] = c; else S.internos.push(c);
+      await Store.set("internos", c.id, c);
+      cerrarModal(); render();
+    }}
+  ] : [{t:"Cerrar", cls:"ghost", fn: cerrarModal}]);
+}
+
+/* =====================================================================
+   PERFILES POR PROCESO
+   ===================================================================== */
+function vistaPerfiles(){
+  const porProceso = CAT.procesos.map(p => {
+    const asignados = S.usuarios.filter(u => u.dependencia && uni(u.dependencia)?.p === p.c);
+    const riesgos = S.riesgos.filter(r => r.proceso === p.c && r.estado !== "OBSOLETO").length;
+    return {p, asignados, riesgos};
+  });
+
+  const porRol = c => porProceso.map(x => x.asignados.filter(u => u.rol === c).length);
+  const sinCobertura = porProceso.filter(x =>
+    !x.asignados.some(u => u.rol === "MONITOREO") && x.riesgos > 0);
+
+  return `<div class="stack">
+    <div class="banner info"><span>&#9432;</span><div>Esta vista muestra qué personas responden por
+      cada proceso. Sirve para detectar procesos con riesgos registrados pero sin responsable de
+      monitoreo asignado.</div></div>
+
+    ${sinCobertura.length ? `<div class="banner warn"><span>&#9888;</span><div>
+      <b>${sinCobertura.length} procesos con riesgos pero sin perfil de monitoreo:</b>
+      ${sinCobertura.map(x => esc(x.p.n)).join(", ")}.</div></div>` : ""}
+
+    <div class="card"><header><h2>Cobertura por proceso</h2>
+      <button class="btn ghost sm" id="expPerfiles">Exportar</button></header>
+      <div class="scroll-x"><table><thead><tr>
+        <th>Macroproceso</th><th>Proceso</th><th>Riesgos</th>
+        <th>Enlace SIG</th><th>Monitoreo calidad</th><th>Control Interno</th><th>Personas</th>
+      </tr></thead><tbody>${porProceso.map(x => `<tr>
+        <td class="hint">${esc(macro(x.p.m)?.n)}</td>
+        <td><b style="font-weight:500">${esc(x.p.n)}</b>
+          <div class="hint">${dependenciasDe(x.p.c).length} dependencias</div></td>
+        <td class="mono">${x.riesgos}</td>
+        ${["ENLACE_SIG","MONITOREO","SEGUIMIENTO"].map(rol => {
+          const k = x.asignados.filter(u => u.rol === rol).length;
+          return `<td>${k ? `<span class="zone Bajo">${k}</span>`
+            : `<span class="zone ${x.riesgos ? "Alto" : "Moderado"}">0</span>`}</td>`;
+        }).join("")}
+        <td class="hint" style="max-width:240px">${x.asignados.map(u => esc(u.nombre)).join(", ") || "—"}</td>
+      </tr>`).join("")}</tbody></table></div></div>
+
+    <div class="card"><header><h2>Perfiles de monitoreo de calidad</h2>
+      <span class="tag">${S.usuarios.filter(u => u.rol === "MONITOREO").length} personas</span></header>
+      ${S.usuarios.filter(u => u.rol === "MONITOREO").length ? `<div class="scroll-x"><table><thead><tr>
+        <th>Nombre</th><th>Correo</th><th>Dependencia</th><th>Procesos que cubre</th><th>Riesgos</th>
+      </tr></thead><tbody>${S.usuarios.filter(u => u.rol === "MONITOREO").map(u => {
+        const ps = CAT.procesos.filter(p => p.c === uni(u.dependencia)?.p);
+        const nr = S.riesgos.filter(r => ps.some(p => p.c === r.proceso) && r.estado !== "OBSOLETO").length;
+        return `<tr><td><b style="font-weight:500">${esc(u.nombre)}</b></td>
+          <td class="mono" style="font-size:12px">${esc(u.correo)}</td>
+          <td>${esc(uni(u.dependencia)?.n || "Todas")}</td>
+          <td class="hint">${ps.map(p => esc(p.n)).join(", ") || "Ninguno"}</td>
+          <td class="mono">${nr}</td></tr>`;
+      }).join("")}</tbody></table></div>`
+      : `<div class="empty"><b>Sin perfiles de monitoreo</b>
+         Crea usuarios con el rol «Monitoreo calidad» y asígnales su dependencia.</div>`}
+    </div>
+  </div>`;
+}
+
+/* =====================================================================
+   MODALES
+   ===================================================================== */
+function modal(titulo, cuerpo, botones){
+  const host = document.getElementById("modalHost");
+  host.innerHTML = `<div class="modal-bg"><div class="modal" role="dialog" aria-modal="true">
+    <header><h2>${esc(titulo)}</h2><button class="x" id="mX" aria-label="Cerrar">×</button></header>
+    <div class="body">${cuerpo}</div>
+    <footer>${botones.map((b, i) =>
+      `<button class="btn ${b.cls}" data-mb="${i}">${esc(b.t)}</button>`).join("")}</footer>
+  </div></div>`;
+  host.querySelector("#mX").onclick = cerrarModal;
+  host.querySelectorAll("[data-mb]").forEach(b =>
+    b.onclick = () => botones[Number(b.dataset.mb)].fn());
+  host.querySelector(".modal-bg").onclick = e => { if (e.target.classList.contains("modal-bg")) cerrarModal(); };
+}
+function cerrarModal(){ document.getElementById("modalHost").innerHTML = ""; }
+function aviso(t, m){
+  const host = document.getElementById("modalHost");
+  const prev = host.innerHTML;
+  host.innerHTML = `<div class="modal-bg" style="z-index:110"><div class="modal" style="max-width:420px">
+    <header><h2>${esc(t)}</h2></header><div class="body"><p style="margin:0">${esc(m)}</p></div>
+    <footer><button class="btn" id="aOk">Entendido</button></footer></div></div>`;
+  document.getElementById("aOk").onclick = () => { host.innerHTML = prev; reenlazar(); };
+}
+function reenlazar(){ if (F) enlazarFormulario(); }
+
+/* =====================================================================
+   SESIÓN
+   ===================================================================== */
+function elegirSesion(){
+  const opciones = [
+    {nombre:"Administrador", rol:"ADMIN", dependencia:""},
+    ...S.usuarios.filter(u => u.activo !== false).map(u =>
+      ({nombre:u.nombre, rol:u.rol, dependencia:u.dependencia})),
+    {nombre:"Visitante", rol:"PUBLICO", dependencia:""}
+  ];
+  modal("Entrar como", `
+    <p class="hint" style="margin:0 0 13px">Este prototipo no pide contraseña: sirve para probar
+    qué ve y qué puede hacer cada rol. La autenticación real va en el servidor.</p>
+    <div style="display:flex;flex-direction:column;gap:7px">
+      ${opciones.map((o, i) => {
+        const r = CAT.roles.find(x => x.c === o.rol);
+        return `<button class="btn ghost" data-sesion="${i}"
+          style="justify-content:flex-start;text-align:left;padding:10px 13px;flex-direction:column;align-items:flex-start;gap:2px">
+          <b style="font-weight:500">${esc(o.nombre)}</b>
+          <span class="hint">${esc(r?.n || o.rol)}${o.dependencia ? " · " + esc(uni(o.dependencia)?.n || "") : ""}</span>
+        </button>`;
+      }).join("")}
+    </div>
+  `, []);
+  document.querySelectorAll("[data-sesion]").forEach(b => b.onclick = () => {
+    S.sesion = opciones[Number(b.dataset.sesion)];
+    S.intervencion = false;
+    if (!VISTAS.find(v => v.id === S.vista && (!v.soloAdmin || S.sesion.rol === "ADMIN")))
+      S.vista = "panel";
+    cerrarModal(); render();
+  });
+}
+
+/* =====================================================================
+   RENDER PRINCIPAL
+   ===================================================================== */
+function render(){
+  pintarNav();
+  const v = VISTAS.find(x => x.id === S.vista) || VISTAS[0];
+  document.getElementById("vTitle").textContent = v.n;
+
+  const subs = {
+    seguimiento:"Cuatro veces al año: indicador, actividades, soportes y evaluación de controles",
+    monitoreo:"Revisión de la Dirección SIG sobre la calidad de riesgos y controles",
+    interno:"Verificación independiente y contraste con el monitoreo de SIG",
+    perfiles:"Quién responde por cada proceso y dónde falta cobertura",
+    panel:"Distribución de los riesgos vigentes",
+    riesgos:"Inventario completo por proceso y dependencia",
+    matriz:"Ubicación de los riesgos antes y después de los controles",
+    historico:"Cada cambio queda registrado de forma permanente",
+    usuarios:"Creación y administración de cuentas",
+    ventanas:"Cuándo se puede actualizar, monitorear y hacer seguimiento",
+    metodo:"Parámetros vigentes de la Guía versión 7"
+  };
+  document.getElementById("vSub").textContent = subs[v.id] || "";
+
+  const acc = document.getElementById("vActions");
+  acc.innerHTML = "";
+  const exportar = `<button class="btn ghost" id="btnXls">Excel</button>
+                    <button class="btn ghost" id="btnPdf">PDF</button>`;
+  if (S.vista === "riesgos")
+    acc.innerHTML = (puede("riesgo") ? `<button class="btn" id="btnNuevo">Registrar riesgo</button>` : "")
+      + `<button class="btn ghost" id="btnXlsCtrl">Controles</button>` + exportar;
+  if (S.vista === "panel" || S.vista === "matriz") acc.innerHTML = exportar;
+  if (S.vista === "seguimiento") acc.innerHTML = exportar;
+  if (S.vista === "usuarios")
+    acc.innerHTML = `<button class="btn" id="btnNuevoU">Nuevo usuario</button>`;
+
+  const cuerpo = {
+    panel: vistaPanel, riesgos: vistaRiesgos, matriz: vistaMatriz,
+    historico: vistaHistorico, usuarios: vistaUsuarios,
+    ventanas: vistaVentanas, metodo: vistaMetodo,
+    seguimiento: vistaSeguimiento, monitoreo: vistaMonitoreo,
+    interno: vistaInterno, perfiles: vistaPerfiles
+  }[v.id] || vistaPanel;
+  document.getElementById("view").innerHTML = cuerpo();
+
+  enlazarFiltros();
+  const on = (id, fn) => { const e = document.getElementById(id); if (e) e.onclick = fn; };
+  on("btnInterv", () => { S.intervencion = !S.intervencion; render(); });
+  on("btnSemilla", () => recargarSemilla());
+  on("btnNuevo", () => abrirFormulario(null));
+  on("btnXlsCtrl", () => exportarControlesCSV());
+  on("btnXls", () => {
+    if (S.vista === "riesgos") exportarRiesgosCSV();
+    else if (S.vista === "seguimiento") exportarSeguimientoCSV();
+    else exportarResumenCSV();
+  });
+  on("btnPdf", () => exportarPDF());
+  on("expPerfiles", () => {
+    const cab = ["Macroproceso","Proceso","Riesgos","Enlace SIG","Monitoreo","Control Interno","Personas"];
+    const filas = CAT.procesos.map(pp => {
+      const asg = S.usuarios.filter(u => u.dependencia && uni(u.dependencia)?.p === pp.c);
+      return [macro(pp.m)?.n, pp.n,
+        S.riesgos.filter(r => r.proceso === pp.c && r.estado !== "OBSOLETO").length,
+        asg.filter(u => u.rol === "ENLACE_SIG").length,
+        asg.filter(u => u.rol === "MONITOREO").length,
+        asg.filter(u => u.rol === "SEGUIMIENTO").length,
+        asg.map(u => u.nombre).join(", ")];
+    });
+    descargar("perfiles-por-proceso.csv", aCSV(cab, filas), "text/csv");
+  });
+
+  const sp = document.getElementById("selPeriodo");
+  if (sp) sp.onchange = () => { S.periodo = sp.value; render(); };
+  document.querySelectorAll("[data-seg]").forEach(b => b.onclick = () => formSeguimiento(b.dataset.seg));
+  document.querySelectorAll("[data-mon]").forEach(b => b.onclick = () => formMonitoreo(b.dataset.mon));
+  document.querySelectorAll("[data-int]").forEach(b => b.onclick = () => formInterno(b.dataset.int));
+  on("btnNuevoU", () => formUsuario(null));
+
+  document.querySelectorAll("[data-ver]").forEach(b => b.onclick = () => verRiesgo(b.dataset.ver));
+  document.querySelectorAll("[data-edit]").forEach(b => b.onclick = () => abrirFormulario(b.dataset.edit));
+  document.querySelectorAll("[data-del]").forEach(b => b.onclick = () => eliminarRiesgo(b.dataset.del));
+  document.querySelectorAll("[data-uedit]").forEach(b => b.onclick = () => formUsuario(b.dataset.uedit));
+  document.querySelectorAll("[data-udel]").forEach(b => b.onclick = async () => {
+    const u = S.usuarios.find(x => x.id === b.dataset.udel);
+    modal("Eliminar usuario", `<p style="margin:0">Se eliminará la cuenta de <b>${esc(u.nombre)}</b>.
+      Su rastro en el histórico de riesgos se conserva, pero perderá el acceso.</p>
+      <p class="hint" style="margin-top:9px">Si solo quieres suspenderlo temporalmente, edítalo y márcalo como inactivo.</p>`,
+      [{t:"Cancelar", cls:"ghost", fn:cerrarModal},
+       {t:"Eliminar", cls:"danger", fn: async () => {
+         S.usuarios = S.usuarios.filter(x => x.id !== u.id);
+         await Store.del("usuarios", u.id); cerrarModal(); render();
+       }}]);
+  });
+  document.querySelectorAll("[data-ureset]").forEach(b => b.onclick = () => {
+    const u = S.usuarios.find(x => x.id === b.dataset.ureset);
+    u.requiereCambio = true; Store.set("usuarios", u.id, u);
+    mostrarClave(u, generarClave());
+  });
+  document.querySelectorAll("[data-newv]").forEach(b => b.onclick = () => formVentana(b.dataset.newv));
+  document.querySelectorAll("[data-delv]").forEach(b => b.onclick = async () => {
+    S.ventanas = S.ventanas.filter(v => v.id !== b.dataset.delv);
+    await Store.del("ventanas", b.dataset.delv); render();
+  });
+  document.querySelectorAll("[data-restore]").forEach(b => b.onclick = async () => {
+    const r = S.riesgos.find(x => x.id === b.dataset.restore);
+    r.estado = "VIGENTE"; delete r.eliminadoEn; delete r.eliminadoPor;
+    await Store.set("riesgos", r.id, r);
+    await registrarVersion(r, "RESTAURACION", "Riesgo restaurado por el administrador", null);
+    render();
+  });
+}
+
+document.getElementById("switchUser").onclick = elegirSesion;
+
+/* =====================================================================
+   CARGA DE DATOS DE PRUEBA (datos.json)
+   ===================================================================== */
+S.semilla = {estado:"pendiente", detalle:""};
+
+async function cargarSemilla(){
+  const url = new URL("datos.json", location.href).href;
+  let r;
+  try { r = await fetch(url, {cache:"no-store"}); }
+  catch(e){
+    S.semilla = {estado:"error", detalle:
+      "No se pudo pedir el archivo (" + e.message + "). Si abriste index.html con doble clic "
+      + "desde tu computador, el navegador bloquea la lectura de archivos locales: "
+      + "debe servirse desde GitHub Pages."};
+    return 0;
+  }
+  if (!r.ok){
+    S.semilla = {estado:"error", detalle:
+      "El servidor respondió " + r.status + " al pedir " + url
+      + ". Verifica que datos.json esté en la raíz del repositorio, junto a index.html."};
+    return 0;
+  }
+  let d;
+  try { d = await r.json(); }
+  catch(e){
+    S.semilla = {estado:"error", detalle:
+      "El archivo se descargó pero no es JSON válido. Vuelve a subir datos.json."};
+    return 0;
+  }
+  const lista = d.riesgos || [];
+  if (!lista.length){
+    S.semilla = {estado:"error", detalle:"datos.json no contiene riesgos."};
+    return 0;
+  }
+  try {
+    lista.forEach(x => {
+      x.codigo = x.codigoOriginal || x.id;
+      x.frecuencia = x.frecuencia ?? "";
+      S.riesgos.push(x);
+    });
+    /* Una sola escritura en lugar de 235 */
+    Store.local.riesgos = Object.fromEntries(lista.map(x => [x.id, x]));
+    Store.flush();
+    if (Store.db) for (const x of lista) await Store.set("riesgos", x.id, x);
+  } catch(e){
+    S.semilla = {estado:"error", detalle:
+      "Los riesgos se leyeron pero no se pudieron guardar: " + e.message
+      + ". Si dice QuotaExceeded, el almacenamiento del navegador está lleno."};
+    return lista.length;
+  }
+  S.semilla = {estado:"ok", detalle: lista.length + " riesgos cargados"};
+  return lista.length;
+}
+
+async function recargarSemilla(){
+  S.riesgos = []; Store.local.riesgos = {}; Store.flush();
+  await cargarSemilla(); render();
+}
+
+/* =====================================================================
+   ARRANQUE
+   ===================================================================== */
+(async function(){
+  await Store.init();
+  S.riesgos   = await Store.get("riesgos");
+  if (!S.riesgos.length) await cargarSemilla();
+  S.usuarios  = await Store.get("usuarios");
+  S.ventanas  = await Store.get("ventanas");
+  S.historico = await Store.get("historico");
+  S.seguimientos = await Store.get("seguimientos");
+  S.monitoreos   = await Store.get("monitoreos");
+  S.internos     = await Store.get("internos");
+  S.evaluaciones = await Store.get("evaluaciones");
+  S.periodo = periodoActual();
+  S.sesion = {nombre:"Administrador", rol:"ADMIN", dependencia:""};
+  render();
+})();
+</script>
+</body>
+</html>
