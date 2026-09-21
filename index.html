@@ -116,14 +116,28 @@ input:disabled,select:disabled{background:var(--surface-2);color:var(--faint)}
 .card>.body{padding:15px}
 .stack{display:flex;flex-direction:column;gap:16px}
 
-table{width:100%;border-collapse:collapse;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:13px;table-layout:auto}
 th{
   text-align:left;padding:8px 10px;font-size:11px;font-weight:500;color:var(--muted);
   border-bottom:1px solid var(--line);background:var(--surface-2);white-space:nowrap;
+  vertical-align:bottom;
 }
-td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+/* Texto largo justificado: evita el borde derecho dentado */
+td .just,.just{text-align:justify;hyphens:auto;overflow-wrap:anywhere}
+/* Números y códigos siempre alineados entre sí */
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.ctr,th.ctr{text-align:center}
+td.rid{white-space:nowrap;vertical-align:middle}
 tbody tr:hover td{background:var(--surface-2)}
 .scroll-x{overflow-x:auto}
+
+/* Bloques de texto del cuerpo, justificados */
+.banner div,.empty,.kpi .d,.hint.just{text-align:justify}
+.banner div{text-align:left}
+.card>header h2{line-height:1.3}
+.card>header{min-height:42px}
+.stack>.card>header>span.tag{flex:0 0 auto}
 
 .tag{
   display:inline-block;padding:1px 7px;border-radius:9px;font-size:11px;
@@ -222,24 +236,50 @@ tbody tr:hover td{background:var(--surface-2)}
 .hint{font-size:11px;color:var(--faint);margin-top:3px}
 .req::after{content:" *";color:var(--z-ext)}
 
+/* ---------- informe imprimible ---------- */
+#informe{display:none}
+.rep-cab{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;
+  border-bottom:2px solid #16242C;padding-bottom:9px;margin-bottom:15px}
+.rep-cab h1{font-size:17px;margin:0}
+.rep-cab p{margin:2px 0 0;font-size:10px;color:#555}
+.rep-meta{font-size:9px;color:#555;text-align:right;line-height:1.5}
+.rep-s{margin-bottom:16px}
+.rep-brk{break-before:page}
+.rep-h2{font-size:13px;margin:0 0 8px;padding-bottom:3px;border-bottom:1px solid #999}
+.rep-h3{font-size:11px;margin:12px 0 5px;color:#333;font-weight:600}
+.rep-t{width:100%;border-collapse:collapse;font-size:9px}
+.rep-t th{background:#EDF1F2;border:1px solid #B9C5CA;padding:4px 5px;text-align:left;
+  font-size:8.5px;font-weight:600;color:#26343C}
+.rep-t td{border:1px solid #CFD9DD;padding:3px 5px;vertical-align:top}
+.rep-t .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rep-t tbody tr{break-inside:avoid}
+.rep-tot td{background:#EDF1F2;font-weight:600}
+.rep-dis td{background:#F8E0DE}
+.rep-mini{max-width:430px}
+.rep-sub{font-size:8px;color:#666}
+.rep-n{font-size:8.5px;color:#666;margin:5px 0 0;text-align:justify}
+.rep-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.rep-k{border:1px solid #B9C5CA;padding:8px 10px}
+.rep-k b{display:block;font-size:20px;font-weight:400;line-height:1.1}
+.rep-k span{display:block;font-size:9px;color:#444;margin-top:2px}
+.rep-k i{display:block;font-size:8px;color:#777;font-style:normal;margin-top:2px}
+.rep-heats{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.rep-pie{margin-top:18px;padding-top:6px;border-top:1px solid #CFD9DD;
+  font-size:8px;color:#777;text-align:justify}
+
 @media print{
-  @page{size:landscape;margin:12mm}
-  .rail,#vActions,.filters,.x,.modal-bg,.btn{display:none!important}
-  .app{display:block}
-  .top{position:static;border:0;padding:0 0 10px}
-  .view{padding:0;max-width:none}
-  .card{break-inside:avoid;box-shadow:none;border:1px solid #bbb}
-  .scroll-x{overflow:visible}
-  table{font-size:10px}
-  th,td{padding:3px 5px}
-  body{background:#fff;color:#000;font-size:11px}
-  .heat{grid-template-rows:repeat(5,36px)}
-  .kpi{border:1px solid #bbb}
-  body::before{content:attr(data-print-title);display:block;font-size:15px;
-    font-weight:600;margin-bottom:3px}
-  body::after{content:"Gobernación de Santander · Mapa de riesgos institucional · Guía v7";
-    display:block;margin-top:14px;font-size:9px;color:#555}
-  .zone,.cell{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{size:A4 landscape;margin:11mm}
+  body.modo-informe .app,body.modo-informe #modalHost{display:none!important}
+  body.modo-informe #informe{display:block}
+  body{background:#fff;color:#000;font-size:10px;padding:0}
+  .zone,.cell,.bar-seg,.rep-t th,.rep-tot td,.rep-dis td{
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .zone{border:1px solid #999;padding:0 4px;font-size:8px}
+  .heat{grid-template-rows:repeat(5,30px);gap:1px}
+  .heat-y span{height:30px;font-size:8px}
+  .heat-x{font-size:8px}
+  .cell{font-size:11px}
+  .heat-wrap{gap:5px}
 }
 @media(max-width:900px){
   .app{grid-template-columns:1fr}
@@ -266,7 +306,7 @@ tbody tr:hover td{background:var(--surface-2)}
 <div class="app">
   <aside class="rail">
     <div class="brand">
-      <div class="brand-mark"><b>Riesgos</b><span class="mono" title="Compilación del prototipo">v7 &middot; b8</span></div>
+      <div class="brand-mark"><b>Riesgos</b><span class="mono" title="Compilación del prototipo">v7 &middot; b10</span></div>
       <small>Gobernación de Santander</small>
     </div>
     <nav class="nav" id="nav"></nav>
@@ -285,6 +325,7 @@ tbody tr:hover td{background:var(--surface-2)}
   </div>
 </div>
 <div id="modalHost"></div>
+<div id="informe" aria-hidden="true"></div>
 
 <script>
 /* =====================================================================
@@ -295,217 +336,152 @@ tbody tr:hover td{background:var(--surface-2)}
 const CAT = {
   version: "GUIA_V7",
 
-  /* Nivel 1 — Macroprocesos */
+  /* Estructura organizacional SIG: macroproceso → proceso → dependencia */
   macroprocesos:[
     {c:"ESTRATEGICO", n:"Estratégicos"},
-    {c:"MISIONAL",    n:"Misionales"},
-    {c:"APOYO",       n:"Apoyo"},
-    {c:"EVALUACION",  n:"Evaluación"}
+    {c:"MISIONAL", n:"Misionales"},
+    {c:"APOYO", n:"Apoyo"},
+    {c:"EVALUACION", n:"Evaluación"}
   ],
 
-  /* Nivel 2 — Procesos. 'u' son las unidades (secretarías/oficinas) que participan. */
   procesos:[
-    {c:"AC",  n:"Atención al Ciudadano", m:"ESTRATEGICO", u:["S-ADM","S-SAL","S-EDU"]},
-    {c:"DYC", n:"Dirección y Comunicaciones", m:"ESTRATEGICO", u:["DESP","O-PRE","S-PRI"]},
-    {c:"GETH",n:"Gestión Estratégica del Talento Humano", m:"ESTRATEGICO", u:["S-ADM","S-EDU"]},
-    {c:"PE",  n:"Planificación Estratégica", m:"ESTRATEGICO", u:["S-PLA","S-AGR"]},
-    {c:"SIG", n:"Sistemas Integrados de Gestión", m:"ESTRATEGICO", u:["S-PLA"]},
-
-    {c:"DSC", n:"Desarrollo Sostenible y Competitivo", m:"MISIONAL",
-     u:["S-AGR","S-INF","S-AMB","S-COM","S-VIV","S-CUL"]},
-    {c:"GE",  n:"Gestión Educativa", m:"MISIONAL", u:["S-EDU"]},
-    {c:"GSS", n:"Gestión en Salud y Seguridad Social", m:"MISIONAL", u:["S-SAL","S-DES"]},
-    {c:"SC",  n:"Seguridad y Convivencia", m:"MISIONAL", u:["S-INT","O-RIE","S-MUJ"]},
-
-    {c:"AI",  n:"Administración Institucional", m:"APOYO", u:["S-ADM","O-DIS","S-EDU"]},
-    {c:"CCP", n:"Compras y Contratación Pública", m:"APOYO", u:["O-CON","S-SAL","S-EDU"]},
-    {c:"GF",  n:"Gestión Financiera", m:"APOYO", u:["S-HAC","S-SAL","S-EDU"]},
-    {c:"GJ",  n:"Gestión Jurídica", m:"APOYO", u:["O-JUR","S-SAL","S-EDU"]},
-    {c:"TIC", n:"Tecnologías de la Información y la Comunicación", m:"APOYO", u:["S-TIC"]},
-
-    {c:"CE",  n:"Control y Evaluación", m:"EVALUACION", u:["O-CIN"]}
+    {c:"AC", n:"Atención al Ciudadano", m:"ESTRATEGICO"},
+    {c:"DYC", n:"Dirección y Comunicaciones", m:"ESTRATEGICO"},
+    {c:"GETH", n:"Gestión Estratégica del Talento Humano", m:"ESTRATEGICO"},
+    {c:"PE", n:"Planificación Estratégica", m:"ESTRATEGICO"},
+    {c:"SIG", n:"Sistemas Integrados de Gestión", m:"ESTRATEGICO"},
+    {c:"DSC", n:"Desarrollo Sostenible y Competitivo", m:"MISIONAL"},
+    {c:"GE", n:"Gestión Educativa", m:"MISIONAL"},
+    {c:"GSS", n:"Gestión en Salud y Seguridad Social", m:"MISIONAL"},
+    {c:"SC", n:"Seguridad y Convivencia", m:"MISIONAL"},
+    {c:"AI", n:"Administración Institucional", m:"APOYO"},
+    {c:"CCP", n:"Compras y Contratación Pública", m:"APOYO"},
+    {c:"GF", n:"Gestión Financiera", m:"APOYO"},
+    {c:"GJ", n:"Gestión Jurídica", m:"APOYO"},
+    {c:"TIC", n:"Tecnologías de la Información y la Comunicación", m:"APOYO"},
+    {c:"CE", n:"Control y Evaluación", m:"EVALUACION"}
   ],
 
-  /* Nivel 3, 4 y 5 — Unidades organizacionales del organigrama v02 (26/07/2024).
-     nv: SECRETARIA | OFICINA | DESPACHO | DIRECCION | GRUPO | EQUIPO
-     p:  código del padre */
   unidades:[
-    {c:"DESP", n:"Despacho del Gobernador", nv:"DESPACHO", p:null},
-
-    /* --- Oficinas adscritas al Despacho --- */
-    {c:"O-JUR", n:"Oficina Jurídica", nv:"OFICINA", p:"DESP"},
-      {c:"O-JUR-1", n:"Grupo de Conceptos Jurídicos", nv:"GRUPO", p:"O-JUR"},
-      {c:"O-JUR-2", n:"Grupo de Procesos Judiciales y Administrativos", nv:"GRUPO", p:"O-JUR"},
-      {c:"O-JUR-3", n:"Grupo de Entidades sin Ánimo de Lucro", nv:"GRUPO", p:"O-JUR"},
-    {c:"O-RIE", n:"Oficina Gestión del Riesgo de Desastres", nv:"OFICINA", p:"DESP"},
-    {c:"O-CON", n:"Oficina de Contratación", nv:"OFICINA", p:"DESP"},
-    {c:"O-PRE", n:"Oficina de Prensa y Comunicaciones", nv:"OFICINA", p:"DESP"},
-    {c:"O-CIN", n:"Oficina de Control Interno", nv:"OFICINA", p:"DESP"},
-    {c:"O-DIS", n:"Oficina de Control Disciplinario", nv:"OFICINA", p:"DESP"},
-
-    /* --- Secretaría del Interior --- */
-    {c:"S-INT", n:"Secretaría del Interior", nv:"SECRETARIA", p:null},
-      {c:"S-INT-D", n:"Despacho", nv:"DESPACHO", p:"S-INT"},
-        {c:"S-INT-D1", n:"Grupo de Derechos de Autor", nv:"GRUPO", p:"S-INT-D"},
-        {c:"S-INT-D2", n:"Grupo de Fortalecimiento Municipal", nv:"GRUPO", p:"S-INT-D"},
-        {c:"S-INT-D3", n:"Grupo de Paz y Derechos Humanos", nv:"GRUPO", p:"S-INT-D"},
-        {c:"S-INT-D4", n:"Grupo de Asuntos Religiosos", nv:"GRUPO", p:"S-INT-D"},
-      {c:"S-INT-1", n:"Dirección de Participación Ciudadana y Acción Comunal", nv:"DIRECCION", p:"S-INT"},
-      {c:"S-INT-2", n:"Dirección de Seguridad y Convivencia Ciudadana", nv:"DIRECCION", p:"S-INT"},
-      {c:"S-INT-3", n:"Dirección de Atención Integral a las Víctimas", nv:"DIRECCION", p:"S-INT"},
-
-    /* --- Secretaría Administrativa --- */
-    {c:"S-ADM", n:"Secretaría Administrativa", nv:"SECRETARIA", p:null},
-      {c:"S-ADM-D", n:"Despacho", nv:"DESPACHO", p:"S-ADM"},
-        {c:"S-ADM-D1", n:"Grupo Fondo de Cesantías de Santander", nv:"GRUPO", p:"S-ADM-D"},
-      {c:"S-ADM-1", n:"Dirección de Talento Humano", nv:"DIRECCION", p:"S-ADM"},
-        {c:"S-ADM-11", n:"Grupo de Seguridad y Salud en el Trabajo", nv:"GRUPO", p:"S-ADM-1"},
-        {c:"S-ADM-12", n:"Grupo de Bienestar Social Laboral", nv:"GRUPO", p:"S-ADM-1"},
-      {c:"S-ADM-2", n:"Dirección de Atención al Ciudadano", nv:"DIRECCION", p:"S-ADM"},
-        {c:"S-ADM-21", n:"Grupo de Pasaportes", nv:"GRUPO", p:"S-ADM-2"},
-        {c:"S-ADM-22", n:"Grupo de Gestión Documental", nv:"GRUPO", p:"S-ADM-2"},
-      {c:"S-ADM-3", n:"Dirección de Recursos Físicos", nv:"DIRECCION", p:"S-ADM"},
-        {c:"S-ADM-31", n:"Grupo Administración de Recursos Físicos Sec. Salud", nv:"GRUPO", p:"S-ADM-3"},
-
-    /* --- Secretaría de Planeación --- */
-    {c:"S-PLA", n:"Secretaría de Planeación", nv:"SECRETARIA", p:null},
-      {c:"S-PLA-D", n:"Despacho", nv:"DESPACHO", p:"S-PLA"},
-      {c:"S-PLA-1", n:"Dirección de Desarrollo Regional y Territorial", nv:"DIRECCION", p:"S-PLA"},
-        {c:"S-PLA-11", n:"Grupo de Planificación e Información Territorial", nv:"GRUPO", p:"S-PLA-1"},
-        {c:"S-PLA-12", n:"Grupo de Evaluación y Seguimiento", nv:"GRUPO", p:"S-PLA-1"},
-        {c:"S-PLA-13", n:"Grupo de Rendición de Cuentas", nv:"GRUPO", p:"S-PLA-1"},
-      {c:"S-PLA-2", n:"Dirección de Proyectos y Regalías", nv:"DIRECCION", p:"S-PLA"},
-        {c:"S-PLA-21", n:"Grupo de Proyectos e Inversión Pública", nv:"GRUPO", p:"S-PLA-2"},
-        {c:"S-PLA-22", n:"Grupo de Regalías", nv:"GRUPO", p:"S-PLA-2"},
-      {c:"S-PLA-3", n:"Dirección de Sistemas Integrados de Gestión", nv:"DIRECCION", p:"S-PLA"},
-        {c:"S-PLA-31", n:"Grupo de Gestión Ambiental NTC ISO-14001", nv:"GRUPO", p:"S-PLA-3"},
-        {c:"S-PLA-32", n:"Grupo de Gestión de Calidad", nv:"GRUPO", p:"S-PLA-3"},
-
-    /* --- Secretaría de Hacienda --- */
-    {c:"S-HAC", n:"Secretaría de Hacienda", nv:"SECRETARIA", p:null},
-      {c:"S-HAC-D", n:"Despacho", nv:"DESPACHO", p:"S-HAC"},
-      {c:"S-HAC-1", n:"Dirección de Presupuesto", nv:"DIRECCION", p:"S-HAC"},
-      {c:"S-HAC-2", n:"Dirección de Contabilidad", nv:"DIRECCION", p:"S-HAC"},
-      {c:"S-HAC-3", n:"Dirección de Tesorería", nv:"DIRECCION", p:"S-HAC"},
-      {c:"S-HAC-4", n:"Dirección del Fondo Territorial de Pensiones", nv:"DIRECCION", p:"S-HAC"},
-      {c:"S-HAC-5", n:"Dirección de Cobro Coactivo", nv:"DIRECCION", p:"S-HAC"},
-      {c:"S-HAC-6", n:"Dirección de Ingresos", nv:"DIRECCION", p:"S-HAC"},
-
-    /* --- Secretaría de Desarrollo Social --- */
-    {c:"S-DES", n:"Secretaría de Desarrollo Social", nv:"SECRETARIA", p:null},
-      {c:"S-DES-D", n:"Despacho", nv:"DESPACHO", p:"S-DES"},
-      {c:"S-DES-1", n:"Dirección de Adulto Mayor y Población con Discapacidad", nv:"DIRECCION", p:"S-DES"},
-      {c:"S-DES-2", n:"Dirección de Desarrollo Social", nv:"DIRECCION", p:"S-DES"},
-        {c:"S-DES-21", n:"Grupo de Infancia y Adolescencia", nv:"GRUPO", p:"S-DES-2"},
-        {c:"S-DES-22", n:"Grupo de Consejo Departamental de Política Social", nv:"GRUPO", p:"S-DES-2"},
-        {c:"S-DES-23", n:"Grupo de Comunidad LGTBIQ", nv:"GRUPO", p:"S-DES-2"},
-      {c:"S-DES-3", n:"Dirección de Juventudes", nv:"DIRECCION", p:"S-DES"},
-
-    /* --- Secretaría de Salud --- */
-    {c:"S-SAL", n:"Secretaría de Salud", nv:"SECRETARIA", p:null},
-      {c:"S-SAL-D", n:"Despacho", nv:"DESPACHO", p:"S-SAL"},
-      {c:"S-SAL-1", n:"Dirección de Planeación y Mejoramiento en Salud", nv:"DIRECCION", p:"S-SAL"},
-        {c:"S-SAL-11", n:"Grupo de Gestión de Proyectos, Planes y Programas", nv:"GRUPO", p:"S-SAL-1"},
-        {c:"S-SAL-12", n:"Grupo de Apoyo a la Gestión de Control y Calidad", nv:"GRUPO", p:"S-SAL-1"},
-        {c:"S-SAL-13", n:"Grupo de Sistemas Integrados de Información en Salud", nv:"GRUPO", p:"S-SAL-1"},
-        {c:"S-SAL-14", n:"Grupo de Infraestructura de Salud", nv:"GRUPO", p:"S-SAL-1"},
-      {c:"S-SAL-2", n:"Dirección de Salud Integral", nv:"DIRECCION", p:"S-SAL"},
-        {c:"S-SAL-21", n:"Grupo de Promoción y Prevención", nv:"GRUPO", p:"S-SAL-2"},
-        {c:"S-SAL-22", n:"Grupo de Epidemiología y Demografía", nv:"GRUPO", p:"S-SAL-2"},
-        {c:"S-SAL-23", n:"Grupo de Promoción Social", nv:"GRUPO", p:"S-SAL-2"},
-        {c:"S-SAL-24", n:"Grupo de Laboratorio y Salud Pública", nv:"GRUPO", p:"S-SAL-2"},
-        {c:"S-SAL-25", n:"Grupo de Servicios de Salud Individuales", nv:"GRUPO", p:"S-SAL-2"},
-        {c:"S-SAL-26", n:"Grupo de Gestión de la Salud Ambiental", nv:"GRUPO", p:"S-SAL-2"},
-        {c:"S-SAL-27", n:"Grupo de Control de Enfermedades de Transmisión Vectorial ETV", nv:"GRUPO", p:"S-SAL-2"},
-        {c:"S-SAL-28", n:"Grupo de Gestión de Salud Pública", nv:"GRUPO", p:"S-SAL-2"},
-      {c:"S-SAL-3", n:"Dirección de Desarrollo de Servicios Inspección Vigilancia y Control", nv:"DIRECCION", p:"S-SAL"},
-        {c:"S-SAL-31", n:"Grupo de Aseguramiento y Afiliación", nv:"GRUPO", p:"S-SAL-3"},
-        {c:"S-SAL-32", n:"Grupo Centro Reg. de Urgencias, Emergencias y Desastres CRUE", nv:"GRUPO", p:"S-SAL-3"},
-        {c:"S-SAL-33", n:"Grupo de Participación Social en Salud", nv:"GRUPO", p:"S-SAL-3"},
-        {c:"S-SAL-34", n:"Grupo Acreditación y Sist. Oblig. Garantía en Calidad", nv:"GRUPO", p:"S-SAL-3"},
-        {c:"S-SAL-35", n:"Grupo Adm. Servicios y Gestión Modelo Red Hospitalaria", nv:"GRUPO", p:"S-SAL-3"},
-      {c:"S-SAL-4", n:"Dirección Administrativa y de Control Financiero", nv:"DIRECCION", p:"S-SAL"},
-        {c:"S-SAL-41", n:"Grupo de Control Financiero Red Hospitalaria", nv:"GRUPO", p:"S-SAL-4"},
-        {c:"S-SAL-42", n:"Grupo de Recursos Financieros en Salud", nv:"GRUPO", p:"S-SAL-4"},
-        {c:"S-SAL-43", n:"Grupo de Atención al Ciudadano", nv:"GRUPO", p:"S-SAL-4"},
-      {c:"S-SAL-5", n:"Dirección de Apoyo Jurídico, Contratación y P. Sancionatorios", nv:"DIRECCION", p:"S-SAL"},
-
-    /* --- Secretaría de Educación --- */
-    {c:"S-EDU", n:"Secretaría de Educación", nv:"SECRETARIA", p:null},
-      {c:"S-EDU-D", n:"Despacho", nv:"DESPACHO", p:"S-EDU"},
-        {c:"S-EDU-D1", n:"Grupo de Apoyo Jurídico", nv:"GRUPO", p:"S-EDU-D"},
-        {c:"S-EDU-D2", n:"Grupo de Planeación Educativa", nv:"GRUPO", p:"S-EDU-D"},
-        {c:"S-EDU-D3", n:"Grupo de Inspección y Vigilancia", nv:"GRUPO", p:"S-EDU-D"},
-      {c:"S-EDU-1", n:"Dirección Estratégica", nv:"DIRECCION", p:"S-EDU"},
-        {c:"S-EDU-11", n:"Grupo de Cobertura Educativa", nv:"GRUPO", p:"S-EDU-1"},
-        {c:"S-EDU-12", n:"Grupo de Calidad Educativa", nv:"GRUPO", p:"S-EDU-1"},
-      {c:"S-EDU-2", n:"Dirección Administrativa y Financiera", nv:"DIRECCION", p:"S-EDU"},
-        {c:"S-EDU-21", n:"Grupo de Bienes y Servicios", nv:"GRUPO", p:"S-EDU-2"},
-        {c:"S-EDU-22", n:"Grupo de Atención al Ciudadano", nv:"GRUPO", p:"S-EDU-2"},
-        {c:"S-EDU-23", n:"Grupo de Sistemas de Información", nv:"GRUPO", p:"S-EDU-2"},
-        {c:"S-EDU-24", n:"Grupo Financiero", nv:"GRUPO", p:"S-EDU-2"},
-          {c:"S-EDU-241", n:"Equipo de Presupuesto", nv:"EQUIPO", p:"S-EDU-24"},
-          {c:"S-EDU-242", n:"Equipo de Tesorería", nv:"EQUIPO", p:"S-EDU-24"},
-          {c:"S-EDU-243", n:"Equipo de Contabilidad", nv:"EQUIPO", p:"S-EDU-24"},
-      {c:"S-EDU-3", n:"Dirección de Talento Humano Docente", nv:"DIRECCION", p:"S-EDU"},
-        {c:"S-EDU-31", n:"Grupo de Administración de Planta", nv:"GRUPO", p:"S-EDU-3"},
-        {c:"S-EDU-32", n:"Grupo de Desarrollo Docente", nv:"GRUPO", p:"S-EDU-3"},
-        {c:"S-EDU-33", n:"Grupo de Carrera Docente", nv:"GRUPO", p:"S-EDU-3"},
-        {c:"S-EDU-34", n:"Grupo de Prestaciones Sociales del Magisterio", nv:"GRUPO", p:"S-EDU-3"},
-        {c:"S-EDU-35", n:"Grupo de Nómina", nv:"GRUPO", p:"S-EDU-3"},
-        {c:"S-EDU-36", n:"Grupo de Historias Laborales", nv:"GRUPO", p:"S-EDU-3"},
-      {c:"S-EDU-4", n:"Dirección de Permanencia Escolar", nv:"DIRECCION", p:"S-EDU"},
-
-    /* --- Secretaría de Agricultura y Desarrollo Rural --- */
-    {c:"S-AGR", n:"Secretaría de Agricultura y Desarrollo Rural", nv:"SECRETARIA", p:null},
-      {c:"S-AGR-D", n:"Despacho", nv:"DESPACHO", p:"S-AGR"},
-        {c:"S-AGR-D1", n:"Grupo de Plan, Análisis, Evaluación y Seguimiento", nv:"GRUPO", p:"S-AGR-D"},
-      {c:"S-AGR-1", n:"Dirección de Gestión Rural e Innovación Agropecuaria", nv:"DIRECCION", p:"S-AGR"},
-
-    /* --- Secretaría de Infraestructura --- */
-    {c:"S-INF", n:"Secretaría de Infraestructura", nv:"SECRETARIA", p:null},
-      {c:"S-INF-D", n:"Despacho", nv:"DESPACHO", p:"S-INF"},
-      {c:"S-INF-1", n:"Dirección de Proyectos de Infraestructura", nv:"DIRECCION", p:"S-INF"},
-        {c:"S-INF-11", n:"Grupo de Planificación y Seguimiento", nv:"GRUPO", p:"S-INF-1"},
-      {c:"S-INF-2", n:"Dirección de Gestión de Infraestructura", nv:"DIRECCION", p:"S-INF"},
-        {c:"S-INF-21", n:"Grupo de Proyectos Viales", nv:"GRUPO", p:"S-INF-2"},
-        {c:"S-INF-22", n:"Grupo de Proyectos Especiales", nv:"GRUPO", p:"S-INF-2"},
-        {c:"S-INF-23", n:"Grupo de Valorización", nv:"GRUPO", p:"S-INF-2"},
-        {c:"S-INF-24", n:"Grupo de Gestión y Supervisión", nv:"GRUPO", p:"S-INF-2"},
-      {c:"S-INF-3", n:"Dirección de Aguas y Saneamiento Básico", nv:"DIRECCION", p:"S-INF"},
-      {c:"S-INF-4", n:"Dirección de Asuntos Minero-Energéticos", nv:"DIRECCION", p:"S-INF"},
-
-    /* --- Secretaría de TIC --- */
-    {c:"S-TIC", n:"Secretaría de Tecnologías de la Información y las Comunicaciones", nv:"SECRETARIA", p:null},
-      {c:"S-TIC-D", n:"Despacho", nv:"DESPACHO", p:"S-TIC"},
-      {c:"S-TIC-1", n:"Dirección de Gobierno Digital", nv:"DIRECCION", p:"S-TIC"},
-      {c:"S-TIC-2", n:"Dirección de Sistemas de Información", nv:"DIRECCION", p:"S-TIC"},
-
-    /* --- Secretarías con estructura simple --- */
-    {c:"S-VIV", n:"Secretaría de Vivienda y Hábitat Sustentable", nv:"SECRETARIA", p:null},
-      {c:"S-VIV-D", n:"Despacho", nv:"DESPACHO", p:"S-VIV"},
-      {c:"S-VIV-1", n:"Dirección de Desarrollo de Prog. Vivienda y Hábitat", nv:"DIRECCION", p:"S-VIV"},
-
-    {c:"S-CUL", n:"Secretaría de Cultura y Turismo", nv:"SECRETARIA", p:null},
-      {c:"S-CUL-D", n:"Despacho", nv:"DESPACHO", p:"S-CUL"},
-      {c:"S-CUL-1", n:"Dirección de Cultura, Turismo y Patrimonio", nv:"DIRECCION", p:"S-CUL"},
-
-    {c:"S-MUJ", n:"Secretaría de Mujer y Equidad de Género", nv:"SECRETARIA", p:null},
-      {c:"S-MUJ-D", n:"Despacho", nv:"DESPACHO", p:"S-MUJ"},
-      {c:"S-MUJ-1", n:"Dirección de Equidad de Género", nv:"DIRECCION", p:"S-MUJ"},
-
-    {c:"S-PRI", n:"Secretaría Privada", nv:"SECRETARIA", p:null},
-      {c:"S-PRI-D", n:"Despacho", nv:"DESPACHO", p:"S-PRI"},
-      {c:"S-PRI-1", n:"Dirección de Gestión y Relaciones Gubernamentales", nv:"DIRECCION", p:"S-PRI"},
-
-    {c:"S-AMB", n:"Secretaría Ambiental", nv:"SECRETARIA", p:null},
-      {c:"S-AMB-D", n:"Despacho", nv:"DESPACHO", p:"S-AMB"},
-      {c:"S-AMB-1", n:"Dirección de Asuntos Ambientales", nv:"DIRECCION", p:"S-AMB"},
-
-    {c:"S-COM", n:"Secretaría de Competitividad y Productividad", nv:"SECRETARIA", p:null},
-      {c:"S-COM-D", n:"Despacho", nv:"DESPACHO", p:"S-COM"},
-      {c:"S-COM-1", n:"Dirección de Desarrollo Empresarial", nv:"DIRECCION", p:"S-COM"},
-      {c:"S-COM-2", n:"Grupo de Cooperación Internacional y Nacional", nv:"GRUPO", p:"S-COM"}
+    {c:"AC-01", n:"Oficina de Atencion al Ciudadano", p:"AC"},
+    {c:"AC-02", n:"Oficina de Pasaportes", p:"AC"},
+    {c:"DYC-01", n:"Despacho del Gobernador y Secretaria Privada", p:"DYC"},
+    {c:"DYC-02", n:"Direccion de Gestion y Relaciones Gubernamentales", p:"DYC"},
+    {c:"DYC-03", n:"Oficina de Prensa y Comunicaciones", p:"DYC"},
+    {c:"GETH-01", n:"Direccion de Talento Humano", p:"GETH"},
+    {c:"GETH-02", n:"Fondo de Vivienda", p:"GETH"},
+    {c:"PE-01", n:"Despacho Secretaria de Planeación", p:"PE"},
+    {c:"PE-02", n:"Dirección de Desarrollo Regional y Territorial", p:"PE"},
+    {c:"PE-03", n:"Dirección de Proyectos y Regalías", p:"PE"},
+    {c:"PE-04", n:"Grupo de Evaluación y Seguimiento", p:"PE"},
+    {c:"PE-05", n:"Grupo de Planificación e Información Territorial", p:"PE"},
+    {c:"PE-06", n:"Grupo de Proyectos", p:"PE"},
+    {c:"PE-07", n:"Grupo de Regalías", p:"PE"},
+    {c:"PE-08", n:"Grupo de Rendición de Cuentas", p:"PE"},
+    {c:"PE-09", n:"Secretaria de Planeacion", p:"PE"},
+    {c:"SIG-01", n:"Grupo de Gestion Ambiental", p:"SIG"},
+    {c:"SIG-02", n:"Grupo de Gestion de Calidad", p:"SIG"},
+    {c:"SIG-03", n:"Grupo de Seguridad y Salud en El Trabajo", p:"SIG"},
+    {c:"DSC-01", n:"Despacho Secretaria Agricultura y Desarrollo Rural", p:"DSC"},
+    {c:"DSC-02", n:"Despacho Secretaria Cultura y Turismo", p:"DSC"},
+    {c:"DSC-03", n:"Despacho Secretaria de Ambiente", p:"DSC"},
+    {c:"DSC-04", n:"Despacho Secretaria de Competitividad y Productividad", p:"DSC"},
+    {c:"DSC-05", n:"Despacho Secretaria de Desarrollo", p:"DSC"},
+    {c:"DSC-06", n:"Despacho Secretaria de Infraestructura", p:"DSC"},
+    {c:"DSC-07", n:"Despacho Secretaria de Mujer y Equidad de Genero", p:"DSC"},
+    {c:"DSC-08", n:"Despacho Secretaria de Vivienda y Hábitat Sustentable", p:"DSC"},
+    {c:"DSC-09", n:"Dirección de Adulto Mayor y Población con Discapacidad", p:"DSC"},
+    {c:"DSC-10", n:"Dirección de Aguas y Saneamiento Básico", p:"DSC"},
+    {c:"DSC-11", n:"Dirección de Asuntos Ambientales", p:"DSC"},
+    {c:"DSC-12", n:"Dirección de Asuntos Minero Energéticos", p:"DSC"},
+    {c:"DSC-13", n:"Dirección de Cultura, Turismo y Patrimonio", p:"DSC"},
+    {c:"DSC-14", n:"Dirección de Desarrollo de Programas de Vivienda y Hábitat", p:"DSC"},
+    {c:"DSC-15", n:"Dirección de Desarrollo Empresarial", p:"DSC"},
+    {c:"DSC-16", n:"Dirección de Desarrollo Social", p:"DSC"},
+    {c:"DSC-17", n:"Dirección de Equidad de Genero", p:"DSC"},
+    {c:"DSC-18", n:"Dirección de Gestión de Infraestructuras", p:"DSC"},
+    {c:"DSC-19", n:"Dirección de Gestión Rural e Innovación Agropecuaria", p:"DSC"},
+    {c:"DSC-20", n:"Dirección de Juventudes", p:"DSC"},
+    {c:"DSC-21", n:"Dirección de Proyectos de Infraestructura", p:"DSC"},
+    {c:"DSC-22", n:"Grupo Comunidad LGTBIQ", p:"DSC"},
+    {c:"DSC-23", n:"Grupo Consejo Departamental de Política Social", p:"DSC"},
+    {c:"DSC-24", n:"Grupo de Infancia y Adolescencia", p:"DSC"},
+    {c:"DSC-25", n:"Secretaria de Agricultura", p:"DSC"},
+    {c:"DSC-26", n:"Secretaria de Ambiente", p:"DSC"},
+    {c:"DSC-27", n:"Secretaria de Competitividad y Productividad", p:"DSC"},
+    {c:"DSC-28", n:"Secretaria de Cultura y Turismo", p:"DSC"},
+    {c:"DSC-29", n:"Secretaria de Desarrollo Social", p:"DSC"},
+    {c:"DSC-30", n:"Secretaria de Infraestructura", p:"DSC"},
+    {c:"DSC-31", n:"Secretaria de Mujer y Equidad de Genero", p:"DSC"},
+    {c:"DSC-32", n:"Secretaria de Vivienda", p:"DSC"},
+    {c:"GE-01", n:"Despacho Secretaria de Educación", p:"GE"},
+    {c:"GE-02", n:"Dirección de Permanencia Escolar", p:"GE"},
+    {c:"GE-03", n:"Dirección de Talento Humano Docente", p:"GE"},
+    {c:"GE-04", n:"Dirección Estratégica", p:"GE"},
+    {c:"GE-05", n:"Grupo Calidad Educativa", p:"GE"},
+    {c:"GE-06", n:"Grupo Cobertura Educativa", p:"GE"},
+    {c:"GE-07", n:"Grupo Inspección y Vigilancia", p:"GE"},
+    {c:"GE-08", n:"Grupo Planeación Educativa", p:"GE"},
+    {c:"GE-09", n:"Secretaria de Educación", p:"GE"},
+    {c:"GSS-01", n:"Dirección de Administración y Control Financiero - Salud", p:"GSS"},
+    {c:"GSS-02", n:"Dirección de Apoyo Jurídico de Contratación y Procesos Sancionatorio", p:"GSS"},
+    {c:"GSS-03", n:"Dirección de Desarrollo de Servicios Inspección Vigilancia y Control", p:"GSS"},
+    {c:"GSS-04", n:"Dirección de Planeación y Mejoramiento en Salud", p:"GSS"},
+    {c:"GSS-05", n:"Dirección de Salud Integral", p:"GSS"},
+    {c:"GSS-06", n:"Laboratorio Departamental de Salud", p:"GSS"},
+    {c:"GSS-07", n:"Secretaria de Salud", p:"GSS"},
+    {c:"SC-01", n:"Despacho Secretaria del Interior", p:"SC"},
+    {c:"SC-02", n:"Dirección de Atención Integral a las Víctimas del Departamento de Santander", p:"SC"},
+    {c:"SC-03", n:"Dirección de Participación Ciudadana y Acción Comunal", p:"SC"},
+    {c:"SC-04", n:"Dirección de Seguridad y Convivencia Ciudadana", p:"SC"},
+    {c:"SC-05", n:"Grupo Asuntos Religiosos", p:"SC"},
+    {c:"SC-06", n:"Grupo de Derechos de Autor", p:"SC"},
+    {c:"SC-07", n:"Grupo de Paz y Derechos Humanos", p:"SC"},
+    {c:"SC-08", n:"Grupo de Seguridad y Fortalecimiento Municipal", p:"SC"},
+    {c:"SC-09", n:"Oficina para la Gestión del Riesgo de Desastres", p:"SC"},
+    {c:"SC-10", n:"Secretaria del Interior", p:"SC"},
+    {c:"AI-01", n:"Control Disciplinario", p:"AI"},
+    {c:"AI-02", n:"Dirección de Recursos Físicos", p:"AI"},
+    {c:"AI-03", n:"Fondo de Cesantías - FONCESAN", p:"AI"},
+    {c:"AI-04", n:"Gestión Documental", p:"AI"},
+    {c:"AI-05", n:"Secretaria Administrativa", p:"AI"},
+    {c:"CCP-01", n:"Oficina de Contratación", p:"CCP"},
+    {c:"GF-01", n:"Despacho de Hacienda", p:"GF"},
+    {c:"GF-02", n:"Dirección Administrativa y Financiera - Secretaria de Educación", p:"GF"},
+    {c:"GF-03", n:"Dirección Administrativa y Financiera - Secretaria de Salud", p:"GF"},
+    {c:"GF-04", n:"Dirección de Cobro Coactivo", p:"GF"},
+    {c:"GF-05", n:"Dirección de Contabilidad", p:"GF"},
+    {c:"GF-06", n:"Dirección de Fondo Territorial de Pensiones", p:"GF"},
+    {c:"GF-07", n:"Dirección de Ingresos", p:"GF"},
+    {c:"GF-08", n:"Dirección de Presupuesto", p:"GF"},
+    {c:"GF-09", n:"Dirección de Tesorería", p:"GF"},
+    {c:"GF-10", n:"Secretaria de Hacienda", p:"GF"},
+    {c:"GJ-01", n:"Oficina Juridica", p:"GJ"},
+    {c:"GJ-02", n:"Grupo de Conceptos Juridicos", p:"GJ"},
+    {c:"GJ-03", n:"Grupo de Procesos Judiciales y Administrativos", p:"GJ"},
+    {c:"GJ-04", n:"Grupo de Entidades Sin Animo de Lucro", p:"GJ"},
+    {c:"TIC-01", n:"Despacho Secretaria TIC", p:"TIC"},
+    {c:"TIC-02", n:"Dirección de Gobierno Digital", p:"TIC"},
+    {c:"TIC-03", n:"Dirección de Sistemas de Información", p:"TIC"},
+    {c:"TIC-04", n:"Secretaria de Tecnología de la Información y Comunicación", p:"TIC"},
+    {c:"CE-01", n:"Control Interno", p:"CE"},
+    {c:"GE-10", n:"Grupo Financiero", p:"GE"},
+    {c:"GSS-08", n:"Grupo de Apoyo a la Gestión de Control y Calidad", p:"GSS"},
+    {c:"GSS-09", n:"Grupo de Gestión de Proyectos, Planes y Programas", p:"GSS"},
+    {c:"GSS-10", n:"Grupo de Laboratorio y Salud Pública", p:"GSS"},
+    {c:"GSS-11", n:"Grupo de Gestión de Salud Pública", p:"GSS"},
+    {c:"GSS-12", n:"Grupo Centro Reg. de Urgencias, Emergencias y Desastres CRUE", p:"GSS"},
+    {c:"GSS-13", n:"Grupo de Aseguramiento y Afiliación", p:"GSS"},
+    {c:"GSS-14", n:"Grupo Acreditación y Sist. Oblig. Garantía en Calidad", p:"GSS"},
+    {c:"GSS-15", n:"Grupo de Participación Social en Salud", p:"GSS"},
+    {c:"GSS-16", n:"Dirección de Apoyo Jurídico, Contratación y P. Sancionatorios", p:"GSS"},
+    {c:"GE-11", n:"Grupo de Calidad Educativa", p:"GE"},
+    {c:"GE-12", n:"Grupo de Cobertura Educativa", p:"GE"},
+    {c:"GE-13", n:"Grupo de Historias Laborales", p:"GE"},
+    {c:"GE-14", n:"Grupo de Carrera Docente", p:"GE"},
+    {c:"GE-15", n:"Grupo de Planeación Educativa", p:"GE"},
+    {c:"GE-16", n:"Grupo de Prestaciones Sociales del Magisterio", p:"GE"},
+    {c:"GSS-17", n:"Grupo de Promoción y Prevención", p:"GSS"}
   ],
 
   /* Tipos de riesgo: campos que se activan y plantilla de redacción.
@@ -786,7 +762,7 @@ const S = {
   periodo: null,
   intervencion: false,   // el administrador actúa sobre una vista operativa
   sesion:null, vista:"panel",
-  filtros:{macroproceso:"",proceso:"",unidad:"",dependencia:"",tipo:"",zona:""}
+  filtros:{macroproceso:"",proceso:"",unidad:"",tipo:"",zona:""}
 };
 
 const uid = () => Math.random().toString(36).slice(2, 10);
@@ -811,7 +787,7 @@ function periodosConocidos(){
 /* Nombre y ruta sugeridos del archivo de evidencia en Drive */
 function rutaEvidencia(r, periodo, nombreArchivo){
   const [anio, tri] = periodo.split("-");
-  const base = `${r.proceso}-${(r.dependencia || r.unidad || "").split("-")[0]}-${r.codigo}`
+  const base = `${r.proceso}-${r.unidad || ""}-${r.codigo}`
     .replace(/\s+/g, "");
   const ext = (nombreArchivo.split(".").pop() || "pdf").toLowerCase();
   return {carpeta:`Riesgos/${anio}/${tri}`, archivo:`${base}.${ext}`};
@@ -836,18 +812,11 @@ const uni  = c => CAT.unidades.find(u => u.c === c);
 const dep  = uni;
 const macro = c => CAT.macroprocesos.find(m => m.c === c);
 const tipo = c => CAT.tiposRiesgo.find(t => t.c === c);
-/* Descendientes directos e indirectos de una unidad, en orden de árbol */
-function descendientes(cod){
-  const out = [];
-  const rec = (padre, nivel) => CAT.unidades.filter(u => u.p === padre).forEach(u => {
-    out.push({...u, nivel}); rec(u.c, nivel + 1);
-  });
-  rec(cod, 0); return out;
-}
+/* Estructura plana: cada dependencia cuelga directamente de un proceso */
+const dependenciasDe = pc => CAT.unidades.filter(u => u.p === pc);
 const rutaUnidad = c => {
-  const partes = []; let u = uni(c);
-  while (u){ partes.unshift(u.n); u = u.p ? uni(u.p) : null; }
-  return partes.join(" › ");
+  const u = uni(c); if (!u) return "";
+  return `${proc(u.p)?.n || ""} › ${u.n}`;
 };
 
 /* El administrador ve todo, pero para escribir en las vistas operativas
@@ -896,7 +865,7 @@ async function registrarVersion(riesgo, operacion, motivo, previo){
   if (previo){
     const campos = {codigo:"Código", descripcion:"Descripción", tipo:"Tipo de riesgo",
       causaRaiz:"Causa raíz", efectoInmediato:"Efecto inmediato", areaImpacto:"Área de impacto",
-      macroproceso:"Macroproceso", proceso:"Proceso", unidad:"Secretaría u oficina", dependencia:"Dirección o grupo", frecuencia:"Frecuencia anual",
+      macroproceso:"Macroproceso", proceso:"Proceso", unidad:"Dependencia", frecuencia:"Frecuencia anual",
       impactoNivel:"Nivel de impacto", estado:"Estado"};
     Object.entries(campos).forEach(([k, et]) => {
       if ((previo[k] ?? "") !== (riesgo[k] ?? ""))
@@ -955,18 +924,30 @@ function pintarNav(){
 /* =====================================================================
    VISTA: PANEL
    ===================================================================== */
+const ORDEN_MACRO = {ESTRATEGICO:1, MISIONAL:2, APOYO:3, EVALUACION:4};
+function ordenarRiesgos(rs){
+  return [...rs].sort((a, b) => {
+    const ma = ORDEN_MACRO[proc(a.proceso)?.m] || 9, mb = ORDEN_MACRO[proc(b.proceso)?.m] || 9;
+    if (ma !== mb) return ma - mb;
+    const pa = proc(a.proceso)?.n || "", pb = proc(b.proceso)?.n || "";
+    if (pa !== pb) return pa.localeCompare(pb, "es");
+    const ua = uni(a.unidad)?.n || "", ub = uni(b.unidad)?.n || "";
+    if (ua !== ub) return ua.localeCompare(ub, "es");
+    return (a.codigo || "").localeCompare(b.codigo || "", "es", {numeric:true});
+  });
+}
+
 function riesgosFiltrados(){
   const f = S.filtros;
-  return S.riesgos.filter(r => {
+  return ordenarRiesgos(S.riesgos.filter(r => {
     if (r.estado === "OBSOLETO") return false;
     if (f.macroproceso && proc(r.proceso)?.m !== f.macroproceso) return false;
     if (f.proceso && r.proceso !== f.proceso) return false;
     if (f.unidad && r.unidad !== f.unidad) return false;
-    if (f.dependencia && r.dependencia !== f.dependencia) return false;
     if (f.tipo && r.tipo !== f.tipo) return false;
     if (f.zona && r.zonaResidual !== f.zona) return false;
     return true;
-  });
+  }));
 }
 
 function barrasFiltros(){
@@ -976,20 +957,16 @@ function barrasFiltros(){
   }).join("");
   const f = S.filtros;
   const procs = f.macroproceso ? CAT.procesos.filter(p => p.m === f.macroproceso) : CAT.procesos;
-  const unis = f.proceso
-    ? (proc(f.proceso)?.u || []).map(uni).filter(Boolean)
-    : CAT.unidades.filter(u => !u.p);
-  const subs = f.unidad ? descendientes(f.unidad) : [];
+  const unis = f.proceso ? dependenciasDe(f.proceso)
+    : CAT.unidades.slice().sort((a, b) => a.n.localeCompare(b.n, "es"));
 
   return `<div class="card"><div class="body"><div class="filters">
     <div class="f"><label for="f1">Macroproceso</label><select id="f1" autocomplete="off"><option value="">Todos</option>
       ${opts(CAT.macroprocesos, f.macroproceso, m => [m.c, m.n])}</select></div>
     <div class="f"><label for="f2">Proceso</label><select id="f2" autocomplete="off"><option value="">Todos</option>
       ${opts(procs, f.proceso, p => [p.c, p.n])}</select></div>
-    <div class="f"><label for="f3">Secretaría u oficina</label><select id="f3" autocomplete="off"><option value="">Todas</option>
+    <div class="f"><label for="f3">Dependencia</label><select id="f3" autocomplete="off"><option value="">Todas</option>
       ${opts(unis, f.unidad, u => [u.c, u.n])}</select></div>
-    ${subs.length ? `<div class="f"><label for="f6">Dirección o grupo</label><select id="f6" autocomplete="off"><option value="">Todas</option>
-      ${opts(subs, f.dependencia, u => [u.c, "\u00A0".repeat(u.nivel * 3) + u.n])}</select></div>` : ""}
     <div class="f"><label for="f4">Tipo de riesgo</label><select id="f4" autocomplete="off"><option value="">Todos</option>
       ${opts(CAT.tiposRiesgo, f.tipo, t => [t.c, t.n])}</select></div>
     <div class="f"><label for="f5">Zona residual</label><select id="f5" autocomplete="off"><option value="">Todas</option>
@@ -998,20 +975,19 @@ function barrasFiltros(){
   </div></div></div>`;
 }
 function enlazarFiltros(){
-  const map = {f1:"macroproceso", f2:"proceso", f3:"unidad", f6:"dependencia", f4:"tipo", f5:"zona"};
+  const map = {f1:"macroproceso", f2:"proceso", f3:"unidad", f4:"tipo", f5:"zona"};
   Object.entries(map).forEach(([id, k]) => {
     const el = document.getElementById(id);
     if (el) el.onchange = () => {
       S.filtros[k] = el.value;
-      if (k === "macroproceso"){ S.filtros.proceso = ""; S.filtros.unidad = ""; S.filtros.dependencia = ""; }
-      if (k === "proceso"){ S.filtros.unidad = ""; S.filtros.dependencia = ""; }
-      if (k === "unidad") S.filtros.dependencia = "";
+      if (k === "macroproceso"){ S.filtros.proceso = ""; S.filtros.unidad = ""; }
+      if (k === "proceso") S.filtros.unidad = "";
       render();
     };
   });
   const c = document.getElementById("fClear");
   if (c) c.onclick = () => {
-    S.filtros = {macroproceso:"",proceso:"",unidad:"",dependencia:"",tipo:"",zona:""}; render();
+    S.filtros = {macroproceso:"",proceso:"",unidad:"",tipo:"",zona:""}; render();
   };
 }
 
@@ -1094,7 +1070,7 @@ function vistaPanel(){
       <div class="card"><header><h2>Por macroproceso</h2><span class="tag">Zona residual</span></header>
         <div class="body">${barrasApiladas(agrupar(rs, r => proc(r.proceso)?.m,
           k => macro(k)?.n || k))}</div></div>
-      <div class="card"><header><h2>Por secretaría u oficina</h2><span class="tag">Zona residual</span></header>
+      <div class="card"><header><h2>Por dependencia</h2><span class="tag">Zona residual</span></header>
         <div class="body">${barrasApiladas(agrupar(rs, r => r.unidad, k => uni(k)?.n || k))}</div></div>
     </div>
   </div>`;
@@ -1154,12 +1130,13 @@ function vistaRiesgos(){
 
   const filas = rs.map(r => `<tr>
     <td class="rid">${esc(r.codigo)}</td>
-    <td><div style="max-width:380px">${esc(r.descripcion)}</div>
-      <div style="margin-top:3px"><span class="tag">${esc(tipo(r.tipo)?.n || r.tipo)}</span></div></td>
-    <td>${esc(proc(r.proceso)?.n || "")}<div class="hint">${esc(rutaUnidad(r.dependencia || r.unidad))}</div></td>
-    <td><span class="zone ${r.zonaInherente}">${r.zonaInherente || "—"}</span></td>
-    <td>${(r.controles || []).length}</td>
-    <td><span class="zone ${r.zonaResidual}">${r.zonaResidual || "—"}</span></td>
+    <td><div class="just" style="max-width:420px">${esc(r.descripcion)}</div>
+      <div style="margin-top:4px"><span class="tag">${esc(tipo(r.tipo)?.n || r.tipo)}</span></div></td>
+    <td style="max-width:230px"><div class="just">${esc(proc(r.proceso)?.n || "")}</div>
+      <div class="hint just">${esc(uni(r.unidad)?.n || "")}</div></td>
+    <td class="ctr"><span class="zone ${r.zonaInherente}">${r.zonaInherente || "—"}</span></td>
+    <td class="num">${(r.controles || []).length}</td>
+    <td class="ctr"><span class="zone ${r.zonaResidual}">${r.zonaResidual || "—"}</span></td>
     <td>${esc(r.tratamiento || "—")}</td>
     <td style="white-space:nowrap">
       <button class="btn ghost sm" data-ver="${r.id}">Ver</button>
@@ -1170,8 +1147,8 @@ function vistaRiesgos(){
   return aviso + barrasFiltros() + `<div class="card" style="margin-top:16px">
     <header><h2>Inventario de riesgos</h2><span class="tag">${rs.length} de ${S.riesgos.filter(r => r.estado !== "OBSOLETO").length}</span></header>
     ${rs.length ? `<div class="scroll-x"><table><thead><tr>
-      <th>Identificador</th><th>Riesgo</th><th>Proceso</th><th>Inherente</th>
-      <th>Controles</th><th>Residual</th><th>Tratamiento</th><th></th>
+      <th>Identificador</th><th>Riesgo</th><th>Proceso y dependencia</th><th class="ctr">Inherente</th>
+      <th class="num">Controles</th><th class="ctr">Residual</th><th>Tratamiento</th><th></th>
     </tr></thead><tbody>${filas}</tbody></table></div>`
     : `<div class="empty"><b>Sin riesgos registrados</b>
        ${puedeEditar ? "Usa el botón «Registrar riesgo» para crear el primero."
@@ -1223,8 +1200,7 @@ function pintarFormulario(){
   const campos = t.campos;
   const pr = proc(F.proceso);
   const procsDe = F.macroproceso ? CAT.procesos.filter(p => p.m === F.macroproceso) : [];
-  const unisDe = pr ? (pr.u || []).map(uni).filter(Boolean) : [];
-  const subsDe = F.unidad ? descendientes(F.unidad) : [];
+  const unisDe = pr ? dependenciasDe(pr.c) : [];
 
   const sel = (id, val, arr, fn, ph) => `<select id="${id}">
     <option value="">${ph}</option>
@@ -1311,18 +1287,11 @@ function pintarFormulario(){
         ${F.macroproceso ? sel("fProc", F.proceso, procsDe, p => [p.c, p.n], "Seleccione el proceso")
           : `<select disabled><option>Seleccione primero el macroproceso</option></select>`}</div>
     </div>
-    <div class="grid2">
-      <div class="field"><label class="req">Secretaría u oficina</label>
-        ${F.proceso ? sel("fUni", F.unidad, unisDe, u => [u.c, u.n], "Seleccione")
-          : `<select disabled><option>Seleccione primero el proceso</option></select>`}
-        <p class="hint">Solo aparecen las unidades que participan en el proceso.</p></div>
-      <div class="field"><label>Dirección, grupo o equipo</label>
-        ${subsDe.length ? sel("fDep", F.dependencia, subsDe,
-            u => [u.c, "\u00A0".repeat(u.nivel * 3) + u.n], "Toda la secretaría")
-          : `<select disabled><option>${F.unidad ? "Sin dependencias internas" : "Seleccione primero la unidad"}</option></select>`}
-        <p class="hint">Opcional. Define quién responde por el riesgo.</p></div>
-    </div>
-    ${F.unidad ? `<p class="hint" style="margin:-6px 0 13px">${esc(rutaUnidad(F.dependencia || F.unidad))}</p>` : ""}
+    <div class="field"><label class="req">Dependencia</label>
+      ${F.proceso ? sel("fUni", F.unidad, unisDe, u => [u.c, u.n], "Seleccione la dependencia")
+        : `<select disabled><option>Seleccione primero el proceso</option></select>`}
+      <p class="hint">Solo aparecen las dependencias que participan en el proceso, según el
+        organigrama vigente. Define quién responde por el riesgo.</p></div>
 
     <div class="grid2">
       <div class="field"><label class="req">Tipo de riesgo</label>
@@ -1450,8 +1419,7 @@ function enlazarFormulario(){
     F.macroproceso = e.target.value; F.proceso = ""; F.unidad = ""; F.dependencia = ""; pintarFormulario(); });
   on("fProc", "onchange", e => {
     F.proceso = e.target.value; F.unidad = ""; F.dependencia = ""; pintarFormulario(); });
-  on("fUni", "onchange", e => { F.unidad = e.target.value; F.dependencia = ""; pintarFormulario(); });
-  bind("fDep", "dependencia");
+  on("fUni", "onchange", e => { F.unidad = e.target.value; pintarFormulario(); });
   on("fTipo", "onchange", e => { F.tipo = e.target.value; pintarFormulario(); });
   bind("fClase", "clase");
   bind("fArea", "areaImpacto"); bind("fAreaF", "areaFiscal");
@@ -1501,7 +1469,7 @@ async function guardarRiesgo(){
   const falta = [];
   if (!F.macroproceso) falta.push("macroproceso");
   if (!F.proceso) falta.push("proceso");
-  if (!F.unidad) falta.push("secretaría u oficina");
+  if (!F.unidad) falta.push("dependencia");
   if (F.frecuencia === "") falta.push("frecuencia anual");
   if (!F.impactoNivel) falta.push("nivel de impacto");
   if (!F.tratamiento) falta.push("tratamiento");
@@ -1520,10 +1488,8 @@ async function guardarRiesgo(){
 
   recalcular();
   if (F._nuevo){
-    const n = S.riesgos.filter(r => r.proceso === F.proceso && r.unidad === F.unidad
-      && (r.dependencia || "") === (F.dependencia || "")).length + 1;
-    F.codigo = [F.proceso, F.unidad, F.dependencia || null, String(n).padStart(2, "0")]
-      .filter(Boolean).join("-");
+    const n = S.riesgos.filter(r => r.proceso === F.proceso && r.unidad === F.unidad).length + 1;
+    F.codigo = `${F.unidad}-${String(n).padStart(2, "0")}`;
     F.fechaCreacion = new Date().toISOString().slice(0, 10);
   }
   F.fechaActualizacion = new Date().toISOString().slice(0, 10);
@@ -1544,12 +1510,12 @@ function verRiesgo(id){
   const res = Motor.residual(r.probabilidadPct, r.impactoPct, r.controles);
   const hist = S.historico.filter(h => h.riesgoId === id).sort((a, b) => b.version - a.version);
   modal(r.codigo, `
-    <p style="font-size:15px;line-height:1.55;margin:0 0 15px">${esc(r.descripcion)}</p>
+    <p class="just" style="font-size:15px;line-height:1.6;margin:0 0 15px">${esc(r.descripcion)}</p>
     <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:17px">
       <span class="tag">${esc(tipo(r.tipo)?.n)}</span>
       <span class="tag">${esc(proc(r.proceso)?.n)}</span>
       <span class="tag">${esc(macro(proc(r.proceso)?.m)?.n || "")}</span>
-      <span class="tag">${esc(uni(r.dependencia || r.unidad)?.n || "")}</span>
+      <span class="tag">${esc(uni(r.unidad)?.n || "")}</span>
       ${(r.factores || []).map(f => `<span class="tag">${esc(f)}</span>`).join("")}
     </div>
     <div class="grid2" style="margin-bottom:17px">
@@ -1728,8 +1694,8 @@ function formUsuario(id){
       </select></div>
       <div class="field"><label>Dependencia</label><select id="uDep" autocomplete="off">
         <option value="">Todas las dependencias</option>
-        ${CAT.unidades.filter(x => !x.p).flatMap(x => [x, ...descendientes(x.c)]).map(x =>
-          `<option value="${x.c}" ${d.dependencia === x.c ? "selected" : ""}>${"\u00A0".repeat(((x.nivel ?? -1) + 1) * 3)}${esc(x.n)}</option>`).join("")}
+        ${CAT.procesos.flatMap(pp => dependenciasDe(pp.c).map(x =>
+          `<option value="${x.c}" ${d.dependencia === x.c ? "selected" : ""}>${esc(pp.n)} · ${esc(x.n)}</option>`)).join("")}
       </select><p class="hint">Obligatoria para el rol Enlace SIG: limita lo que puede editar.</p></div>
     </div>
     ${u ? `<div class="field"><label>Estado</label><select id="uAct">
@@ -1895,13 +1861,15 @@ function vistaMetodo(){
     </div>
 
     <div class="card"><header><h2>Estructura de procesos</h2></header>
-      <div class="scroll-x"><table><thead><tr><th>Macroproceso</th><th>Proceso</th><th>Unidades que participan</th></tr></thead>
+      <div class="scroll-x"><table><thead><tr><th>Macroproceso</th><th>Proceso</th><th class="num">Dep.</th><th>Dependencias</th></tr></thead>
       <tbody>${CAT.macroprocesos.flatMap(m => CAT.procesos.filter(p => p.m === m.c).map((p, i) => `<tr>
         <td>${i === 0 ? esc(m.n) : ""}</td><td>${esc(p.n)}</td>
-        <td class="hint" style="font-size:12px">${(p.u || []).map(u => esc(uni(u)?.n || u)).join(" · ")}</td>
+        <td class="num">${dependenciasDe(p.c).length}</td>
+        <td class="hint just" style="font-size:12px">${dependenciasDe(p.c).map(u => esc(u.n)).join(" · ")}</td>
       </tr>`)).join("")}</tbody></table></div>
       <div class="body" style="border-top:1px solid var(--line)"><p class="hint" style="margin:0">
-        Las unidades que participan en cada proceso son editables: son las que aparecen al registrar un riesgo.</p></div></div>
+        Estructura tomada del organigrama SIG. Estas son las dependencias que aparecen al registrar
+        un riesgo, según el proceso seleccionado.</p></div></div>
 
     <div class="card"><header><h2>Matriz de severidad</h2><span class="tag">Figura 18</span></header>
       <div class="body">${mapaCalor([], "inh")}
@@ -1972,21 +1940,66 @@ function sufijoFiltros(){
 function exportarRiesgosCSV(){
   const rs = riesgosFiltrados();
   if (!rs.length) return aviso("Nada que exportar", "No hay riesgos con los filtros aplicados.");
-  const cab = ["Identificador","Macroproceso","Proceso","Secretaría u oficina",
-    "Dirección o grupo","Tipo de riesgo","Clase","Descripción","Causa raíz","Efecto inmediato",
-    "Probabilidad inherente","Impacto inherente","Zona inherente","Nº controles",
+
+  /* Cuántas columnas de control hace falta: tantas como el riesgo con más
+     controles, para que ninguna información quede fuera del archivo. */
+  const maxC = Math.max(1, ...rs.map(r => (r.controles || []).length));
+  const cabC = [];
+  for (let k = 1; k <= maxC; k++)
+    cabC.push(`Control ${k}`, `Tipo ${k}`, `Implementación ${k}`, `Peso ${k}`,
+              `Afectación ${k}`, `Documentación ${k}`, `Frecuencia ${k}`, `Evidencia ${k}`,
+              `Diseño ${k}`);
+
+  const cab = ["Identificador","Macroproceso","Proceso","Dependencia",
+    "Tipo de riesgo","Clase de riesgo","Factores","Descripción del riesgo",
+    "Causa raíz","Efecto inmediato","Área de impacto","Activo","Propiedad afectada",
+    "Frecuencia anual","Probabilidad inherente","Impacto inherente","Zona inherente",
+    "Nº de controles", ...cabC,
     "Multiplicador probabilidad","Multiplicador impacto",
     "Probabilidad residual","Impacto residual","Zona residual",
-    "Tratamiento","Subestrategia","Plan de acción","Indicador (KRI)","Pendientes de revisión"];
+    "Tratamiento","Subestrategia","Plan de acción","Responsable del plan","Indicador (KRI)",
+    "Fecha de cumplimiento",
+    "Periodo","Resultado del indicador","Actividades ejecutadas","Soporte de ejecución",
+    "Estado de la acción",
+    "Monitoreo: descripción conforme","Monitoreo: control conforme","Monitoreo: control eficaz",
+    "Monitoreo: se materializó","Monitoreo: instancia","Monitoreo: recomendaciones",
+    "CI: actividades verificadas","CI: se materializó","CI: justificación",
+    "CI: acciones correctivas","CI: soporte",
+    "Estado del riesgo","Pendientes de revisión"];
+
   const filas = rs.map(r => {
     const res = Motor.residual(r.probabilidadPct || 0, r.impactoPct || 0, r.controles || []);
+    const ctrl = [];
+    for (let k = 0; k < maxC; k++){
+      const c = (r.controles || [])[k];
+      if (!c){ ctrl.push("", "", "", "", "", "", "", "", ""); continue; }
+      const e = S.evaluaciones.find(x => x.controlId === r.id + ":" + k && x.periodo === S.periodo);
+      ctrl.push([c.responsable, c.accion, c.complemento].filter(Boolean).join(" "),
+        c.tipo, c.implementacion, pct(Motor.pesoControl(c.tipo, c.implementacion)),
+        Motor.afectacion(c.tipo), c.documentacion || "", c.frecuencia || "", c.evidencia || "",
+        e ? `${e.calificacion} (${pct(e.total)})` : "");
+    }
+    const g = S.seguimientos.find(x => x.riesgoId === r.id && x.periodo === S.periodo) || {};
+    const m = S.monitoreos.find(x => x.riesgoId === r.id && x.periodo === S.periodo) || {};
+    const ci = S.internos.find(x => x.riesgoId === r.id && x.periodo === S.periodo) || {};
+
     return [r.codigo, macro(proc(r.proceso)?.m)?.n, proc(r.proceso)?.n, uni(r.unidad)?.n,
-      r.dependencia ? uni(r.dependencia)?.n : "", tipo(r.tipo)?.n, r.clase, r.descripcion,
-      r.causaRaiz, r.efectoInmediato,
-      pct(r.probabilidadPct || 0), pct(r.impactoPct || 0), r.zonaInherente,
-      (r.controles || []).length, res.multP.toFixed(4), res.multI.toFixed(4),
+      tipo(r.tipo)?.n, r.clase || "",
+      (r.factores || []).join(" | "), r.descripcion,
+      r.causaRaiz || "", r.efectoInmediato || "", r.areaImpacto || r.areaFiscal || "",
+      r.activo || "", r.propiedadSD || "",
+      r.frecuencia ?? "", pct(r.probabilidadPct || 0), pct(r.impactoPct || 0), r.zonaInherente,
+      (r.controles || []).length, ...ctrl,
+      res.multP.toFixed(4), res.multI.toFixed(4),
       pct(r.probResidual || 0), pct(r.impResidual || 0), r.zonaResidual,
-      r.tratamiento, r.subestrategia, r.planAccion, r.kri, (r.revisar || []).join(" | ")];
+      r.tratamiento || "", r.subestrategia || "", r.planAccion || "", r.responsablePlan || "",
+      r.kri || "", r.fechaPlan || "",
+      S.periodo, g.resultado || "", g.actividades || "", g.soporte || "", g.estadoAccion || "",
+      m.descripcionConforme || "", m.controlConforme || "", m.controlEficaz || "",
+      m.materializo || "", m.instancia || "", m.recomendaciones || "",
+      ci.actividades || "", ci.materializo || "", ci.justificacion || "",
+      ci.accionesCorrectivas || "", ci.soporteAccion || "",
+      r.estado, (r.revisar || []).join(" | ")];
   });
   descargar(`mapa-de-riesgos${sufijoFiltros()}.csv`, aCSV(cab, filas), "text/csv");
 }
@@ -2024,7 +2037,7 @@ function exportarResumenCSV(){
   };
   bloque("Macroproceso", r => proc(r.proceso)?.m, k => macro(k)?.n || k);
   bloque("Proceso", r => r.proceso, k => proc(k)?.n || k);
-  bloque("Secretaría u oficina", r => r.unidad, k => uni(k)?.n || k);
+  bloque("Dependencia", r => r.unidad, k => uni(k)?.n || k);
   bloque("Tipo de riesgo", r => r.tipo, k => tipo(k)?.n || k);
   descargar(`resumen-riesgos${sufijoFiltros()}.csv`, aCSV(cab, filas), "text/csv");
 }
@@ -2034,18 +2047,232 @@ function exportarSeguimientoCSV(){
     "Resultado de la medición","Actividades del plan","Soporte","Estado de la acción"];
   const filas = S.seguimientos.map(x => {
     const r = S.riesgos.find(y => y.id === x.riesgoId) || {};
-    return [x.periodo, r.codigo, proc(r.proceso)?.n, uni(r.dependencia || r.unidad)?.n,
+    return [x.periodo, r.codigo, proc(r.proceso)?.n, uni(r.unidad)?.n,
       r.kri, x.resultado, x.actividades, x.soporte, x.estadoAccion];
   });
   if (!filas.length) return aviso("Nada que exportar", "Todavía no hay reportes de seguimiento.");
   descargar("seguimiento.csv", aCSV(cab, filas), "text/csv");
 }
 
-/* PDF mediante la impresión del navegador: sin librerías externas */
-function exportarPDF(titulo){
-  document.body.dataset.printTitle = titulo;
-  window.print();
+
+/* =====================================================================
+   INFORME COMPLETO PARA PDF
+   Arma un documento con portada, filtros aplicados, indicadores,
+   gráficas, mapas de calor y el detalle de todos los riesgos en orden.
+   Se imprime desde el navegador: no requiere librerías externas.
+   ===================================================================== */
+function filtrosAplicados(){
+  const f = S.filtros, out = [];
+  if (f.macroproceso) out.push(["Macroproceso", macro(f.macroproceso)?.n]);
+  if (f.proceso)      out.push(["Proceso", proc(f.proceso)?.n]);
+  if (f.unidad)       out.push(["Dependencia", uni(f.unidad)?.n]);
+  if (f.tipo)         out.push(["Tipo de riesgo", tipo(f.tipo)?.n]);
+  if (f.zona)         out.push(["Zona residual", f.zona]);
+  return out;
 }
+
+function tablaAgrupada(titulo, grupos){
+  if (!grupos.length) return "";
+  const tot = grupos.reduce((a, g) => a + g.total, 0);
+  return `<h3 class="rep-h3">${esc(titulo)}</h3>
+  <table class="rep-t"><thead><tr>
+    <th>${esc(titulo)}</th><th class="num">Riesgos</th><th class="num">Bajo</th>
+    <th class="num">Moderado</th><th class="num">Alto</th><th class="num">Extremo</th>
+    <th class="num">% crítico</th><th>Distribución</th>
+  </tr></thead><tbody>
+  ${grupos.map(g => `<tr>
+    <td>${esc(g.nombre)}</td>
+    <td class="num">${g.total}</td><td class="num">${g.Bajo}</td><td class="num">${g.Moderado}</td>
+    <td class="num">${g.Alto}</td><td class="num">${g.Extremo}</td>
+    <td class="num">${g.total ? Math.round((g.Alto + g.Extremo) / g.total * 100) : 0}%</td>
+    <td style="width:170px"><div class="bar-track" style="height:11px">
+      ${["Bajo","Moderado","Alto","Extremo"].map(z => g[z]
+        ? `<div class="bar-seg" style="width:${(g[z] / g.total * 100).toFixed(1)}%;background:${ZCOL[z]}"></div>`
+        : "").join("")}</div></td>
+  </tr>`).join("")}
+  <tr class="rep-tot"><td>Total</td><td class="num">${tot}</td>
+    <td class="num">${grupos.reduce((a, g) => a + g.Bajo, 0)}</td>
+    <td class="num">${grupos.reduce((a, g) => a + g.Moderado, 0)}</td>
+    <td class="num">${grupos.reduce((a, g) => a + g.Alto, 0)}</td>
+    <td class="num">${grupos.reduce((a, g) => a + g.Extremo, 0)}</td>
+    <td class="num"></td><td></td></tr>
+  </tbody></table>`;
+}
+
+function construirInforme(){
+  const rs = riesgosFiltrados();
+  const ord = {Bajo:1, Moderado:2, Alto:3, Extremo:4};
+  const crit = rs.filter(r => ["Alto","Extremo"].includes(r.zonaResidual)).length;
+  const baj = rs.filter(r => ord[r.zonaResidual] < ord[r.zonaInherente]).length;
+  const ctrl = rs.reduce((a, r) => a + (r.controles || []).length, 0);
+  const fa = filtrosAplicados();
+  const hoy = new Date().toLocaleString("es-CO", {dateStyle:"long", timeStyle:"short"});
+
+  let html = `
+  <header class="rep-cab">
+    <div>
+      <h1>Mapa de Riesgos Institucional</h1>
+      <p>Gobernación de Santander · Guía para la Gestión Integral del Riesgo, versión 7</p>
+    </div>
+    <div class="rep-meta">
+      <div>Generado: ${esc(hoy)}</div>
+      <div>Periodo: ${esc(S.periodo || "—")}</div>
+      <div>Emitido por: ${esc(S.sesion?.nombre || "—")}</div>
+    </div>
+  </header>
+
+  <section class="rep-s">
+    <h2 class="rep-h2">1. Alcance del informe</h2>
+    <table class="rep-t rep-mini"><tbody>
+      <tr><td>Riesgos incluidos</td><td class="num">${rs.length}</td></tr>
+      <tr><td>Riesgos vigentes en el sistema</td>
+        <td class="num">${S.riesgos.filter(r => r.estado !== "OBSOLETO").length}</td></tr>
+      ${fa.length ? fa.map(([k, v]) => `<tr><td>Filtro · ${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")
+        : `<tr><td>Filtros aplicados</td><td>Ninguno: informe del inventario completo</td></tr>`}
+    </tbody></table>
+  </section>
+
+  <section class="rep-s">
+    <h2 class="rep-h2">2. Indicadores</h2>
+    <div class="rep-kpis">
+      <div class="rep-k"><b>${rs.length}</b><span>Riesgos</span></div>
+      <div class="rep-k"><b>${crit}</b><span>En zona Alto o Extremo</span>
+        <i>${rs.length ? Math.round(crit / rs.length * 100) : 0}% del total</i></div>
+      <div class="rep-k"><b>${baj}</b><span>Bajaron de zona</span>
+        <i>${rs.length ? Math.round(baj / rs.length * 100) : 0}% tras controles</i></div>
+      <div class="rep-k"><b>${ctrl}</b><span>Controles</span>
+        <i>${rs.length ? (ctrl / rs.length).toFixed(1) : 0} por riesgo</i></div>
+    </div>
+  </section>
+
+  <section class="rep-s">
+    <h2 class="rep-h2">3. Distribución del riesgo residual</h2>
+    ${tablaAgrupada("Macroproceso", agrupar(rs, r => proc(r.proceso)?.m, k => macro(k)?.n || k))}
+    ${tablaAgrupada("Proceso", agrupar(rs, r => r.proceso, k => proc(k)?.n || k))}
+    ${tablaAgrupada("Dependencia", agrupar(rs, r => r.unidad, k => uni(k)?.n || k))}
+    ${tablaAgrupada("Tipo de riesgo", agrupar(rs, r => r.tipo, k => tipo(k)?.n || k))}
+    ${tablaAgrupada("Tratamiento", agrupar(rs, r => r.tratamiento || "Sin definir", k => k))}
+  </section>
+
+  <section class="rep-s rep-brk">
+    <h2 class="rep-h2">4. Mapa de calor</h2>
+    <div class="rep-heats">
+      <div><h3 class="rep-h3">Riesgo inherente</h3>${mapaCalor(rs, "inh")}</div>
+      <div><h3 class="rep-h3">Riesgo residual</h3>${mapaCalor(rs, "res")}</div>
+    </div>
+    <p class="rep-n">El eje vertical corresponde al impacto y el horizontal a la probabilidad.
+    Cada celda indica cuántos riesgos se ubican en esa combinación.</p>
+  </section>
+
+  <section class="rep-s rep-brk">
+    <h2 class="rep-h2">5. Inventario de riesgos</h2>
+    <p class="rep-n">Ordenado por macroproceso, proceso, dependencia e identificador.</p>
+    <table class="rep-t"><thead><tr>
+      <th>Identificador</th><th>Riesgo</th><th>Proceso y dependencia</th>
+      <th>Tipo</th><th class="num">P inh.</th><th class="num">I inh.</th><th>Inherente</th>
+      <th class="num">Ctrl</th><th class="num">P res.</th><th class="num">I res.</th>
+      <th>Residual</th><th>Tratamiento</th>
+    </tr></thead><tbody>
+    ${rs.map(r => `<tr>
+      <td class="mono">${esc(r.codigo)}</td>
+      <td class="just" style="max-width:280px">${esc(r.descripcion)}</td>
+      <td>${esc(proc(r.proceso)?.n || "")}<br><span class="rep-sub">${esc(uni(r.unidad)?.n || "")}</span></td>
+      <td>${esc(tipo(r.tipo)?.n || "")}</td>
+      <td class="num">${pct(r.probabilidadPct || 0)}</td>
+      <td class="num">${pct(r.impactoPct || 0)}</td>
+      <td><span class="zone ${r.zonaInherente}">${esc(r.zonaInherente || "—")}</span></td>
+      <td class="num">${(r.controles || []).length}</td>
+      <td class="num">${pct(r.probResidual || 0)}</td>
+      <td class="num">${pct(r.impResidual || 0)}</td>
+      <td><span class="zone ${r.zonaResidual}">${esc(r.zonaResidual || "—")}</span></td>
+      <td>${esc(r.tratamiento || "—")}${r.subestrategia ? "<br><span class='rep-sub'>" + esc(r.subestrategia) + "</span>" : ""}</td>
+    </tr>`).join("")}
+    </tbody></table>
+  </section>
+
+  <section class="rep-s rep-brk">
+    <h2 class="rep-h2">6. Controles</h2>
+    <table class="rep-t"><thead><tr>
+      <th>Riesgo</th><th>Nº</th><th>Descripción del control</th>
+      <th>Tipo</th><th>Implementación</th><th class="num">Peso</th><th>Afecta</th><th>Diseño</th>
+    </tr></thead><tbody>
+    ${rs.flatMap(r => (r.controles || []).map((c, k) => {
+      const e = S.evaluaciones.find(x => x.controlId === r.id + ":" + k && x.periodo === S.periodo);
+      return `<tr>
+        <td class="mono">${k === 0 ? esc(r.codigo) : ""}</td>
+        <td class="num">${k + 1}</td>
+        <td class="just" style="max-width:330px">${esc([c.responsable, c.accion, c.complemento].filter(Boolean).join(" "))}</td>
+        <td>${esc(c.tipo)}</td><td>${esc(c.implementacion)}</td>
+        <td class="num">${pct(Motor.pesoControl(c.tipo, c.implementacion))}</td>
+        <td>${esc(Motor.afectacion(c.tipo))}</td>
+        <td>${e ? esc(e.calificacion) + " (" + pct(e.total) + ")" : "—"}</td>
+      </tr>`;
+    })).join("") || `<tr><td colspan="8">Sin controles registrados.</td></tr>`}
+    </tbody></table>
+  </section>`;
+
+  /* Sección del ciclo trimestral, solo si hay algo reportado */
+  const conCiclo = rs.filter(r =>
+    S.seguimientos.some(x => x.riesgoId === r.id && x.periodo === S.periodo) ||
+    S.monitoreos.some(x => x.riesgoId === r.id && x.periodo === S.periodo) ||
+    S.internos.some(x => x.riesgoId === r.id && x.periodo === S.periodo));
+
+  if (conCiclo.length){
+    html += `<section class="rep-s rep-brk">
+      <h2 class="rep-h2">7. Ciclo trimestral · ${esc(S.periodo)}</h2>
+      <table class="rep-t"><thead><tr>
+        <th>Riesgo</th><th>Resultado del indicador</th><th>Estado acción</th>
+        <th>Descr. conforme</th><th>Ctrl. conforme</th><th>Ctrl. eficaz</th>
+        <th>Materializó SIG</th><th>Materializó CI</th><th>Recomendaciones</th>
+      </tr></thead><tbody>
+      ${conCiclo.map(r => {
+        const g = S.seguimientos.find(x => x.riesgoId === r.id && x.periodo === S.periodo) || {};
+        const m = S.monitoreos.find(x => x.riesgoId === r.id && x.periodo === S.periodo) || {};
+        const ci = S.internos.find(x => x.riesgoId === r.id && x.periodo === S.periodo) || {};
+        const dis = m.materializo && ci.materializo && m.materializo !== ci.materializo;
+        return `<tr${dis ? ' class="rep-dis"' : ""}>
+          <td class="mono">${esc(r.codigo)}</td>
+          <td>${esc(g.resultado || "—")}</td><td>${esc(g.estadoAccion || "—")}</td>
+          <td>${esc(m.descripcionConforme || "—")}</td><td>${esc(m.controlConforme || "—")}</td>
+          <td>${esc(m.controlEficaz || "—")}</td>
+          <td>${esc(m.materializo || "—")}</td><td>${esc(ci.materializo || "—")}</td>
+          <td class="just" style="max-width:220px">${esc(m.recomendaciones || "")}</td>
+        </tr>`;
+      }).join("")}
+      </tbody></table>
+      <p class="rep-n">Las filas resaltadas corresponden a riesgos donde el criterio de la Dirección
+      SIG y el de Control Interno sobre la materialización no coinciden.</p>
+    </section>`;
+  }
+
+  const pend = rs.filter(r => (r.revisar || []).length);
+  if (pend.length){
+    html += `<section class="rep-s rep-brk">
+      <h2 class="rep-h2">${conCiclo.length ? 8 : 7}. Pendientes de revisión</h2>
+      <table class="rep-t"><thead><tr><th>Riesgo</th><th>Situación</th></tr></thead><tbody>
+      ${pend.map(r => `<tr><td class="mono">${esc(r.codigo)}</td>
+        <td class="just">${r.revisar.map(x => esc(x)).join("<br>")}</td></tr>`).join("")}
+      </tbody></table></section>`;
+  }
+
+  html += `<footer class="rep-pie">Documento generado automáticamente por el sistema de gestión
+    del riesgo. Los valores de probabilidad, impacto y zona se calculan con los parámetros vigentes
+    de la Guía para la Gestión Integral del Riesgo, versión 7.</footer>`;
+
+  return html;
+}
+
+function exportarPDF(){
+  const cont = document.getElementById("informe");
+  cont.innerHTML = construirInforme();
+  document.body.classList.add("modo-informe");
+  window.print();
+  setTimeout(() => {
+    document.body.classList.remove("modo-informe");
+    cont.innerHTML = "";
+  }, 800);
+}
+
 
 
 /* =====================================================================
@@ -2055,10 +2282,8 @@ function exportarPDF(titulo){
 function misRiesgos(){
   const u = S.sesion;
   let rs = S.riesgos.filter(r => r.estado !== "OBSOLETO");
-  if (u?.rol === "ENLACE_SIG" && u.dependencia){
-    const mios = new Set([u.dependencia, ...descendientes(u.dependencia).map(x => x.c)]);
-    rs = rs.filter(r => mios.has(r.unidad) || mios.has(r.dependencia));
-  }
+  if (u?.rol === "ENLACE_SIG" && u.dependencia)
+    rs = rs.filter(r => r.unidad === u.dependencia);
   return rs;
 }
 
@@ -2082,8 +2307,8 @@ function vistaSeguimiento(){
     const completo = g.resultado && g.actividades && nev === nctrl;
     return `<tr>
       <td class="rid">${esc(r.codigo)}</td>
-      <td style="max-width:300px">${esc(r.descripcion)}
-        <div class="hint">${esc(uni(r.dependencia || r.unidad)?.n || "")}</div></td>
+      <td class="just" style="max-width:300px">${esc(r.descripcion)}
+        <div class="hint">${esc(uni(r.unidad)?.n || "")}</div></td>
       <td>${r.kri ? esc(r.kri) : `<span class="hint">Sin indicador</span>`}</td>
       <td class="mono">${g.resultado ?? "—"}</td>
       <td>${nev}/${nctrl}</td>
@@ -2444,13 +2669,7 @@ function formInterno(rid){
    ===================================================================== */
 function vistaPerfiles(){
   const porProceso = CAT.procesos.map(p => {
-    const unidades = new Set(p.u || []);
-    const asignados = S.usuarios.filter(u => {
-      if (!u.dependencia) return false;
-      let raiz = u.dependencia, x;
-      while ((x = uni(raiz)) && x.p) raiz = x.p;
-      return unidades.has(raiz) || unidades.has(u.dependencia);
-    });
+    const asignados = S.usuarios.filter(u => u.dependencia && uni(u.dependencia)?.p === p.c);
     const riesgos = S.riesgos.filter(r => r.proceso === p.c && r.estado !== "OBSOLETO").length;
     return {p, asignados, riesgos};
   });
@@ -2476,7 +2695,7 @@ function vistaPerfiles(){
       </tr></thead><tbody>${porProceso.map(x => `<tr>
         <td class="hint">${esc(macro(x.p.m)?.n)}</td>
         <td><b style="font-weight:500">${esc(x.p.n)}</b>
-          <div class="hint">${(x.p.u || []).map(u => esc(uni(u)?.n || u)).join(" · ")}</div></td>
+          <div class="hint">${dependenciasDe(x.p.c).length} dependencias</div></td>
         <td class="mono">${x.riesgos}</td>
         ${["ENLACE_SIG","MONITOREO","SEGUIMIENTO"].map(rol => {
           const k = x.asignados.filter(u => u.rol === rol).length;
@@ -2491,9 +2710,7 @@ function vistaPerfiles(){
       ${S.usuarios.filter(u => u.rol === "MONITOREO").length ? `<div class="scroll-x"><table><thead><tr>
         <th>Nombre</th><th>Correo</th><th>Dependencia</th><th>Procesos que cubre</th><th>Riesgos</th>
       </tr></thead><tbody>${S.usuarios.filter(u => u.rol === "MONITOREO").map(u => {
-        let raiz = u.dependencia, x;
-        while ((x = uni(raiz)) && x.p) raiz = x.p;
-        const ps = CAT.procesos.filter(p => (p.u || []).includes(raiz));
+        const ps = CAT.procesos.filter(p => p.c === uni(u.dependencia)?.p);
         const nr = S.riesgos.filter(r => ps.some(p => p.c === r.proceso) && r.estado !== "OBSOLETO").length;
         return `<tr><td><b style="font-weight:500">${esc(u.nombre)}</b></td>
           <td class="mono" style="font-size:12px">${esc(u.correo)}</td>
@@ -2622,17 +2839,11 @@ function render(){
     else if (S.vista === "seguimiento") exportarSeguimientoCSV();
     else exportarResumenCSV();
   });
-  on("btnPdf", () => exportarPDF(v.n + sufijoFiltros()));
+  on("btnPdf", () => exportarPDF());
   on("expPerfiles", () => {
     const cab = ["Macroproceso","Proceso","Riesgos","Enlace SIG","Monitoreo","Control Interno","Personas"];
     const filas = CAT.procesos.map(pp => {
-      const unidades = new Set(pp.u || []);
-      const asg = S.usuarios.filter(u => {
-        if (!u.dependencia) return false;
-        let raiz = u.dependencia, x;
-        while ((x = uni(raiz)) && x.p) raiz = x.p;
-        return unidades.has(raiz) || unidades.has(u.dependencia);
-      });
+      const asg = S.usuarios.filter(u => u.dependencia && uni(u.dependencia)?.p === pp.c);
       return [macro(pp.m)?.n, pp.n,
         S.riesgos.filter(r => r.proceso === pp.c && r.estado !== "OBSOLETO").length,
         asg.filter(u => u.rol === "ENLACE_SIG").length,

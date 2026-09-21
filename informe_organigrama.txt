@@ -1,0 +1,68 @@
+CARGA DEL NUEVO ORGANIGRAMA
+============================================================
+Dependencias en el archivo: 102
+Dependencias agregadas (grupos de Salud y Educación): 17
+Total de dependencias en el catálogo: 119
+Procesos: 15
+
+RIESGOS QUE CAMBIAN DE PROCESO: 6
+     6  GF  →  GE
+
+DEPENDENCIAS AGREGADAS POR DECISIÓN DE SIG:
+  GE  Grupo Financiero
+  GSS  Grupo de Apoyo a la Gestión de Control y Calidad
+  GSS  Grupo de Gestión de Proyectos, Planes y Programas
+  GSS  Grupo de Laboratorio y Salud Pública
+  GSS  Grupo de Gestión de Salud Pública
+  GSS  Grupo Centro Reg. de Urgencias, Emergencias y Desastres CRUE
+  GSS  Grupo de Aseguramiento y Afiliación
+  GSS  Grupo Acreditación y Sist. Oblig. Garantía en Calidad
+  GSS  Grupo de Participación Social en Salud
+  GSS  Dirección de Apoyo Jurídico, Contratación y P. Sancionatorios
+  GE  Grupo de Calidad Educativa
+  GE  Grupo de Cobertura Educativa
+  GE  Grupo de Historias Laborales
+  GE  Grupo de Carrera Docente
+  GE  Grupo de Planeación Educativa
+  GE  Grupo de Prestaciones Sociales del Magisterio
+  GSS  Grupo de Promoción y Prevención
+
+CAMBIOS DE NOMBRE APLICADOS: 21
+    7  Oficina Gestión del Riesgo de Desastres  →  Oficina para la Gestión del Riesgo de Desastres
+    7  Grupo de Gestión Documental  →  Gestión Documental
+    6  Secretaría de Vivienda y Hábitat Sustentable  →  Secretaria de Vivienda
+    5  Grupo de Gestión Ambiental NTC ISO-14001  →  Grupo de Gestion Ambiental
+    5  Dirección del Fondo Territorial de Pensiones  →  Dirección de Fondo Territorial de Pensiones
+    5  Grupo Administración de Recursos Físicos Sec. Salud  →  Dirección de Recursos Físicos
+    5  Oficina de Control Interno  →  Control Interno
+    4  Secretaría de Agricultura y Desarrollo Rural  →  Secretaria de Agricultura
+    4  Dirección de Atención al Ciudadano  →  Oficina de Atencion al Ciudadano
+    4  Secretaría Ambiental  →  Secretaria de Ambiente
+    3  Grupo de Pasaportes  →  Oficina de Pasaportes
+    3  Despacho del Gobernador  →  Despacho del Gobernador y Secretaria Privada
+    3  Dirección de Atención Integral a las Víctimas  →  Dirección de Atención Integral a las Víctimas del Departamento de Santander
+    3  Oficina de Control Disciplinario  →  Control Disciplinario
+    2  Secretaría Privada  →  Despacho del Gobernador y Secretaria Privada
+    2  Secretaría de Tecnologías de la Información y las Comunicaciones  →  Secretaria de Tecnología de la Información y Comunicación
+    1  Grupo de Proyectos e Inversión Pública  →  Grupo de Proyectos
+    1  Grupo de Cooperación Internacional y Nacional  →  Secretaria de Competitividad y Productividad
+    1  Grupo Fondo de Cesantías de Santander  →  Fondo de Cesantías - FONCESAN
+    1  Grupo de Inspección y Vigilancia  →  Grupo Inspección y Vigilancia
+    1  Grupo de Bienestar Social Laboral  →  Direccion de Talento Humano
+
+DISTRIBUCIÓN FINAL DE RIESGOS POR PROCESO:
+    43  Desarrollo Sostenible y Competitivo
+    30  Gestión Financiera
+    25  Administración Institucional
+    21  Seguridad y Convivencia
+    21  Gestión en Salud y Seguridad Social
+    18  Gestión Educativa
+    15  Sistemas Integrados de Gestión
+    11  Dirección y Comunicaciones
+    11  Tecnologías de la Información y la Comunicación
+     9  Gestión Jurídica
+     8  Planificación Estratégica
+     7  Atención al Ciudadano
+     6  Gestión Estratégica del Talento Humano
+     5  Compras y Contratación Pública
+     5  Control y Evaluación
