@@ -143,7 +143,7 @@
    "proceso": "DSC",
    "unidad": "DSC-25",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de omitir voluntariamente el seguimiento a la ejecución del contrato y aprobar pagos sin el cumplimiento de los requisitos minimos.",
    "causaRaiz": "Deficiente supervision de contratros y/o convenios",
@@ -186,9 +186,14 @@
    "kri": "Capacitaciones realizadas",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0004",
@@ -197,7 +202,7 @@
    "proceso": "SIG",
    "unidad": "SIG-01",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Recibir una contraprestación economica por la venta de material reciclable generado en la entidad",
    "causaRaiz": "Venta de material reciclable generado en la entidad por funcionarios, contratistas y/o personal en general.",
@@ -250,8 +255,13 @@
    "kri": "(Cantidad en kilos reportada en el formato ES-SIG-RG-43 / Cantidad en kilos reportada en el Certificados de disposición final) *100",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0005",
@@ -559,7 +569,7 @@
    "proceso": "SIG",
    "unidad": "SIG-02",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de realizar modificaciones a los resultados de las auditorias eliminando las no conformidades encontradas dentro del proceso de auditoría",
    "causaRaiz": "Presiones e interes de terceros desconociendo los principios de independencia, objetividad e imparcialidad que deben acatar los auditores del SIG.",
@@ -622,10 +632,15 @@
    "kri": "Numero de versiones del informe de auditoria anual.",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
     "Alcanzó el tope de 4 controles del formato anterior.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0011",
@@ -1117,7 +1132,7 @@
    "proceso": "PE",
    "unidad": "PE-06",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de omitir voluntariamente la revisión de uno o más requisitos técnicos y documentales de los proyectos",
    "causaRaiz": "no realizar la revisión técnica y documental de los requisitos a cumplir en los proyectos.",
@@ -1180,9 +1195,14 @@
    "kri": "N° de casos de corrupción identificados y tramitados",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Alcanzó el tope de 4 controles del formato anterior."
-   ]
+    "Alcanzó el tope de 4 controles del formato anterior.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0021",
@@ -1376,7 +1396,7 @@
    "proceso": "AC",
    "unidad": "AC-01",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de realizar direccionamiento incorrecto de la documentacion radicada para dilatar el proceso",
    "causaRaiz": "Mal direccionamiento o incorrecto registro de la documentación radicada en el\nsoftware de gestión documental (FOREST), y/o en los correos institucionales.",
@@ -1429,8 +1449,13 @@
    "kri": "(Total de reasignaciones / total de recibidos) * 100",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0025",
@@ -1513,7 +1538,7 @@
    "proceso": "AC",
    "unidad": "AC-02",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Agendar Citas, Formalizar Usuarios o Entregar pasaportes de Manera Irregular, y/o mediante modalidad de Trafico de Influencias",
    "causaRaiz": "Entregar Pasaportes de manera irregular, y/o Mediante la modalidad de trafico de influiencias.",
@@ -1566,9 +1591,14 @@
    "kri": "Capacitaciones Programadas / Capacitaciones Realizadas",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0027",
@@ -1701,7 +1731,7 @@
    "proceso": "SC",
    "unidad": "SC-10",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Recibir o pedir dadivas por parte de un contratista en beneficio propio de un tercero para el pago sin el cumplimiento de los requisitos legales",
    "causaRaiz": "Cancelación o pago a contratistas sin el previo cumplimiento de los requisitos legales y obligaciones contractuales",
@@ -1734,8 +1764,13 @@
    "kri": "número de solicitudes / número de solicitudes revisadas y aprobadas por el funcionario competente",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0030",
@@ -2100,7 +2135,7 @@
    "proceso": "DYC",
    "unidad": "DYC-02",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de  omitir  los requisitos para el prestamo del inmuebele denomidado casa de santander",
    "causaRaiz": "falta de formacion en la etica del servidor publico e inapropiado seguimiento del cumpliento de requisitos en el prestamo del inmueble casa de santander por desconocimiento del procedimiento",
@@ -2163,10 +2198,15 @@
    "kri": "N° de proceso reportados/N° total de procesos",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
     "Alcanzó el tope de 4 controles del formato anterior.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0037",
@@ -2175,7 +2215,7 @@
    "proceso": "DYC",
    "unidad": "DYC-03",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de compartir información clasificada o confidencial  de la entidad",
    "causaRaiz": "ausencia de una herramienta que permita llevar un registro de los funcionarios que acceden a los datos del proceso",
@@ -2218,8 +2258,13 @@
    "kri": "Cantidad de contratistas con verificación del cumplimiento de la cláusula de confidencialidad/Total de contratistas adscritos a la oficina",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0038",
@@ -2465,7 +2510,7 @@
    "proceso": "GETH",
    "unidad": "GETH-01",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de  realizar nombramiento (periodo de prueba, ordinario, encargo,provisionalidades) sin el cumplimiento de los requisitos legales",
    "causaRaiz": "Posibilidad de recibir o solilicitar cualquier dádidva o beneficio a nombre propio o de terceros",
@@ -2518,8 +2563,13 @@
    "kri": "Número de auditorias realizadas en el trimestre / Número de auditorias programadas *100",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0044",
@@ -2844,7 +2894,7 @@
    "proceso": "GJ",
    "unidad": "GJ-03",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Expedir actos adminostrativos y/o certificaciones, sin el cumplimiento de los requisitos",
    "causaRaiz": "",
@@ -2887,8 +2937,13 @@
    "kri": "Número de listas de chequeos diligenciadas /\nNúmero de certificaciones solicitadas",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0051",
@@ -2999,7 +3054,7 @@
    "proceso": "GJ",
    "unidad": "GJ-03",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Recibir o solicitar beneficio alguno para realizar una débil presentación judicial y extrajudicial dentro de los procesos judiciales adelantados o seguidos contra el departamento",
    "causaRaiz": "",
@@ -3042,8 +3097,13 @@
    "kri": "Número de declaraciones de ausencia de conflicto de intereses / Número de poderes conferidos",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0054",
@@ -3093,7 +3153,7 @@
    "proceso": "SC",
    "unidad": "SC-02",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Usuarios,  Productos y Prácticas",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de favorecer personas que no sean reconocidas como victimas",
    "causaRaiz": "Falta de control y monitoreo en la entrega y seguimiento de ayudas a la población victima",
@@ -3136,9 +3196,14 @@
    "kri": "# de victimas beneficiadas/# victimas verificadas en el RUV",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0056",
@@ -3363,7 +3428,7 @@
    "proceso": "SC",
    "unidad": "SC-09",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de  favorecer a un postulante sobre otros dentro de un proceso  contractual debido a la Indebida contratación por  deficiencias en la elaboración de los  estudios previos de los contratos.",
    "causaRaiz": "Indebida contratación por deficiencias en la elaboración de los estudios previos de los contrato",
@@ -3396,8 +3461,13 @@
    "kri": "Contratos realizados / Evaluación de propuestas revisadas",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0061",
@@ -3406,7 +3476,7 @@
    "proceso": "SC",
    "unidad": "SC-09",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de  incumplir en los objetivos de la contratación debido a Indebida supervisión voluntaria o involuntaria en la ejecución de contratos",
    "causaRaiz": "Indebida supervisión voluntaria o involuntaria a la ejecucion de contratos",
@@ -3449,8 +3519,13 @@
    "kri": "Número de reuniones realizadas / Número de reuniones programadas",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0062",
@@ -3602,7 +3677,7 @@
    "proceso": "DSC",
    "unidad": "DSC-26",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Orientar convocatorias o contratos de la secretaria ambiental",
    "causaRaiz": "Proyecto de pliegos o estudios previos en convocatorias o contratos posiblemente orientados que favorezcan a terceros desconociendo los principios de independencia, objetividad e imparcialidad que deben acatar.",
@@ -3665,10 +3740,15 @@
    "kri": "Número de contratos  investigados / número de contratos celebrados",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
     "Alcanzó el tope de 4 controles del formato anterior.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0066",
@@ -4112,7 +4192,7 @@
    "proceso": "DSC",
    "unidad": "DSC-30",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Presentación de informes deficientes o incompletos",
    "causaRaiz": "Deficiente supervisión en la ejecución de Contratos",
@@ -4155,8 +4235,13 @@
    "kri": "Capacitaciones realizadas",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0074",
@@ -4433,7 +4518,7 @@
    "proceso": "DSC",
    "unidad": "DSC-29",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Omitir de los informes presentados por los entes municipales de acuerdo a la normatividad vigente frente a la responsabilidad de las funciones de supervisión en la ejecución de la estampilla para el bienestar del adulto mayor y proanciano",
    "causaRaiz": "Los informes presentados por los entes municipales no correspondan a la adecuada ejecución de los recursos de la estampilla para el bienestar del adulto mayor y proanciano, según la normatividad vigente.\n\nSobrecarga laboral en el funcionario asignado a la responsabilidad de las funciones de supervisión en la ejecución de la estampilla para el bienestar del adulto mayor y proanciano.",
@@ -4466,9 +4551,14 @@
    "kri": "número de reintegros solicitados / número de reintegros efectuados",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0081",
@@ -4724,7 +4814,7 @@
    "proceso": "DSC",
    "unidad": "DSC-28",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de \nbeneficiarse a través de la inadecuada supervisión de la ejecución contractual",
    "causaRaiz": "1.Insuficiente control y supervision de los procesos.                 \n2.Falta de compromiso por parte del funcionario, al interponer intereses persosnales sobre el cumplimiento del deber.   3.Concentracion de poder en un solo funcionario",
@@ -4767,8 +4857,13 @@
    "kri": "Numero de Contratos supervisados /Numero de contratos debidamente publicados en Gane y SECOP",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0086",
@@ -4777,7 +4872,7 @@
    "proceso": "DSC",
    "unidad": "DSC-28",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de \nFavorecer intencionalmente una propuesta presentada  aprovechando la posicion o el cargo y conocimiento de la informacion interna",
    "causaRaiz": "1. Intereses personales                                                                                             2. Trafico de influencias",
@@ -4830,8 +4925,13 @@
    "kri": "Numero de licitaciones o convocatorias publicadas/Numero de licitaciones o convocatorias realizadas",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0087",
@@ -5130,7 +5230,7 @@
    "proceso": "AI",
    "unidad": "AI-02",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Mantener desactualizado los inventarios por erroneo registros y controles en las entradas y salida de almacen",
    "causaRaiz": "Documentos no legibles y/o digitacion inadecuada generan registro erroneo de las entrada y salidas de almacen",
@@ -5183,8 +5283,13 @@
    "kri": "(Número de certificaciones emitidas por el Director\n/ Número de certificaciones programadas en el período) × 100",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0093",
@@ -5492,7 +5597,7 @@
    "proceso": "GJ",
    "unidad": "GJ-02",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de reportar de manera extemporanea la información a los entes de control",
    "causaRaiz": "",
@@ -5535,9 +5640,14 @@
    "kri": "(Informe solicitados / Informes presentados) * 100",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "El instructivo prohíbe aceptar riesgos de corrupción."
-   ]
+    "El instructivo prohíbe aceptar riesgos de corrupción.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0099",
@@ -5660,7 +5770,7 @@
    "proceso": "AI",
    "unidad": "AI-05",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Usuarios,  Productos y Prácticas",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de realizar una inadecuada revisión de los soportes de las cuentas de cobro de los CPS",
    "causaRaiz": "Curva de aprendizaje de los revisores de soportes de cuentas / sobredemanda de cuentas por etapas de contratación",
@@ -5703,8 +5813,13 @@
    "kri": "(# soporte de cuentas revisadas - # soporte de cuentas anuladas) / # soporte de cuentas recibidas   >= 90%",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0102",
@@ -5961,7 +6076,7 @@
    "proceso": "AI",
    "unidad": "AI-01",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de omitir la sustanciacion del proceso",
    "causaRaiz": "Incumplimiento de los termino del proceso disciplinario",
@@ -5994,9 +6109,14 @@
    "kri": "NUmero de reuniones programadas/sobre las realizadas",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0107",
@@ -6479,7 +6599,7 @@
    "proceso": "AI",
    "unidad": "AI-04",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Externo",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de omitir  el cumplimiento normativo y la ejecucion del objeto contractual.",
    "causaRaiz": "Supervisión inadecuada de contratos debido a la falta de:\n1. Falta de capacitación a supervisores en normatividad, funciones y obligaciones. 2. Desconocimiento del manual de supervisión de la entidad. 3.\nAsignación excesiva de contratos a un mismo supervisor. 4. Ausencia de criterios técnicos para designar supervisores. 5. Falta de seguimiento de las obligaciones contractuales por parte de los responsables. 6. Debilidad en el control de la ejecución contractual.",
@@ -6532,8 +6652,13 @@
    "kri": "#contratos liquidados/#total de contratos designados",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0116",
@@ -6593,7 +6718,7 @@
    "proceso": "AI",
    "unidad": "AI-04",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de uso inadecuado e indebido de la informacion en  custodiada",
    "causaRaiz": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio o de terceros al expedir certificaciones por  : 1. Falta de ética o integridad personal por parte del servidor público. 2. Ausencia de mecanismos de control para la expedición de certificaciones. 3. Debilidad en la cultura organizacional de transparencia. 4. Falta de trazabilidad y validación cruzada en el proceso de expedición. 5. Presión externa (política, económica o social) para acelerar o favorecer expediciones. 6. Insuficiente sensibilización frente a actos de corrupción.",
@@ -6646,8 +6771,13 @@
    "kri": "Nº de certificaciones sin respaldo en sistema / Total certificaciones",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0118",
@@ -6719,7 +6849,7 @@
    "proceso": "TIC",
    "unidad": "TIC-03",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de publicar información desfavorable de la gestión de cualquier oficina en la sede electrónica",
    "causaRaiz": "Publicar información desfavorable de la gestión de cualquier oficina en la sede electrónica",
@@ -6772,9 +6902,14 @@
    "kri": "(solicitudes validadas para publicar en la Web / total de solicitudes de publicación recibidas) * 100",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0120",
@@ -7044,7 +7179,7 @@
    "proceso": "GF",
    "unidad": "GF-07",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de priorizar los tramites de devolución de estampillas sin tener en cuenta el orden cronólogico de llegada de las solicitudes",
    "causaRaiz": "Intereses particulares de terceros que buscan influir indebidamente en los tiempos del proceso administrativo para agilizar los trámites de devolución de estampillas, sin respetar los procedimientos y requisitos legales establecidos.",
@@ -7097,8 +7232,13 @@
    "kri": "(No. Procesos Tramitados ( Devolución de Estampillas) / # No. Procesos Recibidos (Devolución de Estampillas))*100",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0126",
@@ -7390,7 +7530,7 @@
    "proceso": "GF",
    "unidad": "GF-04",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de  favorecer el extravio o perdida de documentos fisicos los cuales soportan los procesos en etapa de cobro coactivo",
    "causaRaiz": "Presión de terceros",
@@ -7453,9 +7593,14 @@
    "kri": "(N de procesos digitaizados/ Total de procesos asignados)*100",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Alcanzó el tope de 4 controles del formato anterior."
-   ]
+    "Alcanzó el tope de 4 controles del formato anterior.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0131",
@@ -7649,7 +7794,7 @@
    "proceso": "GF",
    "unidad": "GF-09",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de agilizar, demorar o retener el pago de las obligaciones contraidas del DEPARTAMENTO DE SANTANDER",
    "causaRaiz": "Retención voluntaria de pagos por intereses particulares; sobornos económicos por parte del funcionario público para realizar el pago u ofrecimiento de dineros por terceros intervinientes.",
@@ -7692,9 +7837,14 @@
    "kri": "Número de pagos realizados en el trimestre / Número de obligaciones contraidas radicadas en el trimestre * 100",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0135",
@@ -7703,7 +7853,7 @@
    "proceso": "GF",
    "unidad": "GF-09",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de NO aplicar las medidas cautelares decretatas por los despachos judiciales, entidades del orden territorial y cooperativas en contra de funcionarios, contratistas y proveedores del DEPARTAMENTO DE SANTANDER",
    "causaRaiz": "Pago de coimas o sobornos al funcionario encargado, para que no de aplicabilidad de las medidas cautelares ordenadas. Favorecer a terceros intervinientes e intereses particulares.",
@@ -7746,9 +7896,14 @@
    "kri": "N° de inconsistencias encontradas en el análisis aleatoriao / Tamaño de la muestra",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0136",
@@ -7863,7 +8018,7 @@
    "proceso": "DSC",
    "unidad": "DSC-27",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de beneficiarse a través de la inadecuada supervisión de la ejecución contractual",
    "causaRaiz": "no revisar la adecuada entrega de los bienes y/o servicios exigidos en los contratos y/o convenios suscritos",
@@ -7916,8 +8071,13 @@
    "kri": "Numero de contratos revisados/Numero de total de contratos",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0139",
@@ -8260,7 +8420,7 @@
    "proceso": "GF",
    "unidad": "GF-05",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Revisar obligaciones contraídas sin tener en cuenta las exigencias, condiciones y orden de radicado",
    "causaRaiz": "Tramites de obligaciones contraídas sin verificación de las autorizaciones pertinentes de la oficina gestora y pago de la seguridad social",
@@ -8303,9 +8463,14 @@
    "kri": "Total de cuentas tramitadas sin cumplir los requisitos exigidos / Total de cuentas",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0146",
@@ -8481,7 +8646,7 @@
    "proceso": "GF",
    "unidad": "GF-08",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de emitir registros presupuestales sin cumplir con los parámetros establecidos",
    "causaRaiz": "incumplimineto de los procedimientos establecidos para expedición de RP",
@@ -8514,9 +8679,14 @@
    "kri": "RP CON ERROR\n------------------------------\nTOTAL RP TRAMITADOS\n\n\n\n\n\n\nCDP CON ERROR\n------------------------------\nTOTAL CDP TRAMITADOS",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0150",
@@ -8659,7 +8829,7 @@
    "proceso": "SC",
    "unidad": "SC-03",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de otorgar el reconocimiento de personeria juridica, inscripcion de estatutos e inscripicon y reconocimiento de dignatarios a los organismos de accion comunal",
    "causaRaiz": "conflictos de interes",
@@ -8702,8 +8872,13 @@
    "kri": "número de solicitudes / número de solicitudes revisadas y aprobadas por el funcionario competente",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0153",
@@ -8785,7 +8960,7 @@
    "proceso": "SC",
    "unidad": "SC-04",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de realizar pagos a contratsitas sin cumplimiento de las obligaciones contractuales",
    "causaRaiz": "La Cancelacion  o pago a contratistas sin previo cumplimiento de los requisitos",
@@ -8828,8 +9003,13 @@
    "kri": "#Cuentas de Cobro aprobadas /#Cuentas de Cobro recibidas*100",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0155",
@@ -8944,7 +9124,7 @@
    "proceso": "GSS",
    "unidad": "GSS-07",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de orientar en beneficio propio un contrato, un trámite o servicio realizado por algunos de los miembros de la Secretaria de salud departamental",
    "causaRaiz": "Posibilidad de orientar en beneficio propio un contrato, trámite o servicio realizado por algunos de los funcionarios o contratistas pertenecientes a la secretaria de salud Departamental.",
@@ -8977,8 +9157,13 @@
    "kri": "Casos relacionados con Davidas/Total de actuaciones suceptibles al riesgo*100",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0158",
@@ -8987,7 +9172,7 @@
    "proceso": "GF",
    "unidad": "GF-06",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Externo",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Reconocer una Sustituciópn de Pensión sin el cumplimiento de los requisitos que otorga el derecho",
    "causaRaiz": "Testimonios falsos presentados por los solicitantes de la presentación",
@@ -9030,8 +9215,13 @@
    "kri": "(N° de sustituciones negadas / N° de sustituciones recibidas y  revisadas) X 100",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0159",
@@ -10151,7 +10341,7 @@
    "proceso": "GSS",
    "unidad": "GSS-14",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Realizar de trámites sin el cumplimiento de requisitos; gestionar trámites por fuera de los canales oficiales o tiempos establecidos.",
    "causaRaiz": "Incumplimiento en los tramites establecidos en el grupo.",
@@ -10184,9 +10374,14 @@
    "kri": "NUmero de tramites reportados con posible beneficio de terceros/Numero total de tramites ejecutados en la vigencia *100",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0180",
@@ -10560,7 +10755,7 @@
    "proceso": "GE",
    "unidad": "GE-07",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de otorgar o modificar  el reconocimiento oficial de los establecimientos educativos sin el cumplimiento de los requisitos legales establecidos",
    "causaRaiz": "Insuficiencia en el seguimiento,  verificación y control de los establecimientos que prestan servicios educativos",
@@ -10613,8 +10808,13 @@
    "kri": "(Número de resoluciones expedidas / Número de solicitudes que cumplen con los requisitos legales)",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0188",
@@ -10820,7 +11020,7 @@
    "proceso": "GE",
    "unidad": "GE-02",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Realizar la entrega del complemento alimentario fuera de las fechas establecidas y sin la calidad esperada",
    "causaRaiz": "Insuficientes controles de seguimiento y verificación al cumplimiento del programa de alimentación escolar",
@@ -10883,9 +11083,14 @@
    "kri": "Porcentaje de satisfacción del programa de alimentación escolar según las encuestas aplicadas a los estudiantes",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Alcanzó el tope de 4 controles del formato anterior."
-   ]
+    "Alcanzó el tope de 4 controles del formato anterior.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0192",
@@ -10894,7 +11099,7 @@
    "proceso": "GE",
    "unidad": "GE-14",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Realizar nombramientos, ascensos en el escalafon o bonificaciones salariales por especialización, maestria o doctorado sin el cumplimiento de los requisitos legales.",
    "causaRaiz": "Presentación de documentos falsos por parte del personal docente y directivo docente al momento de oficializar el nombramiento, solicitar ascenso en el escalafón o bonificaciones salariales por especialización, maestría o doctorado",
@@ -10947,8 +11152,13 @@
    "kri": "(Número de nombramientos, ascensos en el escalafon o bonificaciones salariales por especialización, maestria o doctorado realizados sin el cumplimiento de los requisitos legales / Número de nombramientos, ascensos en el escalafon o bonificaciones salariales por especialización, maestria o doctorado realizados)",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0193",
@@ -11079,7 +11289,7 @@
    "proceso": "CE",
    "unidad": "CE-01",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de alterar, modificar, omitir o expedir conceptos contrarios a la  Ley en el desarrollo de los roles de control Interno",
    "causaRaiz": "Desatender  los principios de independencia objetividad, idoneidad e imparcialidad que deben acatar los funcionarios o contratistas de la oficina de Control Interno.",
@@ -11142,9 +11352,14 @@
    "kri": "Número de funcionarios capacitados/Total funcionarios del área de Control Interno",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Alcanzó el tope de 4 controles del formato anterior."
-   ]
+    "Alcanzó el tope de 4 controles del formato anterior.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0196",
@@ -11153,7 +11368,7 @@
    "proceso": "CE",
    "unidad": "CE-01",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de dar uso indebido a la información que se conoce en razón a la ejecución de actividades o roles establecidos en la oficina de control interno.",
    "causaRaiz": "desconocimiento de las políticas de confidencialidad de la información",
@@ -11196,8 +11411,13 @@
    "kri": "Número de mesas de trabajo realizadas en el cuatrimestre/Número de mesas programadas",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0197",
@@ -11523,7 +11743,7 @@
    "proceso": "CCP",
    "unidad": "CCP-01",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Uso inadecuado o indebido de informacion",
    "causaRaiz": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio o de terceros al expedir certificaciones",
@@ -11566,8 +11786,13 @@
    "kri": "Numero de funcionarios y contratistas capacitados/Numero total de funcionarios y contratistas del area de Contratacion",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0203",
@@ -11576,7 +11801,7 @@
    "proceso": "DSC",
    "unidad": "DSC-32",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de manipular los procesos de contratación de la dependencia",
    "causaRaiz": "Falta de ética por parte de los funcionarios que administran o asignan recursos públicos",
@@ -11629,8 +11854,13 @@
    "kri": "Evaluaciones realizadas / Licitaciones realizadas",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0204",
@@ -11639,7 +11869,7 @@
    "proceso": "DSC",
    "unidad": "DSC-32",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de viabilizar proyectos de vivienda omitiendo la normatividad vigente y los requisitos del sector",
    "causaRaiz": "Omisión de los requisitos necesarios para viabilizar proyectos de vivienda",
@@ -11692,8 +11922,13 @@
    "kri": "Mesas técnicas realizadas / Número de proyectos estructurados  durante el periódo evaluado",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0205",
@@ -11855,7 +12090,7 @@
    "proceso": "GETH",
    "unidad": "GETH-01",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de reconocer auxilios económicos (lentes o educativos) a funcionarios  sin cumplir con los requisitos establecidos",
    "causaRaiz": "por la posible solicitud o aceptación de dádivas o beneficios personales, sin el cumplimiento de los requisitos establecidos",
@@ -11898,8 +12133,13 @@
    "kri": "Número de solicitudes con requisitos verificados y completos/ Número de solicitudes recibidas * 100",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0209",
@@ -12136,7 +12376,7 @@
    "proceso": "DYC",
    "unidad": "DYC-01",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Fraude Interno",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de Utilizar o divulgar información confidencial o estratégica del Despacho del Gobernador",
    "causaRaiz": "Uso indebido de información privilegiada",
@@ -12189,9 +12429,14 @@
    "kri": "Cantidad de eventos de uso no autorizado de información",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general.",
-    "Tratamiento «Evitar» con controles activos: verificar subestrategia."
-   ]
+    "Tratamiento «Evitar» con controles activos: verificar subestrategia.",
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0214",
@@ -12200,7 +12445,7 @@
    "proceso": "DSC",
    "unidad": "DSC-32",
    "dependencia": null,
-   "tipo": "COR",
+   "tipo": "INT",
    "clase": "Ejecución y Administración de Procesos",
    "descripcion": "Posibilidad de recibir o solicitar cualquier dádiva o beneficio a nombre propio de terceros con el fin de asignar subsidios complementarios de vivienda individuales, sin el cumplimiento de los requisitos vigentes",
    "causaRaiz": "Desconocimiento u omisión de los requisitos necesarios para la asignación de subsidios complementarios de vivienda individuales",
@@ -12243,8 +12488,13 @@
    "kri": "Número de beneficiarios registrados en la base de datos del control financiero del convenio /  Solicitudes de asignación aprobadas.",
    "estado": "VIGENTE",
    "revisar": [
-    "Impacto calculado con el cuestionario de 19 preguntas de la guía v6. Bajo la v7 debe revalorarse con la tabla de impacto general."
-   ]
+    "Migrado a riesgo de integridad (guía v7). Falta definir la causa inmediata (soborno, fraude, corrupción, conflicto de intereses o LA/FT/FP) y revalorar el impacto con la tabla general."
+   ],
+   "areaIntegridad": "afectación Económica y Reputacional",
+   "causaInmediata": "",
+   "factorLAFT": "",
+   "puntoRiesgo": "",
+   "accion": ""
   },
   {
    "id": "m0215",
