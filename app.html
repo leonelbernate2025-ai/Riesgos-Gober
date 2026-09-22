@@ -320,7 +320,7 @@ tbody tr:hover td{background:var(--surface-2)}
 <div class="app">
   <aside class="rail">
     <div class="brand">
-      <div class="brand-mark"><b>Riesgos</b><span class="mono" title="Compilación del prototipo">v7 &middot; b14</span></div>
+      <div class="brand-mark"><b>Riesgos</b><span class="mono" title="Compilación del prototipo">v7 &middot; b16</span></div>
       <small>Gobernación de Santander</small>
     </div>
     <nav class="nav" id="nav"></nav>
@@ -502,30 +502,114 @@ const CAT = {
      Cambiar una plantilla aquí no requiere tocar el motor. */
   tiposRiesgo:[
     {c:"GES", n:"Riesgo de Gestión", impacto:"TABLA",
-     campos:["areaImpacto","causaRaiz","efectoInmediato"],
+     campos:["causaRaiz","efectoInmediato","areaImpacto","factores"],
      plantilla:"Posibilidad de pérdida {areaImpacto} por {efectoInmediato} debido a {causaRaiz}"},
     {c:"SED", n:"Riesgo de Seguridad Digital", impacto:"TABLA",
-     campos:["activo","propiedadSD","efectoInmediato","causaRaiz"],
-     plantilla:"{propiedadSD} de {activo} por {efectoInmediato} debido a {causaRaiz}"},
+     campos:["tipoActivo","activo","propiedadSD","vulnerabilidad","amenaza","factores"],
+     plantilla:"{propiedadSD} de {activo} por {amenaza} debido a {vulnerabilidad}"},
     {c:"RFI", n:"Riesgo Fiscal", impacto:"TABLA",
-     campos:["areaFiscal","causaRaiz","efectoInmediato"],
+     campos:["causaRaiz","efectoInmediato","areaFiscal","factores"],
      plantilla:"Posibilidad de efecto dañoso sobre {areaFiscal} por {efectoInmediato} debido a {causaRaiz}"},
-    {c:"COR", n:"Riesgo de Corrupción", impacto:"TABLA",
-     campos:["areaImpacto","accion","causaRaiz"],
+    {c:"INT", n:"Riesgo de Integridad", impacto:"TABLA",
+     campos:["causaInmediata","causaRaiz","areaIntegridad","factorLAFT","puntoRiesgo","accion"],
+     plantilla:"__INTEGRIDAD__"},
+    /* Tipos anteriores: se conservan para que los riesgos ya registrados
+       sigan siendo legibles, pero no se ofrecen al crear uno nuevo. */
+    {c:"COR", n:"Riesgo de Corrupción (anterior)", impacto:"TABLA", oculto:true,
+     campos:["areaImpacto","accion","causaRaiz","factores"],
      plantilla:"Posibilidad de afectación {areaImpacto} por {accion} a causa de {causaRaiz}"},
-    {c:"CI",  n:"Conflicto de Intereses", impacto:"TABLA",
-     campos:["areaImpacto","accion","causaRaiz"],
+    {c:"CI",  n:"Conflicto de Intereses (anterior)", impacto:"TABLA", oculto:true,
+     campos:["areaImpacto","accion","causaRaiz","factores"],
      plantilla:"Posibilidad de afectación {areaImpacto} por conflicto de intereses en {accion} a causa de {causaRaiz}"}
   ],
 
   etiquetas:{
+    causaRaiz:"Causa raíz", efectoInmediato:"Efecto inmediato",
     areaImpacto:"Área de impacto", areaFiscal:"Área de impacto fiscal",
-    activo:"Activo de información", propiedadSD:"Propiedad afectada",
-    causaRaiz:"Causa raíz", efectoInmediato:"Efecto inmediato / Amenaza",
-    accion:"Acción"
+    areaIntegridad:"Área de impacto", tipoActivo:"Tipo de activo",
+    activo:"Nombre del activo de información", propiedadSD:"Propiedad afectada",
+    vulnerabilidad:"Vulnerabilidad", amenaza:"Amenaza",
+    causaInmediata:"Causa inmediata", factorLAFT:"Factor de riesgo",
+    puntoRiesgo:"Punto de riesgo", accion:"Acción", factores:"Factores de riesgo"
   },
 
   areaImpacto:["Económica","Reputacional","Económica y reputacional"],
+
+  /* --- Integridad pública (Guía v7, capítulo VI) --- */
+  causaInmediata:[
+    "Soborno Entrante","Soborno Saliente","Fraude","Corrupción",
+    "Inadecuada gestión del conflicto de intereses","LA/FT/FP"],
+  areaIntegridad:[
+    "afectación Reputacional","afectación Económica",
+    "afectación Económica y Reputacional","afectación Legal","Contagio"],
+  factorLAFT:["Contrapartes","Productos","Canales","Jurisdicciones"],
+  puntoRiesgo:[
+    "Contratación de bienes","Contratación de servicios","Pago a contratistas",
+    "Pago a proveedores","Recepción de bienes","Recepción de servicios",
+    "Recaudo de ingresos","Cobro de tasas, contribuciones o derechos",
+    "Administración de recursos financieros","Transferencia de recursos",
+    "Otorgamiento de subsidios o incentivos","Convenios interadministrativos",
+    "Convenios con entidades privadas","Administración de caja menor",
+    "Manejo de anticipos","Administración de activos","Enajenación de bienes",
+    "Donaciones recibidas","Donaciones entregadas","Gestión de cuentas por cobrar",
+    "Gestión de cuentas por pagar","Trámites que impliquen pagos por parte de la ciudadanía",
+    "Trámites que impliquen devolución de recursos","Operaciones de tesorería"],
+  /* Definición que se concatena al final de la descripción, según la causa */
+  definicionCausa:{
+    "Fraude":"errores, omisiones, informes inexactos o descripciones incorrectas realizados con culpa o dolo para beneficio personal o de terceros",
+    "Soborno Entrante":"aceptar o solicitar una ventaja indebida de cualquier valor, directa o indirectamente, e independientemente de la ubicación, en violación de la ley aplicable",
+    "Soborno Saliente":"ofrecer, prometer o dar una ventaja indebida de cualquier valor, directa o indirectamente, e independientemente de la ubicación, en violación de la ley aplicable",
+    "Corrupción":"desviar la gestión administrativa o los recursos públicos y privados para obtener un beneficio propio o para un tercero"
+  },
+
+  /* --- Seguridad digital: NTC-ISO/IEC 27005 --- */
+  inventarioActivos:"https://santander.gov.co/publicaciones/7287/registro-de-activos-de-informacion/",
+  vulnerabilidad:[
+    "Almacenamiento sin protección","Áreas susceptibles a inundación",
+    "Asignación errada de los derechos de acceso",
+    "Ausencia de acuerdos de nivel de servicio (ANS o SLA)",
+    "Ausencia de control de los activos que se encuentran fuera de las instalaciones",
+    "Ausencia de documentación","Ausencia de esquemas de reemplazo periódico",
+    "Ausencia de mecanismos de identificación y autenticación de usuarios",
+    "Ausencia de mecanismos de monitoreo para brechas en la seguridad",
+    "Ausencia de políticas de uso aceptable",
+    "Ausencia de procedimiento de registro/retiro de usuarios",
+    "Ausencia de procedimientos y/o de políticas en general",
+    "Ausencia de proceso para supervisión de derechos de acceso",
+    "Ausencia de protección en puertas o ventanas",
+    "Ausencia de pruebas de envío o recepción de mensajes",
+    "Ausencia de registros de auditoría","Ausencia de terminación de sesión",
+    "Ausencia del personal","Ausencia o insuficiencia de pruebas de software",
+    "Conexión deficiente de cableado","Contraseñas sin protección",
+    "Copia no controlada","Entrenamiento insuficiente",
+    "Falta de conciencia en seguridad","Falta de cuidado en la disposición final",
+    "Fechas incorrectas","Interfaz de usuario compleja",
+    "Líneas de comunicación sin protección","Mantenimiento insuficiente",
+    "Punto único de falla","Red eléctrica inestable",
+    "Sensibilidad a la radiación electromagnética","Software nuevo o inmaduro",
+    "Susceptibilidad a las variaciones de temperatura (o al polvo y suciedad)",
+    "Trabajo no supervisado de personal externo o de limpieza",
+    "Tráfico sensible sin protección",
+    "Uso inadecuado de los controles de acceso al edificio"],
+  amenaza:[
+    "Abuso de derechos","Agua","Congelamiento","Contaminación",
+    "Copia fraudulenta del software","Corrosión","Corrupción de los datos",
+    "Datos provenientes de fuentes no confiables","Destrucción de los equipos o medios",
+    "Detección de la posición","Divulgación","Error en el uso","Escucha encubierta",
+    "Espionaje remoto","Falla del equipo","Falla en el equipo de telecomunicaciones",
+    "Falla en el sistema de suministro de agua o de aire acondicionado",
+    "Falsificación de derechos","Fenómenos climáticos","Fenómenos meteorológicos",
+    "Fenómenos sísmicos","Fenómenos volcánicos","Fuego","Hurto de equipo",
+    "Hurto de medios o documentos","Incumplimiento de la disponibilidad de personal",
+    "Incumplimiento en el mantenimiento del sistema de información",
+    "Interceptación de señales de interferencia comprometida","Inundación",
+    "Mal funcionamiento del equipo","Mal funcionamiento del software",
+    "Manipulación con hardware","Manipulación con software","Negación de acciones",
+    "Pérdida de suministro de energía","Polvo","Procesamiento ilegal de los datos",
+    "Radiación electromagnética, radiación térmica, impulsos electromagnéticos",
+    "Recuperación de medios reciclados o desechados",
+    "Saturación del sistema de información","Uso de software falso o copiado",
+    "Uso no autorizado del equipo"],
   areaFiscal:["Bienes públicos","Recursos públicos","Intereses patrimoniales de naturaleza pública"],
   propiedadSD:["Pérdida de la confidencialidad","Pérdida de la integridad","Pérdida de la disponibilidad"],
   tipoActivo:["Información","Software","Hardware","Servicios","Intangibles","Componentes de red","Personas","Instalaciones"],
@@ -593,7 +677,7 @@ const CAT = {
   tratamiento:[
     {c:"Reducir",  exigePlan:true,  exigeSub:false, zonas:null, excluye:[]},
     {c:"Compartir",exigePlan:false, exigeSub:false, zonas:null, excluye:[]},
-    {c:"Aceptar",  exigePlan:false, exigeSub:false, zonas:["Bajo","Moderado"], excluye:["COR","CI"]},
+    {c:"Aceptar",  exigePlan:false, exigeSub:false, zonas:["Bajo","Moderado"], excluye:["INT","COR","CI"]},
     {c:"Evitar",   exigePlan:false, exigeSub:true,  zonas:null, excluye:[]}
   ],
   subestrategia:["Transferir","Mitigar","Cesar la actividad"],
@@ -658,6 +742,18 @@ const CAT = {
     planAccion:{
       q:"Actividades concretas y verificables, no intenciones.",
       ej:"Documentar el procedimiento de verificación de soportes y socializarlo con los seis profesionales del área"},
+    causaInmediata:{
+      q:"Amenaza concreta contra la integridad pública que daría origen al riesgo.", ej:""},
+    areaIntegridad:{
+      q:"Sobre qué recae la afectación. Todas deben poder traducirse a un efecto económico para aplicar la tabla de impacto.", ej:""},
+    factorLAFT:{
+      q:"Factor generador propio de LA/FT/FP. Obliga a segmentar y definir señales de alerta.", ej:""},
+    puntoRiesgo:{
+      q:"Operación de la entidad donde se intercambian recursos y podría materializarse el riesgo.", ej:""},
+    vulnerabilidad:{
+      q:"Debilidad del activo que una amenaza podría aprovechar.", ej:""},
+    amenaza:{
+      q:"Causa potencial de un incidente que puede afectar al activo.", ej:""},
     kri:{
       q:"Una fórmula que se pueda medir cada trimestre.",
       ej:"(Nº de pagos con soporte verificado / Nº total de pagos del periodo) × 100"}
@@ -715,10 +811,39 @@ const Motor = {
   describir(tipoC, datos){
     const t = CAT.tiposRiesgo.find(x => x.c === tipoC);
     if (!t) return "";
+    if (t.plantilla === "__INTEGRIDAD__") return this.describirIntegridad(datos);
     return t.plantilla.replace(/\{(\w+)\}/g, (_, k) => {
       const v = (datos[k] || "").toString().trim();
       return v ? (k === "areaImpacto" ? v.toLowerCase() : v) : `[${CAT.etiquetas[k] || k}]`;
     });
+  },
+
+  /* La redacción del riesgo de integridad cambia según la causa inmediata
+     (Guía v7, capítulo VI). Las tres variantes están parametrizadas. */
+  describirIntegridad(d){
+    const ph = k => `[${CAT.etiquetas[k] || k}]`;
+    const area = (d.areaIntegridad || "").trim() || ph("areaIntegridad");
+    const causa = (d.causaInmediata || "").trim();
+    const accion = (d.accion || "").trim() || ph("accion");
+
+    if (!causa) return `Posibilidad de ${area} por ${ph("causaInmediata")}…`;
+
+    if (causa === "LA/FT/FP"){
+      const punto = (d.puntoRiesgo || "").trim() || ph("puntoRiesgo");
+      return `Posibilidad de ${area} por usar la entidad para dar apariencia de legalidad a los `
+        + `activos provenientes de actividades delictivas o para canalizar recursos hacia la `
+        + `realización de actividades terroristas o la proliferación de armas de destrucción `
+        + `masiva a causa de fallas u omisiones en las operaciones de ${punto}`;
+    }
+
+    if (causa === "Inadecuada gestión del conflicto de intereses"){
+      return `Posibilidad de ${area} por ${causa} a causa de decidir en un asunto sobre el cual `
+        + `el servidor tiene un interés particular y directo en su regulación, gestión, control `
+        + `o decisión en la ${accion}`;
+    }
+
+    const def = CAT.definicionCausa[causa] || ph("definición de la causa");
+    return `Posibilidad de ${area} por ${causa} en la/el ${accion} a causa de ${def}`;
   },
   validarTratamiento(opcion, tipoRiesgoC, zonaResidual, subestrategia, acta){
     const o = CAT.tratamiento.find(t => t.c === opcion);
@@ -987,7 +1112,9 @@ function barrasFiltros(){
     <div class="f"><label for="f3">Dependencia</label><select id="f3" autocomplete="off"><option value="">Todas</option>
       ${opts(unis, f.unidad, u => [u.c, u.n])}</select></div>
     <div class="f"><label for="f4">Tipo de riesgo</label><select id="f4" autocomplete="off"><option value="">Todos</option>
-      ${opts(CAT.tiposRiesgo, f.tipo, t => [t.c, t.n])}</select></div>
+      ${opts(CAT.tiposRiesgo.filter(t => !t.oculto
+        || S.riesgos.some(r => r.tipo === t.c && r.estado !== "OBSOLETO")),
+        f.tipo, t => [t.c, t.n])}</select></div>
     <div class="f"><label for="f5">Zona residual</label><select id="f5" autocomplete="off"><option value="">Todas</option>
       ${opts(["Bajo","Moderado","Alto","Extremo"], f.zona, z => [z, z])}</select></div>
     <button class="btn ghost" id="fClear">Limpiar</button>
@@ -1192,6 +1319,8 @@ function abrirFormulario(id){
   F = existente ? JSON.parse(JSON.stringify(existente)) : {
     id: uid(), tipo:"GES", macroproceso:"", proceso:"", unidad:"", dependencia:"", clase:"", factores:[],
     areaImpacto:"", areaFiscal:"", activo:"", tipoActivo:"", propiedadSD:"",
+    vulnerabilidad:"", amenaza:"",
+    causaInmediata:"", areaIntegridad:"", factorLAFT:"", puntoRiesgo:"",
     causaRaiz:"", efectoInmediato:"", accion:"",
     frecuencia:"", impactoNivel:"", controles:[], tratamiento:"", subestrategia:"",
     acta:"", planAccion:"", responsablePlan:"", kri:"", fechaPlan:"",
@@ -1231,35 +1360,76 @@ function pintarFormulario(){
       return `<option value="${esc(v)}" ${val === v ? "selected" : ""}>${esc(tx)}</option>`; }).join("")}
   </select>`;
 
-  let condicionales = "";
-  if (campos.includes("areaImpacto")) condicionales += `<div class="field">
-    <label class="req">Área de impacto</label>
-    ${sel("fArea", F.areaImpacto, CAT.areaImpacto, x => [x, x], "Seleccione")}</div>`;
-  if (campos.includes("areaFiscal")) condicionales += `<div class="field">
-    <label class="req">Área de impacto fiscal</label>
-    ${sel("fAreaF", F.areaFiscal, CAT.areaFiscal, x => [x, x], "Seleccione")}
-    <p class="hint">Patrimonio público sobre el que recae el efecto dañoso.</p></div>`;
-  if (campos.includes("propiedadSD")) condicionales += `<div class="grid2">
-    <div class="field"><label class="req">Tipo de activo</label>
-      ${sel("fTipoAct", F.tipoActivo, CAT.tipoActivo, x => [x, x], "Seleccione")}</div>
-    <div class="field"><label class="req">Propiedad afectada</label>
-      ${sel("fProp", F.propiedadSD, CAT.propiedadSD, x => [x, x], "Seleccione")}</div></div>
-    <div class="field"><label class="req">Nombre del activo de información</label>
-      <input type="text" id="fActivo" value="${esc(F.activo)}" placeholder="Base de datos de contribuyentes"></div>`;
-  if (campos.includes("accion")) condicionales += `<div class="field">
-    <label class="req">Acción</label>
-    <input type="text" id="fAccion" value="${esc(F.accion)}" placeholder="${esc(CAT.ayuda.accion.ej)}">
-    ${ayudaCampo("accion")}</div>`;
-  if (campos.includes("efectoInmediato")) condicionales += `<div class="field">
-    <label class="req">${F.tipo === "SED" ? "Amenaza" : "Efecto inmediato"}</label>
-    <input type="text" id="fEfecto" value="${esc(F.efectoInmediato)}"
-      placeholder="${F.tipo === "SED" ? "acceso no autorizado a la base de datos" : esc(CAT.ayuda.efectoInmediato.ej)}">
-    ${ayudaCampo("efectoInmediato")}</div>`;
-  if (campos.includes("causaRaiz")) condicionales += `<div class="field">
-    <label class="req">${F.tipo === "SED" ? "Vulnerabilidad" : "Causa raíz"}</label>
-    <input type="text" id="fCausa" value="${esc(F.causaRaiz)}"
-      placeholder="${F.tipo === "SED" ? "la ausencia de control de acceso por perfiles" : esc(CAT.ayuda.causaRaiz.ej)}">
-    ${ayudaCampo("causaRaiz")}</div>`;
+  /* Cada campo se pinta en el orden que define el tipo de riesgo.
+     Cambiar el orden es cambiar el arreglo campos del catálogo. */
+  const campoSelect = (id, key, lista, ph, ayuda) => `<div class="field">
+    <label class="req">${esc(CAT.etiquetas[key] || key)}</label>
+    ${sel(id, F[key], lista, x => [x, x], ph || "Seleccione")}
+    ${ayuda !== false ? ayudaCampo(key) : ""}</div>`;
+
+  const campoTexto = (id, key, ph, ayuda) => `<div class="field">
+    <label class="req">${esc(CAT.etiquetas[key] || key)}</label>
+    <input type="text" id="${id}" value="${esc(F[key] || "")}" placeholder="${esc(ph || "")}">
+    ${ayuda ? `<p class="hint">${ayuda}</p>` : ayudaCampo(key)}</div>`;
+
+  const esLAFT = F.causaInmediata === "LA/FT/FP";
+
+  const PINTAR = {
+    causaRaiz: () => F.tipo === "INT"
+      ? campoTexto("fCausa", "causaRaiz", "la inexistencia de segregación de funciones en la aprobación",
+          "Identifique la causa raíz del riesgo utilizando metodologías como los cinco porqués o la espina de pescado.")
+      : campoTexto("fCausa", "causaRaiz", CAT.ayuda.causaRaiz.ej),
+
+    efectoInmediato: () => campoTexto("fEfecto", "efectoInmediato", CAT.ayuda.efectoInmediato.ej),
+
+    areaImpacto: () => campoSelect("fArea", "areaImpacto", CAT.areaImpacto),
+
+    areaFiscal: () => `<div class="field"><label class="req">Área de impacto fiscal</label>
+      ${sel("fAreaF", F.areaFiscal, CAT.areaFiscal, x => [x, x], "Seleccione")}
+      <p class="hint">Patrimonio público sobre el que recae el efecto dañoso.</p></div>`,
+
+    tipoActivo: () => campoSelect("fTipoAct", "tipoActivo", CAT.tipoActivo),
+
+    activo: () => `<div class="field"><label class="req">Nombre del activo de información</label>
+      <input type="text" id="fActivo" value="${esc(F.activo || "")}"
+        placeholder="Base de datos del Sistema de Información de Hacienda">
+      <p class="hint">Debe coincidir con el inventario de activos del proceso, que se actualiza
+        varias veces al año.
+        <a href="${CAT.inventarioActivos}" target="_blank" rel="noopener">Consultar el registro
+        de activos de información</a></p></div>`,
+
+    propiedadSD: () => campoSelect("fProp", "propiedadSD", CAT.propiedadSD),
+
+    vulnerabilidad: () => campoSelect("fVul", "vulnerabilidad", CAT.vulnerabilidad),
+
+    amenaza: () => campoSelect("fAme", "amenaza", CAT.amenaza),
+
+    causaInmediata: () => campoSelect("fCausaInm", "causaInmediata", CAT.causaInmediata),
+
+    areaIntegridad: () => campoSelect("fAreaInt", "areaIntegridad", CAT.areaIntegridad),
+
+    factorLAFT: () => esLAFT ? campoSelect("fFactorL", "factorLAFT", CAT.factorLAFT) : "",
+
+    puntoRiesgo: () => esLAFT ? campoSelect("fPunto", "puntoRiesgo", CAT.puntoRiesgo) : "",
+
+    accion: () => campoTexto("fAccion", "accion",
+      F.tipo === "INT" ? "revisión de los estudios previos" : CAT.ayuda.accion.ej,
+      F.tipo === "INT"
+        ? "Utilice sustantivos de acción como: planeación, ejecución, elaboración, revisión, recaudo."
+        : null),
+
+    factores: () => `<div class="field"><label>Factores de riesgo</label>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        ${CAT.factores.map(f => `<label style="display:flex;align-items:center;gap:5px;margin:0;
+          padding:4px 9px;border:1px solid var(--line);border-radius:14px;cursor:pointer;
+          background:${(F.factores || []).includes(f) ? "var(--accent-soft)" : "var(--surface)"};
+          color:${(F.factores || []).includes(f) ? "var(--accent-ink)" : "var(--ink-2)"};font-size:12px">
+          <input type="checkbox" data-fac="${esc(f)}" ${(F.factores || []).includes(f) ? "checked" : ""}
+            style="width:auto;margin:0">${esc(f)}</label>`).join("")}
+      </div></div>`
+  };
+
+  const condicionales = campos.map(k => (PINTAR[k] ? PINTAR[k]() : "")).join("");
 
   const npNivel = F.probabilidadNivel;
   const controles = (F.controles || []).map((c, k) => {
@@ -1318,23 +1488,20 @@ function pintarFormulario(){
 
     <div class="grid2">
       <div class="field"><label class="req">Tipo de riesgo</label>
-        ${sel("fTipo", F.tipo, CAT.tiposRiesgo, t => [t.c, t.n], "")}
+        ${sel("fTipo", F.tipo, CAT.tiposRiesgo.filter(t => !t.oculto || t.c === F.tipo),
+              t => [t.c, t.n], "")}
         <p class="hint">Determina qué campos se habilitan y cómo se redacta el riesgo.</p></div>
       <div class="field"><label>Clase de riesgo</label>
         ${sel("fClase", F.clase, CAT.claseRiesgo, x => [x, x], "Seleccione")}</div>
     </div>
 
-    ${condicionales}
+    ${F.tipo === "INT" ? `<div class="banner info"><span>&#9432;</span><div>
+      La versión 7 reemplaza la categoría de corrupción por <b>riesgo de integridad</b>, que agrupa
+      soborno, fraude, corrupción, conflicto de intereses y LA/FT/FP. La redacción del riesgo cambia
+      según la causa inmediata que elija, y el impacto se valora con la tabla general, ya no con el
+      cuestionario de diecinueve preguntas.</div></div>` : ""}
 
-    <div class="field"><label>Factores de riesgo</label>
-      <div style="display:flex;gap:7px;flex-wrap:wrap">
-        ${CAT.factores.map(f => `<label style="display:flex;align-items:center;gap:5px;margin:0;
-          padding:4px 9px;border:1px solid var(--line);border-radius:14px;cursor:pointer;
-          background:${(F.factores || []).includes(f) ? "var(--accent-soft)" : "var(--surface)"};
-          color:${(F.factores || []).includes(f) ? "var(--accent-ink)" : "var(--ink-2)"};font-size:12px">
-          <input type="checkbox" data-fac="${esc(f)}" ${(F.factores || []).includes(f) ? "checked" : ""}
-            style="width:auto;margin:0">${esc(f)}</label>`).join("")}
-      </div></div>
+    ${condicionales}
 
     <div class="field">
       <label>Descripción generada</label>
@@ -1447,6 +1614,15 @@ function enlazarFormulario(){
   bind("fClase", "clase");
   bind("fArea", "areaImpacto"); bind("fAreaF", "areaFiscal");
   bind("fTipoAct", "tipoActivo"); bind("fProp", "propiedadSD");
+  bind("fVul", "vulnerabilidad"); bind("fAme", "amenaza");
+  bind("fAreaInt", "areaIntegridad"); bind("fFactorL", "factorLAFT");
+  bind("fPunto", "puntoRiesgo");
+  /* Cambiar la causa inmediata habilita o esconde factor y punto de riesgo */
+  on("fCausaInm", "onchange", e => {
+    F.causaInmediata = e.target.value;
+    if (F.causaInmediata !== "LA/FT/FP"){ F.factorLAFT = ""; F.puntoRiesgo = ""; }
+    pintarFormulario();
+  });
   bind("fImp", "impactoNivel"); bind("fTrat", "tratamiento"); bind("fSub", "subestrategia");
 
   ["fActivo:activo","fAccion:accion","fEfecto:efectoInmediato","fCausa:causaRaiz",
@@ -1497,8 +1673,10 @@ async function guardarRiesgo(){
   if (!F.impactoNivel) falta.push("nivel de impacto");
   if (!F.tratamiento) falta.push("tratamiento");
   tipo(F.tipo).campos.forEach(c => {
-    const v = c === "propiedadSD" ? F.propiedadSD : F[c];
-    if (!v) falta.push((CAT.etiquetas[c] || c).toLowerCase());
+    if (c === "factores") return;                       // opcional
+    if ((c === "factorLAFT" || c === "puntoRiesgo")
+        && F.causaInmediata !== "LA/FT/FP") return;     // solo para LA/FT/FP
+    if (!F[c]) falta.push((CAT.etiquetas[c] || c).toLowerCase());
   });
   if (falta.length) return aviso("Faltan datos", `Completa: ${falta.join(", ")}.`);
 
@@ -1574,10 +1752,34 @@ function verRiesgo(id){
       <div class="calc-row"><span>Resultado</span>
         <span class="mono">P ${pct(res.probabilidad)} · I ${pct(res.impacto)} → ${res.zona}</span></div>
     </div>
-    <h3 style="margin:17px 0 9px">Tratamiento</h3>
-    <p style="font-size:13px;margin:0">${esc(r.tratamiento)}${r.subestrategia ? " · " + esc(r.subestrategia) : ""}</p>
-    ${r.planAccion ? `<div class="calc" style="margin-top:9px">${esc(r.planAccion)}
-      ${r.fechaPlan ? `<div class="hint" style="margin-top:5px">Cumplimiento: ${esc(r.fechaPlan)}</div>` : ""}</div>` : ""}
+    <h3 style="margin:17px 0 9px">Tratamiento y plan de acción</h3>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px">
+      <span class="tag">${esc(r.tratamiento || "Sin definir")}</span>
+      ${r.subestrategia ? `<span class="tag">${esc(r.subestrategia)}</span>` : ""}
+      ${r.fechaPlan ? `<span class="tag">Cumplimiento: ${esc(r.fechaPlan)}</span>` : ""}
+    </div>
+    ${r.planAccion ? `<div class="calc just">${esc(r.planAccion)}</div>`
+      : `<p class="hint">Sin plan de acción formulado.</p>`}
+    ${r.kri ? `<div style="margin-top:9px"><h3 style="margin-bottom:5px">Indicador clave del riesgo</h3>
+      <div class="calc mono" style="font-size:12px">${esc(r.kri)}</div>
+      ${r.responsablePlan ? `<p class="hint">Responsable: ${esc(r.responsablePlan)}</p>` : ""}</div>` : ""}
+    ${(() => {
+      const gs = S.seguimientos.filter(x => x.riesgoId === r.id)
+        .sort((a, b) => (b.periodo || "").localeCompare(a.periodo || ""));
+      return gs.length ? `<h3 style="margin:17px 0 9px">Reportes de ejecución</h3>
+        <div class="scroll-x"><table style="font-size:12px"><thead><tr>
+          <th>Periodo</th><th>Resultado</th><th>Actividades</th><th>Soporte</th><th>Estado</th>
+        </tr></thead><tbody>${gs.map(g => `<tr>
+          <td class="mono">${esc(g.periodo)}</td>
+          <td>${esc(g.resultado || "—")}</td>
+          <td class="just">${esc(g.actividades || "—")}</td>
+          <td>${g.soporte ? (g.soporteURL
+            ? `<a href="${esc(g.soporteURL)}" target="_blank" rel="noopener">${esc(g.soporte)}</a>`
+            : esc(g.soporte)) : "—"}</td>
+          <td>${g.estadoAccion ? `<span class="zone ${g.estadoAccion === "Cerrada" ? "Bajo"
+            : g.estadoAccion === "Vencida" ? "Extremo" : "Moderado"}">${esc(g.estadoAccion)}</span>` : "—"}</td>
+        </tr>`).join("")}</tbody></table></div>` : "";
+    })()}
     <h3 style="margin:17px 0 9px">Histórico · ${hist.length} ${hist.length === 1 ? "versión" : "versiones"}</h3>
     <div class="timeline">${hist.map(h => `<div class="tl-item">
       <div class="tl-when">${new Date(h.fecha).toLocaleString("es-CO")} · ${esc(h.usuario)}</div>
@@ -1916,6 +2118,22 @@ function formVentana(tipoV){
    ===================================================================== */
 function vistaMetodo(){
   return `<div class="stack">
+    ${S.sesion?.rol === "ADMIN" ? `<div class="card"><header><h2>Carpeta de evidencias en Drive</h2>
+      <span class="tag">${driveURL() ? "Configurada" : "Sin configurar"}</span></header>
+      <div class="body">
+        <div class="field" style="margin-bottom:9px">
+          <label>Dirección del Web App de Apps Script</label>
+          <input type="text" id="cfgDrive" value="${esc(driveURL())}"
+            placeholder="https://script.google.com/macros/s/AKfy.../exec">
+          <p class="hint">Publique el archivo <b class="mono">drive_evidencias.gs</b> como aplicación
+            web desde la cuenta institucional y pegue aquí la dirección que entrega Google.
+            Sin esto, las evidencias quedan registradas solo por su nombre.</p>
+        </div>
+        <button class="btn" id="cfgDriveSave">Guardar dirección</button>
+        ${driveURL() ? `<button class="btn ghost" id="cfgDriveTest" style="margin-left:7px">Probar conexión</button>` : ""}
+        <div id="cfgDriveMsg" class="hint" style="margin-top:7px"></div>
+      </div></div>` : ""}
+
     <div class="banner info"><span>◈</span><div>Todos estos valores viven en tablas, no en el código.
       Cuando salga la versión 8 de la guía se cargan como una versión nueva y los riesgos existentes
       siguen calculándose con la versión con la que fueron formulados.</div></div>
@@ -1976,6 +2194,48 @@ function vistaMetodo(){
           <td class="hint" style="font-size:12px">${t.campos.map(c => CAT.etiquetas[c] || c).join(", ")}</td>
           <td class="mono" style="font-size:11px">${esc(t.plantilla)}</td></tr>`).join("")}</tbody></table></div></div>
   </div>`;
+}
+
+/* =====================================================================
+   EVIDENCIAS
+   El archivo se envía a un Web App de Google Apps Script publicado por la
+   entidad, que lo guarda en el Drive institucional con el nombre acordado.
+   Si no hay punto de recepción configurado, queda registrado el nombre y
+   el archivo se conserva en el navegador hasta que se configure.
+   ===================================================================== */
+function driveURL(){ try { return localStorage.getItem("driveURL") || ""; } catch(e){ return ""; } }
+function setDriveURL(v){ try { localStorage.setItem("driveURL", v || ""); } catch(e){} }
+
+function leerArchivo(file){
+  return new Promise((ok, err) => {
+    const fr = new FileReader();
+    fr.onload = () => ok(fr.result.split(",")[1]);
+    fr.onerror = () => err(new Error("No se pudo leer el archivo"));
+    fr.readAsDataURL(file);
+  });
+}
+
+async function subirEvidencia(file, riesgo, periodo, tipo){
+  const url = driveURL();
+  const base64 = await leerArchivo(file);
+  const ruta = rutaEvidencia(riesgo, periodo, file.name);
+  if (!url){
+    return {ok:false, motivo:"sin_configurar", nombre:ruta.archivo,
+            carpeta:ruta.carpeta, tam:file.size};
+  }
+  /* text/plain evita la petición previa de CORS, que Apps Script no atiende */
+  const r = await fetch(url, {
+    method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body: JSON.stringify({
+      periodo, proceso: riesgo.proceso, dependencia: riesgo.unidad,
+      codigoRiesgo: riesgo.codigo, tipo,
+      nombreOriginal: file.name, mime: file.type || "application/octet-stream",
+      contenido: base64
+    })
+  });
+  const d = await r.json();
+  if (!d || d.error) throw new Error(d?.error || "Respuesta inesperada del servidor");
+  return {ok:true, ...d};
 }
 
 /* =====================================================================
@@ -2386,20 +2646,20 @@ function vistaSeguimiento(){
   }));
   const total = misRiesgos().length;
   const seg = id => S.seguimientos.find(x => x.riesgoId === id && x.periodo === S.periodo) || {};
-  const ev  = cid => S.evaluaciones.find(x => x.controlId === cid && x.periodo === S.periodo);
 
   const filas = rs.map(r => {
     const g = seg(r.id);
-    const nctrl = (r.controles || []).length;
-    const nev = (r.controles || []).filter((c, k) => ev(r.id + ":" + k)).length;
-    const completo = g.resultado && g.actividades && nev === nctrl;
+    const completo = g.resultado && g.actividades && g.soporte;
     return `<tr>
       <td class="rid">${esc(r.codigo)}</td>
       <td><div class="just">${esc(r.descripcion)}</div>
         <div class="hint">${esc(uni(r.unidad)?.n || "")}</div></td>
       <td><div class="just">${r.kri ? esc(r.kri) : `<span class="hint">Sin indicador</span>`}</div></td>
       <td class="num mono">${g.resultado ?? "—"}</td>
-      <td class="ctr">${nev}/${nctrl}</td>
+      <td class="ctr">${g.soporte
+        ? (g.soporteURL ? `<a href="${esc(g.soporteURL)}" target="_blank" rel="noopener">Ver</a>`
+           : `<span class="zone Moderado">Local</span>`)
+        : "—"}</td>
       <td class="ctr">${g.estadoAccion ? `<span class="zone ${g.estadoAccion === "Cerrada" ? "Bajo"
         : g.estadoAccion === "Vencida" ? "Extremo" : "Moderado"}">${esc(g.estadoAccion)}</span>` : "—"}</td>
       <td class="ctr"><button class="btn ${completo ? "ghost" : ""} sm" data-seg="${r.id}"
@@ -2435,7 +2695,7 @@ function vistaSeguimiento(){
           <col style="width:90px"></colgroup>
         <thead><tr>
         <th>Identificador</th><th>Riesgo</th><th>Indicador</th><th class="num">Resultado</th>
-        <th class="ctr">Controles<br>evaluados</th><th class="ctr">Estado<br>acción</th>
+        <th class="ctr">Soporte</th><th class="ctr">Estado<br>acción</th>
         <th class="ctr">Acción</th>
       </tr></thead><tbody>${filas}</tbody></table></div>`
       : total ? `<div class="empty"><b>Ningún riesgo coincide con los filtros</b>
@@ -2456,28 +2716,6 @@ function formSeguimiento(rid){
         soporte:"", estadoAccion:"", observacion:""};
   const ruta = rutaEvidencia(r, S.periodo, g.soporte || "soporte.pdf");
 
-  const evalCtrl = (r.controles || []).map((c, k) => {
-    const cid = rid + ":" + k;
-    const e = S.evaluaciones.find(x => x.controlId === cid && x.periodo === S.periodo)
-      || {controlId:cid, periodo:S.periodo, resp:{}};
-    const cal = calificarDiseno(e.resp);
-    return `<div class="ctrl-item">
-      <div class="ctrl-head"><b>Control ${k + 1} · ${esc(c.tipo)} ${esc(c.implementacion)}</b>
-        <span class="zone ${cal.calificacion === "Fuerte" ? "Bajo"
-          : cal.calificacion === "Moderado" ? "Moderado" : "Extremo"}">
-          ${pct(cal.total)} · ${cal.calificacion}</span></div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:9px">
-        ${esc([c.responsable, c.accion, c.complemento].filter(Boolean).join(" "))}</div>
-      ${CAT.evaluacionControl.map(cr => `<div class="field" style="margin-bottom:7px">
-        <label style="font-size:11px">${esc(cr.n)}</label>
-        <select data-ec="${k}" data-cr="${cr.c}" ${abierta ? "" : "disabled"} autocomplete="off">
-          <option value="">Seleccione</option>
-          ${cr.op.map(o => `<option value="${esc(o[0])}" ${e.resp[cr.c] === o[0] ? "selected" : ""}>
-            ${esc(o[0])} (${pct(o[1])})</option>`).join("")}
-        </select></div>`).join("")}
-    </div>`;
-  }).join("");
-
   modal(`Reporte de ejecución · ${r.codigo} · ${S.periodo.replace("-", " ")}`, `
     <p style="margin:0 0 15px;font-size:13px">${esc(r.descripcion)}</p>
 
@@ -2495,61 +2733,72 @@ function formSeguimiento(rid){
       ${r.planAccion ? `<p class="hint"><b>Plan formulado:</b> ${esc(r.planAccion)}</p>` : ""}</div>
 
     <div class="field"><label>Soporte de ejecución del plan de acción</label>
-      <input type="text" id="sgSop" value="${esc(g.soporte)}" ${abierta ? "" : "disabled"}
-        placeholder="acta-comite-marzo.pdf">
+      ${g.soporteURL ? `<div class="banner ok" style="margin-bottom:7px"><span>&#10003;</span><div>
+        Archivo cargado: <b>${esc(g.soporte)}</b>
+        <a href="${esc(g.soporteURL)}" target="_blank" rel="noopener"
+          style="margin-left:7px">Abrir en Drive</a></div></div>` : ""}
+      <input type="file" id="sgFile" ${abierta ? "" : "disabled"}
+        accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.zip"
+        style="padding:7px;background:var(--surface-2)">
+      <div id="sgEstado" class="hint" style="margin-top:5px"></div>
       <div class="banner info" style="margin-top:7px"><span>&#9432;</span><div>
-        El archivo se guardará en Drive como<br>
-        <b class="mono">${esc(ruta.carpeta)}/${esc(ruta.archivo)}</b><br>
-        En el prototipo solo se registra el nombre; la carga real llega con el backend.</div></div></div>
+        Se guardará en el Drive institucional como<br>
+        <b class="mono">${esc(ruta.carpeta)}/${esc(ruta.archivo)}</b>
+        ${driveURL() ? "" : `<br><b>Aún no hay carpeta de Drive configurada.</b> El administrador
+          debe registrarla en Metodología. Mientras tanto se guarda solo el nombre del archivo.`}
+      </div></div></div>
 
     <div class="field"><label>Estado de la acción</label>
-      <select id="sgEst" ${abierta ? "" : "disabled"} autocomplete="off">
-        <option value="">Seleccione</option>
-        ${CAT.estadoAccion.map(x => `<option ${g.estadoAccion === x ? "selected" : ""}>${x}</option>`).join("")}
-      </select>
-      <p class="hint">En la guía v7 el plan de tratamiento conserva su estado de avance.
-      Quien lo determina en firme es la Dirección SIG.</p></div>
+      <div class="calc">${g.estadoAccion
+        ? `<span class="zone ${g.estadoAccion === "Cerrada" ? "Bajo"
+            : g.estadoAccion === "Vencida" ? "Extremo" : "Moderado"}">${esc(g.estadoAccion)}</span>`
+        : `<span class="hint">Pendiente de determinación</span>`}</div>
+      <p class="hint">Este campo lo determina el perfil de Monitoreo a partir de lo que reportes aquí.
+        No es editable desde el reporte de ejecución.</p></div>
 
     <h3 style="margin:20px 0 9px;padding-top:15px;border-top:1px solid var(--line)">
-      Evaluación del diseño de los controles</h3>
-    <p class="hint" style="margin-top:-4px">Los siete criterios suman 100%. El resultado clasifica
-      el diseño en Fuerte, Moderado o Débil. No modifica el riesgo residual: es insumo de auditoría.</p>
-    ${evalCtrl || `<p class="hint">Este riesgo no tiene controles registrados.</p>`}
+      Controles existentes</h3>
+    <p class="hint" style="margin-top:-4px">Los controles del riesgo se consultan aquí como
+      referencia. Para modificarlos hay que esperar la ventana de actualización.</p>
+    ${(r.controles || []).length ? (r.controles || []).map((c, k) => `<div class="ctrl-item">
+      <div class="ctrl-head"><b>Control ${k + 1}</b>
+        <span class="tag">${esc(c.tipo)} · ${esc(c.implementacion)} ·
+          ${pct(Motor.pesoControl(c.tipo, c.implementacion))} · ${esc(Motor.afectacion(c.tipo))}</span></div>
+      <div class="just" style="font-size:12.5px">${esc([c.responsable, c.accion, c.complemento]
+        .filter(Boolean).join(" "))}</div>
+    </div>`).join("") : `<p class="hint">Este riesgo no tiene controles registrados.</p>`}
   `, abierta ? [
     {t:"Cancelar", cls:"ghost", fn: cerrarModal},
     {t:"Guardar reporte", cls:"", fn: async () => {
       g.resultado = document.getElementById("sgRes").value.trim();
       g.actividades = document.getElementById("sgAct").value.trim();
       g.soporte = document.getElementById("sgSop").value.trim();
-      g.estadoAccion = document.getElementById("sgEst").value;
       g.reportadoPor = S.sesion?.nombre; g.reportadoEn = new Date().toISOString();
       g.porAdministracion = esAdmin();
+
+      const fi = document.getElementById("sgFile");
+      const file = fi && fi.files && fi.files[0];
+      if (file){
+        const est = document.getElementById("sgEstado");
+        if (est) est.textContent = "Cargando archivo…";
+        try {
+          const res = await subirEvidencia(file, r, S.periodo, "SOPORTE_PLAN");
+          g.soporte = res.nombre; g.soporteTam = file.size;
+          if (res.ok){ g.soporteURL = res.enlace; g.soporteId = res.id; }
+          else g.soportePendiente = true;
+        } catch(e){
+          return aviso("No se pudo cargar el archivo",
+            e.message + ". Verifica la dirección del Drive en Metodología o inténtalo de nuevo.");
+        }
+      }
+
       const ix = S.seguimientos.findIndex(x => x.id === g.id);
       if (ix >= 0) S.seguimientos[ix] = g; else S.seguimientos.push(g);
       await Store.set("seguimientos", g.id, g);
-
-      for (let k = 0; k < (r.controles || []).length; k++){
-        const cid = rid + ":" + k;
-        const resp = {};
-        document.querySelectorAll(`[data-ec="${k}"]`).forEach(el => {
-          if (el.value) resp[el.dataset.cr] = el.value;
-        });
-        if (!Object.keys(resp).length) continue;
-        const cal = calificarDiseno(resp);
-        const prev = S.evaluaciones.find(x => x.controlId === cid && x.periodo === S.periodo);
-        const e = prev || {id:uid(), controlId:cid, riesgoId:rid, periodo:S.periodo};
-        e.resp = resp; e.total = cal.total; e.calificacion = cal.calificacion;
-        e.evaluadoPor = S.sesion?.nombre;
-        if (!prev) S.evaluaciones.push(e);
-        await Store.set("evaluaciones", e.id, e);
-      }
       cerrarModal(); render();
     }}
   ] : [{t:"Cerrar", cls:"ghost", fn: cerrarModal}]);
 
-  document.querySelectorAll("[data-ec]").forEach(el => el.onchange = () => {
-    cerrarModal(); formSeguimiento(rid);
-  });
 }
 
 /* =====================================================================
@@ -2634,6 +2883,16 @@ function formMonitoreo(rid){
         Este concepto es independiente de lo que reportó la dependencia: esa separación es lo que
         le da validez. Cada instancia guarda el suyo por separado.</p></div>
 
+    <div class="field"><label>Estado de la acción</label>
+      <select id="moEst" ${abierta ? "" : "disabled"} autocomplete="off">
+        <option value="">Seleccione</option>
+        ${CAT.estadoAccion.map(x => `<option ${(S.seguimientos.find(y =>
+          y.riesgoId === rid && y.periodo === S.periodo)?.estadoAccion) === x
+          ? "selected" : ""}>${x}</option>`).join("")}
+      </select>
+      <p class="hint">Determine el avance del plan de acción a partir de lo reportado por la
+        dependencia. Es el único rol que fija este estado.</p></div>
+
     <div class="field"><label>Recomendaciones</label>
       <textarea id="moRec" ${abierta ? "" : "disabled"}
         placeholder="Qué debe ajustar la dependencia">${esc(m.recomendaciones || "")}</textarea></div>
@@ -2641,8 +2900,12 @@ function formMonitoreo(rid){
     ${(() => { const g = S.seguimientos.find(x => x.riesgoId === rid && x.periodo === S.periodo);
       return g ? `<div class="calc"><b style="font-size:12px">Lo reportado por la dependencia</b>
         <div class="calc-row"><span>Resultado del indicador</span><span class="mono">${esc(g.resultado || "—")}</span></div>
-        <div class="calc-row"><span>Estado de la acción</span><span class="mono">${esc(g.estadoAccion || "—")}</span></div>
-        <div style="margin-top:7px;font-size:12px">${esc(g.actividades || "Sin actividades reportadas")}</div>
+        <div class="calc-row"><span>Soporte</span><span class="mono">${g.soporte
+          ? (g.soporteURL ? `<a href="${esc(g.soporteURL)}" target="_blank" rel="noopener">${esc(g.soporte)}</a>`
+             : esc(g.soporte)) : "Sin cargar"}</span></div>
+        <div class="just" style="margin-top:7px;font-size:12px">${esc(g.actividades || "Sin actividades reportadas")}</div>
+        ${r.planAccion ? `<div class="hint just" style="margin-top:7px"><b>Plan formulado:</b>
+          ${esc(r.planAccion)}</div>` : ""}
         </div>` : `<div class="banner warn"><span>&#9888;</span><div>La dependencia todavía no ha
         reportado el seguimiento de este periodo.</div></div>`; })()}
   `, abierta ? [
@@ -2656,6 +2919,21 @@ function formMonitoreo(rid){
       m.recomendaciones = document.getElementById("moRec").value.trim();
       m.revisado = true; m.monitoreadoPor = S.sesion?.nombre;
       m.porAdministracion = esAdmin();
+
+      /* El estado de la acción se guarda en el reporte de la dependencia,
+         pero lo determina este rol. */
+      const est = document.getElementById("moEst").value;
+      let g = S.seguimientos.find(x => x.riesgoId === rid && x.periodo === S.periodo);
+      if (!g && est){
+        g = {id:uid(), riesgoId:rid, periodo:S.periodo, resultado:"", actividades:"", soporte:""};
+        S.seguimientos.push(g);
+      }
+      if (g){
+        g.estadoAccion = est;
+        g.estadoDefinidoPor = S.sesion?.nombre;
+        g.estadoDefinidoEn = new Date().toISOString();
+        await Store.set("seguimientos", g.id, g);
+      }
       m.monitoreadoEn = new Date().toISOString();
       const ix = S.monitoreos.findIndex(x => x.id === m.id);
       if (ix >= 0) S.monitoreos[ix] = m; else S.monitoreos.push(m);
@@ -2931,6 +3209,21 @@ function render(){
   enlazarFiltros();
   const on = (id, fn) => { const e = document.getElementById(id); if (e) e.onclick = fn; };
   on("btnInterv", () => { S.intervencion = !S.intervencion; render(); });
+  on("cfgDriveSave", () => {
+    setDriveURL(document.getElementById("cfgDrive").value.trim()); render();
+  });
+  on("cfgDriveTest", async () => {
+    const m = document.getElementById("cfgDriveMsg");
+    m.textContent = "Probando…";
+    try {
+      const res = await fetch(driveURL(), {method:"POST",
+        headers:{"Content-Type":"text/plain;charset=utf-8"},
+        body: JSON.stringify({ping:true})});
+      const d = await res.json();
+      m.textContent = d.ok ? `Conexión correcta. Carpeta raíz: ${d.carpeta || "Riesgos"}`
+        : `Respondió con error: ${d.error || "desconocido"}`;
+    } catch(e){ m.textContent = "No respondió: " + e.message; }
+  });
   on("btnSemilla", () => recargarSemilla());
   on("btnNuevo", () => abrirFormulario(null));
   on("btnXlsCtrl", () => exportarControlesCSV());
