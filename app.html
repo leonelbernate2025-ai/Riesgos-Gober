@@ -320,7 +320,7 @@ tbody tr:hover td{background:var(--surface-2)}
 <div class="app">
   <aside class="rail">
     <div class="brand">
-      <div class="brand-mark"><b>Riesgos</b><span class="mono" title="Compilación del prototipo">v7 &middot; b16</span></div>
+      <div class="brand-mark"><b>Riesgos</b><span class="mono" title="Compilación del prototipo">v7 &middot; b17</span></div>
       <small>Gobernación de Santander</small>
     </div>
     <nav class="nav" id="nav"></nav>
@@ -754,10 +754,54 @@ const CAT = {
       q:"Debilidad del activo que una amenaza podría aprovechar.", ej:""},
     amenaza:{
       q:"Causa potencial de un incidente que puede afectar al activo.", ej:""},
+    controlPeriodicidad:{q:"Cada cuánto se ejecuta el control.", ej:""},
+    kriNombre:{q:"El nombre debe describir lo que se mide.",
+      ej:"Oportunidad en la verificación de soportes de pago"},
+    kriDescripcion:{q:"Describir lo que se va a medir.", ej:""},
+    kriObjetivo:{q:"Describir para qué se mide el indicador.", ej:""},
+    kriNumerador:{q:"", ej:"Número de pagos con soporte verificado"},
+    kriDenominador:{q:"", ej:"Número total de pagos del periodo"},
+    kriUbicacion:{q:"Incorpore la serie y subserie o el enlace de acceso al documento.", ej:""},
+    planActividad:{q:"Describir las actividades a desarrollar para implementar un nuevo control, iniciando por un verbo en infinitivo.",
+      ej:"Documentar el procedimiento de verificación de soportes"},
+    planResponsable:{q:"Debe corresponder a un cargo perteneciente al área.", ej:""},
     kri:{
       q:"Una fórmula que se pueda medir cada trimestre.",
       ej:"(Nº de pagos con soporte verificado / Nº total de pagos del periodo) × 100"}
   },
+
+  /* Periodicidad de ejecución del control */
+  periodicidad:["Diariamente","Semanalmente","Quincenalmente","Mensualmente",
+    "Bimensualmente","Trimestralmente","Cuatrimestralmente","Semestralmente",
+    "Anualmente","Cuando se materialice el riesgo"],
+
+  /* Frecuencia de medición del indicador (sin la última opción) */
+  frecuenciaMedicion:["Diariamente","Semanalmente","Quincenalmente","Mensualmente",
+    "Bimensualmente","Trimestralmente","Cuatrimestralmente","Semestralmente","Anualmente"],
+
+  unidadMedida:["Número","Porcentaje"],
+  disponibilidadFuente:["Físico","Digital"],
+  tendenciaKRI:["Creciente","Decreciente"],
+
+  /* Apetito de riesgo institucional: qué tratamiento procede según la
+     zona residual. Parametrizado: si cambia la política, se edita aquí. */
+  apetito:[
+    {zonas:["Alto","Extremo"], nivel:"Muy Bajo",
+     descripcion:"La entidad no está dispuesta a aceptar este nivel de riesgo.",
+     accion:"Evitar o reducir inmediatamente.",
+     aceptable:false, requiereTratamiento:true,
+     opciones:["Reducir","Compartir","Evitar"]},
+    {zonas:["Moderado"], nivel:"Bajo",
+     descripcion:"Se acepta únicamente con controles efectivos y seguimiento permanente.",
+     accion:"Reducir y monitorear.",
+     aceptable:false, requiereTratamiento:true,
+     opciones:["Aceptar","Reducir","Compartir","Evitar"]},
+    {zonas:["Bajo"], nivel:"Moderado",
+     descripcion:"Puede aceptarse cuando el beneficio institucional lo justifique y existan controles adecuados.",
+     accion:"Monitorear periódicamente.",
+     aceptable:true, requiereTratamiento:false,
+     opciones:["Aceptar"]}
+  ],
 
   roles:[
     {c:"ADMIN",       n:"Administrador",     d:"Acceso total, sin restricción de ventana"},
@@ -845,9 +889,20 @@ const Motor = {
     const def = CAT.definicionCausa[causa] || ph("definición de la causa");
     return `Posibilidad de ${area} por ${causa} en la/el ${accion} a causa de ${def}`;
   },
+  /* Devuelve la política de apetito aplicable a una zona residual */
+  apetito(zona){
+    return CAT.apetito.find(a => a.zonas.includes(zona)) || null;
+  },
+  opcionesTratamiento(zona){
+    const a = this.apetito(zona);
+    return a ? a.opciones : CAT.tratamiento.map(t => t.c);
+  },
+
   validarTratamiento(opcion, tipoRiesgoC, zonaResidual, subestrategia, acta){
     const o = CAT.tratamiento.find(t => t.c === opcion);
     if (!o) return "Opción de tratamiento no válida en esta versión.";
+    if (zonaResidual && !this.opcionesTratamiento(zonaResidual).includes(opcion))
+      return `El apetito de riesgo no admite «${opcion}» en zona ${zonaResidual}.`;
     if (o.excluye.includes(tipoRiesgoC))
       return `El tratamiento «${opcion}» no aplica a este tipo de riesgo.`;
     if (o.zonas && zonaResidual && !o.zonas.includes(zonaResidual) && !acta)
@@ -946,6 +1001,14 @@ function calificarDiseno(resp){
 const esc = s => (s ?? "").toString().replace(/[&<>"']/g, c =>
   ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const pct = n => (n * 100).toFixed(1).replace(/\.0$/, "") + "%";
+/* Tipo oración: mayúscula inicial y el resto en minúscula, respetando
+   las siglas en mayúscula y los nombres propios ya escritos así. */
+function tipoOracion(t){
+  if (!t) return "";
+  let x = t.trim().replace(/\s+/g, " ");
+  x = x.replace(/(^|[.:;]\s+)([a-záéíóúñ])/g, (m, p, c) => p + c.toUpperCase());
+  return x.charAt(0).toUpperCase() + x.slice(1);
+}
 const proc = c => CAT.procesos.find(p => p.c === c);
 const uni  = c => CAT.unidades.find(u => u.c === c);
 const dep  = uni;
@@ -1322,8 +1385,12 @@ function abrirFormulario(id){
     vulnerabilidad:"", amenaza:"",
     causaInmediata:"", areaIntegridad:"", factorLAFT:"", puntoRiesgo:"",
     causaRaiz:"", efectoInmediato:"", accion:"",
-    frecuencia:"", impactoNivel:"", controles:[], tratamiento:"", subestrategia:"",
-    acta:"", planAccion:"", responsablePlan:"", kri:"", fechaPlan:"",
+    frecuencia:"", impactoNivel:"", impactoEconomico:"", impactoReputacional:"",
+    controles:[], tratamiento:"", subestrategia:"", acta:"",
+    kriNombre:"", kriDescripcion:"", kriObjetivo:"", kriNumerador:"", kriDenominador:"",
+    kriUnidad:"", kriResponsable:"", kriDisponibilidad:"", kriUbicacion:"",
+    kriFrecuencia:"", kriTendencia:"", kriCritico:"", kriAceptableMin:"",
+    kriAceptableMax:"", kriSatisfactorio:"", plan:[],
     estado:"VIGENTE", motivo:""
   };
   F._nuevo = !existente;
@@ -1332,7 +1399,25 @@ function abrirFormulario(id){
 
 function recalcular(){
   const np = F.frecuencia !== "" ? Motor.nivelProbabilidad(Number(F.frecuencia)) : null;
-  const ni = CAT.impacto.find(i => i.n === F.impactoNivel) || null;
+
+  /* Cuando el área de impacto comprende lo económico y lo reputacional se
+     valoran ambas y se toma la más alta (Guía v7, numeral 3.6). */
+  const area = (F.areaImpacto || F.areaIntegridad || "").toLowerCase();
+  F._pideEco = !F.areaFiscal ? area.includes("econ") : true;
+  F._pideRep = area.includes("reputacion");
+  if (!F._pideEco && !F._pideRep){ F._pideEco = true; F._pideRep = true; }
+
+  const nEco = CAT.impacto.find(i => i.n === F.impactoEconomico) || null;
+  const nRep = CAT.impacto.find(i => i.n === F.impactoReputacional) || null;
+  const candidatos = [];
+  if (F._pideEco && nEco) candidatos.push(nEco);
+  if (F._pideRep && nRep) candidatos.push(nRep);
+  const ni = candidatos.length
+    ? candidatos.reduce((a, b) => b.pct > a.pct ? b : a)
+    : null;
+  F.impactoNivel = ni ? ni.n : "";
+  F._impactoOrigen = ni ? (ni === nEco && ni === nRep ? "ambas"
+    : ni === nEco ? "económica" : "reputacional") : "";
   F.probabilidadPct = np ? np.pct : null;
   F.probabilidadNivel = np ? np.n : null;
   F.impactoPct = ni ? ni.pct : null;
@@ -1343,7 +1428,7 @@ function recalcular(){
     F.zonaResidual = res.zona; F._detalle = res.detalle;
     F._multP = res.multP; F._multI = res.multI;
   } else { F.probResidual = F.impResidual = F.zonaResidual = null; F._detalle = []; }
-  F.descripcion = Motor.describir(F.tipo, F);
+  F.descripcion = tipoOracion(Motor.describir(F.tipo, F));
 }
 
 function pintarFormulario(){
@@ -1412,7 +1497,7 @@ function pintarFormulario(){
 
     puntoRiesgo: () => esLAFT ? campoSelect("fPunto", "puntoRiesgo", CAT.puntoRiesgo) : "",
 
-    accion: () => campoTexto("fAccion", "accion",
+    accion: () => (F.tipo === "INT" && esLAFT) ? "" : campoTexto("fAccion", "accion",
       F.tipo === "INT" ? "revisión de los estudios previos" : CAT.ayuda.accion.ej,
       F.tipo === "INT"
         ? "Utilice sustantivos de acción como: planeación, ejecución, elaboración, revisión, recaudo."
@@ -1439,16 +1524,27 @@ function pintarFormulario(){
         <div style="display:flex;gap:7px;align-items:center">
           <span class="tag">${Motor.afectacion(c.tipo)} · ${pct(peso)}</span>
           <button class="btn ghost sm" data-delctrl="${k}">Quitar</button></div></div>
-      <div class="grid3">
-        <div class="field" style="margin-bottom:9px"><label>Responsable</label>
+      <div class="grid2">
+        <div class="field" style="margin-bottom:9px"><label class="req">Responsable</label>
           <input type="text" data-c="${k}" data-f="responsable" value="${esc(c.responsable)}"
-            placeholder="${esc(CAT.ayuda.controlResponsable.ej)}"></div>
-        <div class="field" style="margin-bottom:9px"><label>Acción</label>
+            placeholder="${esc(CAT.ayuda.controlResponsable.ej)}">
+          <p class="hint">Debe corresponder a un cargo perteneciente al área.</p></div>
+        <div class="field" style="margin-bottom:9px"><label class="req">Acción</label>
           <input type="text" data-c="${k}" data-f="accion" value="${esc(c.accion)}"
-            placeholder="${esc(CAT.ayuda.controlAccion.ej)}"></div>
-        <div class="field" style="margin-bottom:9px"><label>Complemento</label>
+            placeholder="verifica y aprueba">
+          <p class="hint">Utilice verbos en presente como: planea, ejecuta, elabora, revisa, recauda.</p></div>
+      </div>
+      <div class="grid2">
+        <div class="field" style="margin-bottom:9px"><label class="req">Periodicidad</label>
+          <select data-c="${k}" data-f="periodicidad" autocomplete="off">
+            <option value="">Seleccione</option>
+            ${CAT.periodicidad.map(x =>
+              `<option ${c.periodicidad === x ? "selected" : ""}>${esc(x)}</option>`).join("")}
+          </select></div>
+        <div class="field" style="margin-bottom:9px"><label class="req">Complemento</label>
           <input type="text" data-c="${k}" data-f="complemento" value="${esc(c.complemento)}"
-            placeholder="${esc(CAT.ayuda.controlComplemento.ej)}"></div>
+            placeholder="las conciliaciones bancarias contra el extracto">
+          <p class="hint">Señale el objetivo de la acción y la calidad esperada.</p></div>
       </div>
       <div class="grid2">
         <div class="field" style="margin-bottom:0"><label>Tipo</label>
@@ -1515,42 +1611,56 @@ function pintarFormulario(){
         <input type="number" id="fFrec" min="0" value="${esc(F.frecuencia)}" placeholder="Número de veces al año">
         ${npNivel ? `<p class="hint">Probabilidad: <b>${npNivel}</b> (${pct(F.probabilidadPct)})</p>`
           : ayudaCampo("frecuencia")}</div>
-      <div class="field"><label class="req">Nivel de impacto</label>
-        ${sel("fImp", F.impactoNivel, CAT.impacto, i => [i.n, `${i.n} — ${i.eco}`], "Seleccione")}
-        <p class="hint">Se toma el mayor entre el impacto económico y el reputacional.</p></div>
+      <div class="field"></div>
     </div>
-    ${F.zonaInherente ? `<div class="banner ${F.zonaInherente === "Extremo" || F.zonaInherente === "Alto" ? "warn" : "info"}">
-      <span>◆</span><div>Zona inherente: <b>${F.zonaInherente}</b> —
-      probabilidad ${pct(F.probabilidadPct)} × impacto ${pct(F.impactoPct)}</div></div>` : ""}
+
+    <div class="grid2">
+      ${F._pideEco ? `<div class="field"><label class="req">Afectación económica</label>
+        ${sel("fImpEco", F.impactoEconomico, CAT.impacto, i => [i.n, `${i.n} — ${i.eco}`], "Seleccione")}
+        </div>` : ""}
+      ${F._pideRep ? `<div class="field"><label class="req">Afectación reputacional</label>
+        ${sel("fImpRep", F.impactoReputacional, CAT.impacto, i => [i.n, `${i.n} — ${i.rep}`], "Seleccione")}
+        </div>` : ""}
+    </div>
+    ${F.impactoNivel ? `<p class="hint" style="margin:-6px 0 13px">Impacto inherente:
+      <b>${esc(F.impactoNivel)} (${pct(F.impactoPct)})</b>, tomado de la afectación
+      ${esc(F._impactoOrigen)}. Cuando ambas se valoran con niveles distintos, la guía indica
+      tomar el más alto.</p>` : ""}
+
+    ${F.zonaInherente ? `
+    <h3 style="margin:16px 0 9px">Valoración del riesgo inherente</h3>
+    <div class="grid3">
+      <div class="kpi"><div class="v mono" style="font-size:22px">${pct(F.probabilidadPct)}</div>
+        <div class="l">Probabilidad inherente</div>
+        <div class="d">${esc(F.probabilidadNivel || "")}</div></div>
+      <div class="kpi"><div class="v mono" style="font-size:22px">${pct(F.impactoPct)}</div>
+        <div class="l">Impacto inherente</div>
+        <div class="d">${esc(F.impactoNivel || "")}</div></div>
+      <div class="kpi" style="display:flex;flex-direction:column;justify-content:center">
+        <div><span class="zone ${F.zonaInherente}" style="font-size:14px;padding:4px 13px">${F.zonaInherente}</span></div>
+        <div class="l" style="margin-top:6px">Severidad</div>
+        <div class="d">Zona de riesgo inherente</div></div>
+    </div>` : ""}
 
     <h2 style="margin:22px 0 11px;padding-top:15px;border-top:1px solid var(--line)">Controles</h2>
     <div class="banner info" style="margin-bottom:13px"><span>&#9432;</span><div>
-      Un control se escribe como una frase: <b>responsable + acción + complemento</b>.
-      Ejemplo: «${esc(CAT.ayuda.controlResponsable.ej)} ${esc(CAT.ayuda.controlAccion.ej)}
-      ${esc(CAT.ayuda.controlComplemento.ej)}». Los preventivos y detectivos bajan la probabilidad;
-      solo los correctivos bajan el impacto.</div></div>
+      Un control se escribe como una frase:
+      <b>responsable + acción + periodicidad + complemento</b>. Ejemplo:
+      «El profesional universitario de la Dirección de Contabilidad verifica y aprueba
+      mensualmente las conciliaciones bancarias contra el extracto». Los preventivos y detectivos
+      bajan la probabilidad; solo los correctivos bajan el impacto.</div></div>
     ${controles || `<p class="hint" style="margin-bottom:11px">Sin controles registrados. El riesgo residual será igual al inherente.</p>`}
     <button class="btn ghost sm" id="addCtrl">Agregar control</button>
 
     ${F.zonaResidual ? `
-    <h2 style="margin:22px 0 11px;padding-top:15px;border-top:1px solid var(--line)">Mitigación del riesgo</h2>
-    <div class="grid2" style="margin-bottom:13px">
-      <div class="kpi"><div class="v mono" style="font-size:22px">${(F._multP ?? 1).toFixed(4)}</div>
-        <div class="l">Multiplicador probabilidad</div>
-        <div class="d">Producto de (1 − peso) de los controles preventivos y detectivos</div></div>
-      <div class="kpi"><div class="v mono" style="font-size:22px">${(F._multI ?? 1).toFixed(4)}</div>
-        <div class="l">Multiplicador impacto</div>
-        <div class="d">Producto de (1 − peso) de los controles correctivos</div></div>
-    </div>
-    <div class="calc">
+    <h2 style="margin:22px 0 11px;padding-top:15px;border-top:1px solid var(--line)">Riesgo residual</h2>
+    <div class="calc" style="margin-bottom:13px">
       <div class="calc-row"><span>Probabilidad inherente</span><span class="mono">${pct(F.probabilidadPct)}</span></div>
       <div class="calc-row"><span>Impacto inherente</span><span class="mono">${pct(F.impactoPct)}</span></div>
       ${detalle}
-      <div class="calc-row"><span>Multiplicadores aplicados</span>
-        <span class="mono">P × ${(F._multP ?? 1).toFixed(4)} · I × ${(F._multI ?? 1).toFixed(4)}</span></div>
+      <div class="calc-row"><span>Residual</span>
+        <span class="mono">P ${pct(F.probResidual)} · I ${pct(F.impResidual)}</span></div>
     </div>
-
-    <h2 style="margin:22px 0 11px;padding-top:15px;border-top:1px solid var(--line)">Riesgo residual</h2>
     <div class="grid3">
       <div class="kpi"><div class="v mono" style="font-size:22px">${pct(F.probResidual)}</div>
         <div class="l">Probabilidad residual</div></div>
@@ -1558,33 +1668,129 @@ function pintarFormulario(){
         <div class="l">Impacto residual</div></div>
       <div class="kpi" style="display:flex;flex-direction:column;justify-content:center">
         <div><span class="zone ${F.zonaResidual}" style="font-size:14px;padding:4px 13px">${F.zonaResidual}</span></div>
-        <div class="l" style="margin-top:6px">Zona de riesgo final</div></div>
+        <div class="l" style="margin-top:6px">Zona de riesgo residual</div></div>
     </div>` : ""}
 
     <h2 style="margin:22px 0 11px;padding-top:15px;border-top:1px solid var(--line)">Tratamiento</h2>
+    ${(() => {
+      const ap = F.zonaResidual ? Motor.apetito(F.zonaResidual) : null;
+      if (!ap) return `<p class="hint">Complete la valoración para determinar el tratamiento
+        que admite el apetito de riesgo institucional.</p>`;
+      return `<div class="banner ${ap.aceptable ? "ok" : "warn"}"><span>${ap.aceptable ? "&#9679;" : "&#9888;"}</span>
+        <div>Zona residual <b>${esc(F.zonaResidual)}</b> · apetito <b>${esc(ap.nivel)}</b>.
+        ${esc(ap.descripcion)} <b>${esc(ap.accion)}</b>
+        ${ap.requiereTratamiento ? "Este riesgo exige tratamiento." : "No exige tratamiento obligatorio."}</div></div>`;
+    })()}
     <div class="grid2">
-      <div class="field"><label class="req">Opción</label>
-        ${sel("fTrat", F.tratamiento, CAT.tratamiento, t => [t.c, t.c], "Seleccione")}</div>
+      <div class="field"><label class="req">Opción de tratamiento</label>
+        ${F.zonaResidual
+          ? sel("fTrat", F.tratamiento, Motor.opcionesTratamiento(F.zonaResidual),
+                x => [x, x], "Seleccione")
+          : `<select disabled><option>Complete la valoración primero</option></select>`}
+        <p class="hint">Solo se ofrecen las opciones que admite el apetito de riesgo para esta zona.</p></div>
       ${trat?.exigeSub ? `<div class="field"><label class="req">Subestrategia</label>
         ${sel("fSub", F.subestrategia, CAT.subestrategia, x => [x, x], "Seleccione")}</div>` : ""}
     </div>
-    ${errTrat ? `<div class="banner warn"><span>⚠</span><div>${esc(errTrat)}</div></div>` : ""}
-    ${trat?.exigePlan ? `
-      <div class="field"><label class="req">Plan de acción</label>
-        <textarea id="fPlan" placeholder="${esc(CAT.ayuda.planAccion.ej)}">${esc(F.planAccion)}</textarea>
-        ${ayudaCampo("planAccion")}</div>
+    ${errTrat ? `<div class="banner warn"><span>&#9888;</span><div>${esc(errTrat)}</div></div>` : ""}
+
+    <h2 style="margin:22px 0 11px;padding-top:15px;border-top:1px solid var(--line)">
+      Identificación del indicador clave de riesgo (KRI)</h2>
+    <div class="grid2">
+      <div class="field"><label>Nombre del indicador</label>
+        <input type="text" id="kNom" value="${esc(F.kriNombre || "")}"
+          placeholder="${esc(CAT.ayuda.kriNombre.ej)}">
+        <p class="hint">El nombre debe describir lo que se mide.</p></div>
+      <div class="field"><label>Unidad de medida</label>
+        ${sel("kUni", F.kriUnidad, CAT.unidadMedida, x => [x, x], "Seleccione")}</div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>Descripción</label>
+        <textarea id="kDes" style="min-height:52px"
+          placeholder="Qué se va a medir">${esc(F.kriDescripcion || "")}</textarea>
+        <p class="hint">Describir lo que se va a medir.</p></div>
+      <div class="field"><label>Objetivo</label>
+        <textarea id="kObj" style="min-height:52px"
+          placeholder="Para qué se mide">${esc(F.kriObjetivo || "")}</textarea>
+        <p class="hint">Describir para qué se mide el indicador.</p></div>
+    </div>
+
+    <div class="field"><label>Fórmula</label>
+      <div style="border:1px solid var(--line);border-radius:var(--radius);padding:11px;
+        background:var(--surface-2)">
+        <input type="text" id="kNum" value="${esc(F.kriNumerador || "")}"
+          placeholder="${esc(CAT.ayuda.kriNumerador.ej)}" style="text-align:center">
+        <div style="border-top:1px solid var(--ink-2);margin:7px 0"></div>
+        <input type="text" id="kDen" value="${esc(F.kriDenominador || "")}"
+          placeholder="${esc(CAT.ayuda.kriDenominador.ej)}" style="text-align:center">
+        ${F.kriNumerador && F.kriDenominador ? `<p class="hint mono" style="text-align:center;margin-top:9px">
+          (${esc(F.kriNumerador)} / ${esc(F.kriDenominador)})${F.kriUnidad === "Porcentaje" ? " × 100" : ""}</p>` : ""}
+      </div></div>
+
+    <h3 style="margin:15px 0 9px">Fuente de información</h3>
+    <div class="grid3">
+      <div class="field"><label>Responsable de la información</label>
+        <input type="text" id="kResp" value="${esc(F.kriResponsable || "")}" placeholder="Cargo"></div>
+      <div class="field"><label>Disponibilidad</label>
+        ${sel("kDisp", F.kriDisponibilidad, CAT.disponibilidadFuente, x => [x, x], "Seleccione")}</div>
+      <div class="field"><label>Ubicación</label>
+        <input type="text" id="kUbi" value="${esc(F.kriUbicacion || "")}"
+          placeholder="Serie 200-14 o enlace">
+        <p class="hint">Incorpore la serie y subserie o el enlace de acceso al documento.</p></div>
+    </div>
+
+    <div class="grid2">
+      <div class="field"><label>Frecuencia de medición</label>
+        ${sel("kFrec", F.kriFrecuencia, CAT.frecuenciaMedicion, x => [x, x], "Seleccione")}</div>
+      <div class="field"><label>Tendencia</label>
+        ${sel("kTend", F.kriTendencia, CAT.tendenciaKRI, x => [x, x], "Seleccione")}
+        <p class="hint">Creciente si un valor mayor es mejor; decreciente si es al revés.</p></div>
+    </div>
+
+    ${F.kriTendencia ? (() => {
+      const crece = F.kriTendencia === "Creciente";
+      return `<h3 style="margin:15px 0 9px">Umbrales de alerta</h3>
       <div class="grid3">
-        <div class="field"><label>Responsable</label>
-          <input type="text" id="fRespPlan" value="${esc(F.responsablePlan)}" placeholder="Cargo"></div>
-        <div class="field"><label>Indicador clave (KRI)</label>
-          <input type="text" id="fKri" value="${esc(F.kri)}" placeholder="${esc(CAT.ayuda.kri.ej)}">
-          ${ayudaCampo("kri")}</div>
-        <div class="field"><label>Fecha de cumplimiento</label>
-          <input type="date" id="fFecha" value="${esc(F.fechaPlan)}"></div>
+        <div class="field"><label><span class="zone Extremo">Crítico</span></label>
+          <div style="display:flex;align-items:center;gap:7px">
+            <span class="hint" style="white-space:nowrap">${crece ? "menor que" : "mayor que"}</span>
+            <input type="number" id="kCrit" step="any" value="${esc(F.kriCritico ?? "")}"></div></div>
+        <div class="field"><label><span class="zone Moderado">Aceptable</span></label>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span class="hint">entre</span>
+            <input type="number" id="kAcepMin" step="any" value="${esc(F.kriAceptableMin ?? "")}">
+            <span class="hint">y</span>
+            <input type="number" id="kAcepMax" step="any" value="${esc(F.kriAceptableMax ?? "")}"></div></div>
+        <div class="field"><label><span class="zone Bajo">Satisfactorio</span></label>
+          <div style="display:flex;align-items:center;gap:7px">
+            <span class="hint" style="white-space:nowrap">${crece ? "mayor que" : "menor que"}</span>
+            <input type="number" id="kSat" step="any" value="${esc(F.kriSatisfactorio ?? "")}"></div></div>
+      </div>`;
+    })() : ""}
+
+    ${F.tratamiento && F.tratamiento !== "Aceptar" ? `
+    <h2 style="margin:22px 0 11px;padding-top:15px;border-top:1px solid var(--line)">
+      Plan de implementación de controles</h2>
+    <p class="hint" style="margin-top:-6px">Actividades para poner en marcha los controles nuevos
+      que exige el tratamiento seleccionado.</p>
+    ${(F.plan || []).map((a, k) => `<div class="ctrl-item">
+      <div class="ctrl-head"><b>Actividad ${k + 1}</b>
+        <button class="btn ghost sm" data-delact="${k}">Quitar</button></div>
+      <div class="field" style="margin-bottom:9px"><label class="req">Actividad</label>
+        <input type="text" data-a="${k}" data-af="actividad" value="${esc(a.actividad || "")}"
+          placeholder="${esc(CAT.ayuda.planActividad.ej)}">
+        <p class="hint">Describir las actividades a desarrollar para implementar un nuevo control,
+          iniciando por un verbo en infinitivo.</p></div>
+      <div class="grid2">
+        <div class="field" style="margin-bottom:0"><label class="req">Responsable</label>
+          <input type="text" data-a="${k}" data-af="responsable" value="${esc(a.responsable || "")}"
+            placeholder="Profesional universitario de la Dirección">
+          <p class="hint">Debe corresponder a un cargo perteneciente al área.</p></div>
+        <div class="field" style="margin-bottom:0"><label class="req">Fecha de implementación</label>
+          <input type="date" data-a="${k}" data-af="fecha" value="${esc(a.fecha || "")}"></div>
       </div>
-      <div class="banner info"><span>◉</span><div>Al guardar, el enlace deberá cargar las evidencias
-        de ejecución del plan. En el sistema definitivo el archivo va a Drive institucional y la base
-        guarda solo la referencia.</div></div>` : ""}
+    </div>`).join("")}
+    <button class="btn ghost sm" id="addAct">Agregar actividad</button>
+    ` : ""}
 
     ${!F._nuevo ? `<div class="field" style="margin-top:17px">
       <label class="req">Motivo del cambio</label>
@@ -1623,7 +1829,10 @@ function enlazarFormulario(){
     if (F.causaInmediata !== "LA/FT/FP"){ F.factorLAFT = ""; F.puntoRiesgo = ""; }
     pintarFormulario();
   });
-  bind("fImp", "impactoNivel"); bind("fTrat", "tratamiento"); bind("fSub", "subestrategia");
+  bind("fImpEco", "impactoEconomico"); bind("fImpRep", "impactoReputacional");
+  bind("fTrat", "tratamiento"); bind("fSub", "subestrategia");
+  bind("kUni", "kriUnidad"); bind("kDisp", "kriDisponibilidad");
+  bind("kFrec", "kriFrecuencia"); bind("kTend", "kriTendencia");
 
   ["fActivo:activo","fAccion:accion","fEfecto:efectoInmediato","fCausa:causaRaiz",
    "fFrec:frecuencia"].forEach(pair => {
@@ -1633,12 +1842,32 @@ function enlazarFormulario(){
     el.oninput = () => { F[key] = el.value; };
     el.onblur  = () => { pintarFormulario(); };
   });
-  ["fPlan:planAccion","fRespPlan:responsablePlan","fKri:kri","fFecha:fechaPlan","fMotivo:motivo"]
-    .forEach(pair => {
-      const [id, key] = pair.split(":");
-      const el = document.getElementById(id);
-      if (el) el.oninput = () => { F[key] = el.value; };
-    });
+  ["kNom:kriNombre","kDes:kriDescripcion","kObj:kriObjetivo","kNum:kriNumerador",
+   "kDen:kriDenominador","kResp:kriResponsable","kUbi:kriUbicacion",
+   "kCrit:kriCritico","kAcepMin:kriAceptableMin","kAcepMax:kriAceptableMax",
+   "kSat:kriSatisfactorio","fMotivo:motivo"].forEach(pair => {
+    const [id, key] = pair.split(":");
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.oninput = () => { F[key] = el.value; };
+    if (id === "kNum" || id === "kDen") el.onblur = () => pintarFormulario();
+  });
+
+  /* Plan de implementación de controles: lista variable de actividades */
+  const btnAct = document.getElementById("addAct");
+  if (btnAct) btnAct.onclick = () => {
+    F.plan = F.plan || [];
+    F.plan.push({actividad:"", responsable:"", fecha:""});
+    pintarFormulario();
+  };
+  document.querySelectorAll("[data-delact]").forEach(b => b.onclick = () => {
+    F.plan.splice(Number(b.dataset.delact), 1); pintarFormulario();
+  });
+  document.querySelectorAll("[data-a]").forEach(el => {
+    const k = Number(el.dataset.a), f = el.dataset.af;
+    el.oninput = () => { F.plan[k][f] = el.value; };
+    if (el.type === "date") el.onchange = () => { F.plan[k][f] = el.value; };
+  });
 
   document.querySelectorAll("[data-fac]").forEach(cb => cb.onchange = () => {
     F.factores = F.factores || [];
@@ -1649,7 +1878,7 @@ function enlazarFormulario(){
 
   on("addCtrl", "onclick", () => {
     F.controles = F.controles || [];
-    F.controles.push({responsable:"", accion:"", complemento:"",
+    F.controles.push({responsable:"", accion:"", periodicidad:"", complemento:"",
       tipo:"Preventivo", implementacion:"Manual"});
     pintarFormulario();
   });
@@ -1670,12 +1899,15 @@ async function guardarRiesgo(){
   if (!F.proceso) falta.push("proceso");
   if (!F.unidad) falta.push("dependencia");
   if (F.frecuencia === "") falta.push("frecuencia anual");
-  if (!F.impactoNivel) falta.push("nivel de impacto");
+  if (F._pideEco && !F.impactoEconomico) falta.push("afectación económica");
+  if (F._pideRep && !F.impactoReputacional) falta.push("afectación reputacional");
   if (!F.tratamiento) falta.push("tratamiento");
   tipo(F.tipo).campos.forEach(c => {
     if (c === "factores") return;                       // opcional
     if ((c === "factorLAFT" || c === "puntoRiesgo")
         && F.causaInmediata !== "LA/FT/FP") return;     // solo para LA/FT/FP
+    if (c === "accion" && F.tipo === "INT"
+        && F.causaInmediata === "LA/FT/FP") return;     // no aplica a LA/FT/FP
     if (!F[c]) falta.push((CAT.etiquetas[c] || c).toLowerCase());
   });
   if (falta.length) return aviso("Faltan datos", `Completa: ${falta.join(", ")}.`);
@@ -1683,11 +1915,24 @@ async function guardarRiesgo(){
   const err = Motor.validarTratamiento(F.tratamiento, F.tipo, F.zonaResidual, F.subestrategia, F.acta);
   if (err) return aviso("Tratamiento no válido", err);
 
+  if (F.tratamiento && F.tratamiento !== "Aceptar" && !(F.plan || []).length)
+    return aviso("Falta el plan de implementación",
+      `El tratamiento «${F.tratamiento}» exige al menos una actividad en el plan de implementación de controles.`);
+
   const previo = S.riesgos.find(r => r.id === F.id);
   if (previo && (!F.motivo || F.motivo.trim().length < 20))
     return aviso("Falta el motivo", "Los cambios exigen un motivo de al menos 20 caracteres. Queda en el histórico.");
 
   recalcular();
+  /* Fórmula legible que consumen el reporte de ejecución y los informes */
+  F.kri = F.kriNumerador && F.kriDenominador
+    ? `(${F.kriNumerador} / ${F.kriDenominador})${F.kriUnidad === "Porcentaje" ? " × 100" : ""}`
+    : (F.kri || "");
+  F.planAccion = (F.plan || []).map((a, i) =>
+    `${i + 1}. ${a.actividad}${a.responsable ? ` — ${a.responsable}` : ""}${a.fecha ? ` (${a.fecha})` : ""}`)
+    .join("\n") || F.planAccion || "";
+  F.fechaPlan = (F.plan || []).map(a => a.fecha).filter(Boolean).sort().pop() || F.fechaPlan || "";
+  F.responsablePlan = (F.plan || [])[0]?.responsable || F.responsablePlan || "";
   if (F._nuevo){
     const n = S.riesgos.filter(r => r.proceso === F.proceso && r.unidad === F.unidad).length + 1;
     F.codigo = `${F.unidad}-${String(n).padStart(2, "0")}`;
@@ -2143,11 +2388,45 @@ function vistaMetodo(){
         <div class="scroll-x"><table><thead><tr><th>Nivel</th><th>%</th><th>Frecuencia de la actividad</th></tr></thead>
           <tbody>${CAT.probabilidad.map(p => `<tr><td>${p.n}</td>
             <td class="mono">${pct(p.pct)}</td><td>${p.d}</td></tr>`).join("")}</tbody></table></div></div>
-      <div class="card"><header><h2>Impacto</h2><span class="tag">Tabla 5</span></header>
-        <div class="scroll-x"><table><thead><tr><th>Nivel</th><th>%</th><th>Afectación económica</th></tr></thead>
+      <div class="card"><header><h2>Impacto económico</h2><span class="tag">Tabla 5</span></header>
+        <div class="scroll-x"><table><thead><tr><th>Nivel</th><th class="num">%</th><th>Afectación económica</th></tr></thead>
           <tbody>${CAT.impacto.map(i => `<tr><td>${i.n}</td>
-            <td class="mono">${pct(i.pct)}</td><td>${i.eco}</td></tr>`).join("")}</tbody></table></div></div>
+            <td class="num mono">${pct(i.pct)}</td><td>${i.eco}</td></tr>`).join("")}</tbody></table></div></div>
     </div>
+
+    <div class="card"><header><h2>Impacto reputacional</h2>
+      <span class="tag">Tabla 5 · numeral 3.6</span></header>
+      <div class="scroll-x"><table><thead><tr>
+        <th style="width:130px">Nivel</th><th class="num" style="width:70px">%</th>
+        <th>Afectación reputacional</th></tr></thead>
+        <tbody>${CAT.impacto.map(i => `<tr><td>${i.n}</td>
+          <td class="num mono">${pct(i.pct)}</td>
+          <td class="just">${esc(i.rep)}</td></tr>`).join("")}</tbody></table></div>
+      <div class="body" style="border-top:1px solid var(--line)"><p class="hint just" style="margin:0">
+        Cuando un riesgo presenta afectación económica y reputacional con niveles distintos, se toma
+        el más alto. Si el impacto económico resulta Mayor y el reputacional Moderado, el impacto
+        del riesgo es Mayor.</p></div></div>
+
+    <div class="card"><header><h2>Apetito de riesgo</h2>
+      <span class="tag">Política institucional</span></header>
+      <div class="scroll-x"><table><thead><tr>
+        <th>Zona residual</th><th>Nivel de apetito</th><th>Descripción</th>
+        <th>Acción recomendada</th><th class="ctr">¿Aceptable?</th>
+        <th class="ctr">Requiere<br>tratamiento</th><th>Opciones admitidas</th>
+      </tr></thead><tbody>${CAT.apetito.map(a => `<tr>
+        <td>${a.zonas.map(z => `<span class="zone ${z}">${z}</span>`).join(" ")}</td>
+        <td>${esc(a.nivel)}</td>
+        <td class="just">${esc(a.descripcion)}</td>
+        <td class="just">${esc(a.accion)}</td>
+        <td class="ctr">${a.aceptable ? `<span class="zone Bajo">Sí</span>`
+          : `<span class="zone Extremo">No</span>`}</td>
+        <td class="ctr">${a.requiereTratamiento ? "Sí" : "No"}</td>
+        <td>${a.opciones.map(o => `<span class="tag">${esc(o)}</span>`).join(" ")}</td>
+      </tr>`).join("")}</tbody></table></div>
+      <div class="body" style="border-top:1px solid var(--line)"><p class="hint just" style="margin:0">
+        Al formular un riesgo, el sistema solo ofrece las opciones de tratamiento que admite el
+        apetito para su zona residual. Un riesgo en zona Baja únicamente puede aceptarse; uno en
+        zona Alta o Extrema no puede aceptarse en ningún caso.</p></div></div>
 
     <div class="card"><header><h2>Estructura de procesos</h2></header>
       <div class="scroll-x"><table><thead><tr><th>Macroproceso</th><th>Proceso</th><th class="num">Dep.</th><th>Dependencias</th></tr></thead>
