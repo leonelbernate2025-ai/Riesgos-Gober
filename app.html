@@ -320,7 +320,7 @@ tbody tr:hover td{background:var(--surface-2)}
 <div class="app">
   <aside class="rail">
     <div class="brand">
-      <div class="brand-mark"><b>Riesgos</b><span class="mono" title="Compilación del prototipo">v7 &middot; b17</span></div>
+      <div class="brand-mark"><b>Riesgos</b><span class="mono" title="Compilación del prototipo">v7 &middot; b20</span></div>
       <small>Gobernación de Santander</small>
     </div>
     <nav class="nav" id="nav"></nav>
@@ -803,12 +803,253 @@ const CAT = {
      opciones:["Aceptar"]}
   ],
 
+  /* Carpetas de evidencia en SharePoint institucional.
+     El archivo de origen trae la misma dirección para las 102 dependencias,
+     así que aquí queda una general. Cuando SIG cree una carpeta por
+     dependencia, se agregan en porDependencia y el sistema las prefiere. */
+  evidencias:{
+    general:{
+      control:"https://santandergov-my.sharepoint.com/:f:/g/personal/sig_santander_gov_co/IgCShXDHBUw5TLMevqlCCdqVAVeQ6KNlhL70ARLuPnfY-nQ?e=KRis5r",
+      plan:"https://santandergov-my.sharepoint.com/:f:/g/personal/sig_santander_gov_co/IgDp06gfiCpETKysPwd96x7gAY1Wy0Ju5T2mQ74sAI33Z7Q?e=z7wmlF"
+    },
+    porDependencia:{}
+  },
+
+  /* Autodiagnóstico de madurez del Sistema Integral de Administración del
+     Riesgo. Estructura COSO ERM adaptada por Función Pública: cinco
+     componentes, veinte principios y setenta y siete puntos de reflexión. */
+  madurezGrados:[
+    {v:1, n:"Nunca"}, {v:2, n:"Raramente"}, {v:3, n:"A veces"},
+    {v:4, n:"Frecuentemente"}, {v:5, n:"Siempre"}
+  ],
+  madurezNiveles:[
+    {hasta:2, n:"Inicial",     z:"Extremo",  d:"La gestión del riesgo es informal y reactiva."},
+    {hasta:3, n:"Repetible",   z:"Alto",     d:"Existen prácticas, pero dependen de las personas."},
+    {hasta:4, n:"Definido",    z:"Moderado", d:"Los procesos están documentados y se aplican."},
+    {hasta:5, n:"Administrado",z:"Bajo",     d:"Se mide, se monitorea y se toman decisiones con la información."},
+    {hasta:99,n:"Optimizado",  z:"Bajo",     d:"La gestión del riesgo se mejora de forma continua."}
+  ],
+  madurez:[
+  {
+    "c": "1",
+    "n": "1. Gobierno y Cultura",
+    "peso": 0.35,
+    "principios": [
+      {
+        "n": "1. Supervisión de Riesgos a través del Comité Institucional de Coordinación de Control Interno",
+        "puntos": [
+          "1.1. El Reglamento del Comité Institucional de Coordinación de Control Interno o instancia equivalente establece sus competencias en materia de supervisión de gestión de riesgos, de acuerdo al esquema de líneas?",
+          "1.2. Los miembros del Comité Institucional de Coordinación de Control Interno o instancia equivalente realizan por lo menos dos veces al año supervisión sobre la efectividad de la gestión de riesgos?",
+          "1.3. Existe una Política de Administración de Riesgos aprobada por el Comité Institucional de Coordinación de Control Interno, donde se establecen los principales roles, responsabilidades y competencias?",
+          "1.4. La Política de Administración de Riesgos es consistente con otros marcos relacionados (v.g.; seguridad, calidad, financiero, seguridad pacviente, asistenciales, etc.) ?"
+        ]
+      },
+      {
+        "n": "2. Establece Estructuras Operativas",
+        "puntos": [
+          "2.1. El marco de gestión de riesgos definido a traves de la Politica de Administración de Riesgos ha sido ampliamente comunicado a través de la organización",
+          "2.2. Están claramente establecidos los flujos de aprobación y reporte en la gestión de riesgos?",
+          "2.3. Están claramente identificados las instancias de 1a., 2a y 3a Línea de Defensa en las principales áreas de la entidad?",
+          "2.4. Están claramente identificados los aspectos claves de exitos de 2a Línea, sus funciones de aseguramiento y su nivel de confianza?",
+          "2.5. Los responsables de riesgos de los procesos/planes/programas/proyectos rinden informes al Comité Institucional de Coordinación de Control Interno o instancia equivalente sobre el cumplimiento de los objetivos basados en los niveles de exposición a riesgos?"
+        ]
+      },
+      {
+        "n": "3. Define la Cultura Deseada",
+        "puntos": [
+          "3.1. ¿Se evidencia una cultura orientada a la gestión preventiva del riesgo, promovida desde la Alta Dirección?",
+          "3.2. ¿El riesgo se analiza antes de haber establecido las estrategias o realizado la planificación institucional?",
+          "3.3. ¿Los objetivos de las procesos o de los planes, programas proyectos generan incentivos o presiones que favorecen un comportamiento contrario a los valores del Código de Integridad?",
+          "3.4. La Política de Administración de Riesgos refleja los principios de comportamiento esperados, conforme a lo previsto en el Código de Integridad de la organización?"
+        ]
+      },
+      {
+        "n": "4. Demuestra Compromiso con los Valores del Servicio Público",
+        "puntos": [
+          "4.1. Se ponen a disposición de los grupos de valor, tanto interno como externo, los valores de la entidad y los diferentes mecanismos utilizados para garantizar su apropiación por parte de los servidores y contratistas?",
+          "4.2. Demuestra la Alta Dirección con su comportamiento su compromiso con los valores del servicio público (tone at the top)?",
+          "4.3. Demuestra la Alta Dirección con su comportamiento su compromiso con la gestión del riesgo institucional (tone at the top)?",
+          "4.4. Los miembros del Comité Institucional de Coordinación de Control Interno o instancia equivalente promueven activamente la cultura de gestión de riesgos entre el personal operativo?",
+          "4.5. El proceso de inducción de nuevos servidores incorpora contenidos orientadores sobre la gestión preventiva de riesgos?",
+          "4.6. Se realizan mediciones / evaluaciones sobre el nivel de cultura de riesgos entre los empleados de forma regular?"
+        ]
+      },
+      {
+        "n": "5. Atrae, Desarrolla, y Retiene a Profesionales Capacitados",
+        "puntos": [
+          "5.1. El personal de segunda línea respecto de la gestión de riesgos dispone de las competencias, habilidades y conocimiento necesario para realizar sus tareas?",
+          "5.2. Los objetivos del proceso encargado de liderar la gestión de riesgos en la entidad están alineados con los de la Guía para la Administración del Riesgo y el diseño de controles en entidades públicas?",
+          "5.3. Existe un plan de gestión del conocimiento para los puestos clave de gestión de riesgos?"
+        ]
+      }
+    ]
+  },
+  {
+    "c": "2",
+    "n": "2. Estrategia y Definición de Objetivos",
+    "peso": 0.2,
+    "principios": [
+      {
+        "n": "6. Analiza el Contexto Sectorial/Territorial e Institucional",
+        "puntos": [
+          "6.1. ¿La entidad ha identificado y definido su contexto externo y la alineación con el plan estrategico sectorial (nación)/plan de desarrollo municipal, distrital o departamenmtal (territorio)?",
+          "6.2. ¿La entidad ha formulado un Plan estratégico institucional aprobado por la Alta Dirección?",
+          "6.3. La Politica de Administración de Riesgos incorpora el análisis de los factores internos y externos que puedan repercutir sobre los objetivos institucionales (estratégicos, de operaciones, etc.)?",
+          "6.4. Se analiza de forma sistemática la información externa para identificar los cambios relevantes en el contexto de la entidad e identificar riesgos emergentes?",
+          "6.5. Se analiza de forma sistemática la información interna para identificar los cambios relevantes en el contexto de la entidad e identificar riesgos emergentes?"
+        ]
+      },
+      {
+        "n": "7. Define el Apetito al Riesgo",
+        "puntos": [
+          "7.1. Existe una \"declaración del apetito al riesgo” adecuadamente formalizada?",
+          "7.2. Es competencia exclusiva del Comité Institucional de Coordinación de Control Interno o instancia equivalente para la gestión integral del riesgo la definición del apetito al riesgo?",
+          "7.3. Se promueve activamente que la Alta Dirección y las instancias clave de 2a línea conozcan el apetito al riesgo de la organización?",
+          "7.4. El apetito al riesgo es considerado en los procesos de toma de decisiones?",
+          "7.5. Se involucra al Comité Institucional de Coordinación de Control Interno o instancia equivalente en la toma de decisiones que pudieran implicar incumplir con el apetito al riesgo establecido?",
+          "7.6. Se monitoriza activamente el cumplimiento con el apetito al riesgo en todos los procesos?"
+        ]
+      },
+      {
+        "n": "8. Evalúa Estrategias Alternativas",
+        "puntos": [
+          "7.1. La estrategia de la entidad está alineada con su misión, visión y valores?",
+          "7.2. En el proceso de planeación estratégica, se analizan los riesgos y oportunidades aplicando metodologías que permitan contar con datos e información para su mejora?",
+          "7.3. Participan sistemáticamente las instancias clave en la gestión del riesgo en el proceso de planeación estratégica (instancias de 2a línea identificados y la 3a línea?"
+        ]
+      },
+      {
+        "n": "9. Formula Objetivos Estrategicos y Operacionales",
+        "puntos": [
+          "8.2. La entidad ha definido objetivos estrategicos?",
+          "8.2. Los objetivos estratégicos son desarrollados en objetivos de procesos/planes/programas/proyectos, etc.?",
+          "8.2. Los objetivos tanto estratégicos como operacionales son especificos, medibles, observables, alcanzables y relevantes?"
+        ]
+      }
+    ]
+  },
+  {
+    "c": "3",
+    "n": "3. Desempeño",
+    "peso": 0.15,
+    "principios": [
+      {
+        "n": "9. Identifica y describe el Riesgo",
+        "puntos": [
+          "9.1. Existen procesos para identificar sistemáticamente los riesgos (en todas sus tipologías) que repercuten en la consecución de los objetivos estratégicos y de procesos/planes/programas/proyectos?",
+          "9.2. Se evalúa la identificación de los riesgos (en todas sus tipologías) al menos con carácter anual a fin de identificar posible sub o sobre identificación?",
+          "9.3. Se utiliza la taxonomía de riesgos de la Guía para la Administración del Riesgo y el diseño de controles en entidades públicas para catalogar los riesgos por tipología?",
+          "9.4. Para la identificación y descripción de los riesgos (en todas sus tipologías) se realiza el análisis de los factores de riesgo?",
+          "9.5. Para la identificación y decsripción de los riesgos (en todas sus tipologías) se realiza el análisis de los puntos de riesgo?",
+          "9.6. La descripción de los riesgos (en todas sus tipologías) se realiza conforme las estructuras definidas en la Guía para la Administración del Riesgo y el diseño de controles en entidades públicas para cada de estas."
+        ]
+      },
+      {
+        "n": "10. Evalúa el Riesgo Inherente",
+        "puntos": [
+          "10.1. Se evalúa la probabilidad e impacto de los riesgos identificados (en todas sus tipologías) con base a las escalas y niveles definidos en la Guía para la Administración del Riesgo y el diseño de controles en entidades públicas para cada una de las tipologías?",
+          "10.2. Se cuantifica el impacto económico de los riesgos sobre los que se ha identificado un potencial de afectación economica?",
+          "10.3. Se considera el impacto reputacional de los riesgos sobre los que se ha identificado un potencial de afectación reputacional?",
+          "Se realiza el análisis de severidad del inherente en el mapa de calor?"
+        ]
+      },
+      {
+        "n": "11. Diseña Controles efectivos",
+        "puntos": [
+          "11.1. En la descripción de los controles se muestra el cargo del servidor que ejecuta el control, en caso se ser controles automáticos se muestra el sistema que realiza la actividad?",
+          "11.2. En la descripción de los controles se muestra el verbo en el cual se identifica la acción de control a realizar como parte del control (verificar, validar, cotejar, comparar)?",
+          "11.3. En la descripción de los controles se muestra la frecuencia (semanal, mensual, bimestral, trimetsral, semestral o a demanda) de ejecución del control?",
+          "11.4. En la descripción de los controles se muestra el objetivo de la ejecución de este?",
+          "11.5. En la descripción de los controles se definen las fuentes de información (confiables) para la ejecución de este?",
+          "11.6. En la descripción de los controles se muestra la evidencia que permita realizar la trazabilidad a la ejecución de este?",
+          "11.7. Los controles se encuentran documentados en un procedimiento, manual, guía o instructivo que garantice su operativización?"
+        ]
+      },
+      {
+        "n": "12. Prioriza Riesgos",
+        "puntos": [
+          "12.1. Los riesgos se priorizan con base a su probabilidad e impacto residual?",
+          "12.2. Los riesgos se representan en un mapa de riesgos y de matriz de calor que facilita su priorización?",
+          "12.3. Se asigna un área, personal responsable y fechas de ejecución para monitorear los riesgos críticos identificados?"
+        ]
+      },
+      {
+        "n": "13. Desarrolla una visión integral",
+        "puntos": [
+          "13.1. Existe un registro/inventario de riesgos centralizado a nivel de proceso, plan, programa, proyecto?",
+          "13.2. Se analizan las posibles interdependencias entre los riesgos identificados en cada proceso, plan, programa, proyectos para obtener una visión integral de la operación y la gestión del riesgo?",
+          "13.3. Existe un registro/ inventario de riesgos centralizado para un análisis integral sobre la efectividad de la gestión del riesgo?"
+        ]
+      }
+    ]
+  },
+  {
+    "c": "4",
+    "n": "4. Análisis y Monitorización",
+    "peso": 0.15,
+    "principios": [
+      {
+        "n": "14. Evalúa los Cambios Significativos",
+        "puntos": [
+          "14.1. Existe un proceso o esquema que permita monitorear periódicamente los cambios del contexto institucional (i.e.; los factores internos y externos) con posible impacto en la consecución de los objetivos?",
+          "14.2. Se actualiza periódicamente el registro/inventario de riesgos de la organización, incorporando temas emergentes o cambios en el contexto institucional?",
+          "14.3. El Comité Institucional de Coordinación de Control Interno evalúa por lo menos una (1) vez al año la Politica de Administración de Riesgos respecto de: 1. La adecuación de esta con los requerimientos técnicos, 2. la adecuada operativización de esta a través de las primeras líneas de defensa considerando las disposiciones de esta."
+        ]
+      },
+      {
+        "n": "15. Revisa el Riesgo y el Desempeño",
+        "puntos": [
+          "15.1. La organización realiza un seguimiento periódico del grado de desempeño para los principales objetivos establecidos",
+          "15.2. Se utilizan métricas de monitorización del riesgo (Key Risk Indicators o KRIs) para alertar respecto de riesgos crecientes o emergentes ?"
+        ]
+      },
+      {
+        "n": "16. Persigue la Mejora de la Gestión del Riesgo",
+        "puntos": [
+          "16.1. La organización revisa la idoneidad y actualiza su Politica de Administración de Riesgos periódicamente ?",
+          "16.2. Se han implantado mejoras significativas en el proceso de gestión de riesgos en el último año?"
+        ]
+      }
+    ]
+  },
+  {
+    "c": "5",
+    "n": "5. Información, comunicación y reporte",
+    "peso": 0.15,
+    "principios": [
+      {
+        "n": "17. Aprovecha la Información y la Tecnología",
+        "puntos": [
+          "17.1. Los miembros del Comité Institucional de Coordinación de Control Interno o instancia esquivalente tienen acceso directo a la Información de riesgos que necesitan para cumplir con sus responsabilidades de supervisión",
+          "17.2. Se dispone de una herramienta informática o algún otro mecanismo que centralice la gestión del riesgo?",
+          "17.3. Las instancias de 1a. y 2a. Línea de Defensa tienen acceso directo a la herramienta para la carga, análisis y reporte de los riesgos bajo su responsabilidad?"
+        ]
+      },
+      {
+        "n": "18. Comunica Información sobre Riesgos",
+        "puntos": [
+          "18.1. Están claramente establecidos los flujos de aprobación y reporte de la información en materia de riesgos?"
+        ]
+      },
+      {
+        "n": "19. Informa sobre el Riesgo, la Cultura y el Desempeño",
+        "puntos": [
+          "19.1. Existen procesos de reporte estandarizado a los diferentes niveles organizacionales?",
+          "19.2. Se generan reportes cualitativos (tendencia histórica, perspectiva futura, nivel de aseguramiento, etc.) como cuantitativos (nivel de exposición, nivel máximo, etc.) de los principales riesgos?",
+          "19.3. Se reportan los riesgos materializados y su impacto real sobre los objetivos de la entidad?",
+          "19.4. Se reporta sobre la cultura de riesgos?"
+        ]
+      }
+    ]
+  }
+],
+
   roles:[
     {c:"ADMIN",       n:"Administrador",     d:"Acceso total, sin restricción de ventana"},
     {c:"ENLACE_SIG",  n:"Enlace SIG",        d:"Crea, edita y elimina riesgos de los procesos a su cargo, solo dentro de ventana"},
     {c:"MONITOREO",   n:"Monitoreo calidad", d:"Registra el monitoreo trimestral de los procesos a su cargo"},
-    {c:"SEGUIMIENTO", n:"Control Interno",   d:"Registra el seguimiento de sus procesos y contrasta el monitoreo de SIG"},
-    {c:"PUBLICO",     n:"Consulta pública",  d:"Solo lectura, sin autenticación"}
+    {c:"SEGUIMIENTO", n:"Control Interno",   d:"Consulta el mapa de riesgos y descarga los informes en PDF y Excel"},
+    {c:"PUBLICO",     n:"Consulta pública",  d:"Consulta sin autenticación y descarga en PDF"}
   ]
 };
 
@@ -952,7 +1193,9 @@ const Store = {
    ===================================================================== */
 const S = {
   riesgos:[], usuarios:[], ventanas:[], historico:[],
-  seguimientos:[], monitoreos:[], internos:[], evaluaciones:[],
+  seguimientos:[], monitoreos:[], internos:[], evaluaciones:[], monitoreoBD:[],
+  solicitudes:[],
+  madurezResp:{}, madurezDim:null,
   periodo: null,
   intervencion: false,   // el administrador actúa sobre una vista operativa
   sesion:null, vista:"panel",
@@ -985,6 +1228,32 @@ function rutaEvidencia(r, periodo, nombreArchivo){
     .replace(/\s+/g, "");
   const ext = (nombreArchivo.split(".").pop() || "pdf").toLowerCase();
   return {carpeta:`Riesgos/${anio}/${tri}`, archivo:`${base}.${ext}`};
+}
+
+/* Evalúa el resultado del indicador contra los umbrales definidos en el
+   riesgo y devuelve el nivel, su color y el texto formateado. */
+function evaluarKRI(r, num, den){
+  const nu = parseFloat(num), de = parseFloat(den);
+  if (!isFinite(nu) || !isFinite(de) || de === 0) return null;
+  const esPct = r.kriUnidad === "Porcentaje";
+  const valor = esPct ? (nu / de) * 100 : nu / de;
+  const texto = esPct ? valor.toFixed(1).replace(/\.0$/, "") + "%"
+                      : (Number.isInteger(valor) ? String(valor) : valor.toFixed(2));
+
+  const crit = parseFloat(r.kriCritico), sat = parseFloat(r.kriSatisfactorio);
+  const aMin = parseFloat(r.kriAceptableMin), aMax = parseFloat(r.kriAceptableMax);
+  const crece = r.kriTendencia === "Creciente";
+  let nivel = null;
+
+  if (isFinite(crit) && (crece ? valor < crit : valor > crit)) nivel = "Crítico";
+  else if (isFinite(sat) && (crece ? valor > sat : valor < sat)) nivel = "Satisfactorio";
+  else if (isFinite(aMin) && isFinite(aMax)
+           && valor >= Math.min(aMin, aMax) && valor <= Math.max(aMin, aMax)) nivel = "Aceptable";
+
+  const zona = nivel === "Crítico" ? "Extremo"
+             : nivel === "Aceptable" ? "Moderado"
+             : nivel === "Satisfactorio" ? "Bajo" : "";
+  return {valor, texto, nivel, zona};
 }
 
 /* Calificación del diseño del control a partir de los 7 criterios */
@@ -1025,6 +1294,25 @@ const rutaUnidad = c => {
    debe activar la intervención. Así el histórico distingue quién cumplió
    de quién intervino. */
 function esAdmin(){ return S.sesion?.rol === "ADMIN"; }
+
+/* Qué formatos puede descargar cada rol */
+function puedeDescargar(formato){
+  const r = S.sesion?.rol;
+  if (r === "PUBLICO") return formato === "PDF";
+  return ["ADMIN","ENLACE_SIG","MONITOREO","SEGUIMIENTO"].includes(r);
+}
+
+/* Resuelve la carpeta de evidencia de una dependencia */
+function carpetaEvidencia(codUnidad, tipo){
+  const u = uni(codUnidad);
+  if (u){
+    const k = u.n.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, " ").trim().toUpperCase();
+    const esp = CAT.evidencias.porDependencia[k];
+    if (esp && esp[tipo]) return esp[tipo];
+  }
+  return CAT.evidencias.general[tipo] || "";
+}
 function puedeEscribirOperativo(tipoVentana){
   if (esAdmin()) return S.intervencion;
   return ventanaAbierta(tipoVentana);
@@ -1054,7 +1342,8 @@ function puede(accion){
   if (accion === "riesgo" && r === "ENLACE_SIG") return ventanaAbierta("ACTUALIZACION");
   if (accion === "ejecucion" && r === "ENLACE_SIG") return ventanaAbierta("EJECUCION");
   if (accion === "monitoreo" && r === "MONITOREO") return ventanaAbierta("MONITOREO");
-  if (accion === "seguimiento" && r === "SEGUIMIENTO") return ventanaAbierta("SEGUIMIENTO");
+  /* Control Interno consulta y descarga; ya no registra seguimiento
+     dentro del ciclo trimestral. */
   if (accion === "usuarios") return false;
   return false;
 }
@@ -1092,13 +1381,15 @@ async function registrarVersion(riesgo, operacion, motivo, previo){
    ===================================================================== */
 const VISTAS = [
   {id:"panel",     n:"Panel",        ic:"◼", grupo:"Consulta"},
+  {id:"madurez",   n:"Madurez del SIAR", ic:"◐", grupo:"Consulta"},
   {id:"riesgos",   n:"Riesgos",      ic:"▤", grupo:"Consulta"},
   {id:"matriz",    n:"Mapa de calor",ic:"▦", grupo:"Consulta"},
   {id:"historico", n:"Histórico",    ic:"◷", grupo:"Consulta"},
   {id:"perfiles",  n:"Responsables",  ic:"◇", grupo:"Consulta"},
+  {id:"solicitudes",n:"Actualización de riesgos", ic:"⇄", grupo:"Ciclo semestral",
+   roles:["ADMIN","ENLACE_SIG"]},
   {id:"seguimiento",n:"Reporte de ejecución", ic:"▶", grupo:"Ciclo trimestral", roles:["ADMIN","ENLACE_SIG"]},
   {id:"monitoreo", n:"Monitoreo",    ic:"◎", grupo:"Ciclo trimestral", roles:["ADMIN","MONITOREO"]},
-  {id:"interno",   n:"Control Interno",ic:"⬡", grupo:"Ciclo trimestral", roles:["ADMIN","SEGUIMIENTO"]},
   {id:"usuarios",  n:"Usuarios",     ic:"◉", grupo:"Administración", soloAdmin:true},
   
   {id:"ventanas",  n:"Ventanas",     ic:"◑", grupo:"Administración", soloAdmin:true},
@@ -1112,12 +1403,21 @@ function pintarNav(){
     if (v.soloAdmin && S.sesion?.rol !== "ADMIN") return;
     if (v.roles && !v.roles.includes(S.sesion?.rol)) return;
     if (v.grupo !== grupo){ grupo = v.grupo; html += `<div class="nav-sep">${grupo}</div>`; }
+    let insignia = "";
+    if (v.id === "solicitudes"){
+      const p = esAdmin()
+        ? S.solicitudes.filter(x => x.estado === "PENDIENTE").length
+        : S.solicitudes.filter(x => x.estado === "PENDIENTE"
+            && x.solicitadoPor === S.sesion?.nombre).length;
+      if (p) insignia = `<span class="zone ${esAdmin() ? "Alto" : "Moderado"}"
+        style="margin-left:auto;font-size:10px">${p}</span>`;
+    }
     html += `<button data-v="${v.id}" ${S.vista === v.id ? 'aria-current="page"' : ""}>
-      <span class="ic">${v.ic}</span><span>${v.n}</span></button>`;
+      <span class="ic">${v.ic}</span><span>${v.n}</span>${insignia}</button>`;
   });
   nav.innerHTML = html;
   nav.querySelectorAll("button").forEach(b =>
-    b.onclick = () => { S.vista = b.dataset.v; render(); });
+    b.onclick = () => { S.vista = b.dataset.v; S.madurezDim = null; render(); });
 
   document.getElementById("whoName").textContent = S.sesion?.nombre || "Sin sesión";
   const rol = CAT.roles.find(r => r.c === S.sesion?.rol);
@@ -1338,7 +1638,8 @@ function vistaRiesgos(){
        editar ni eliminar hasta que el administrador habilite la siguiente ventana.</div></div>` : "";
 
   const filas = rs.map(r => `<tr>
-    <td class="rid">${esc(r.codigo)}</td>
+    <td class="rid">${esc(r.codigo)}
+      ${solicitudPendiente(r.id) ? `<div style="margin-top:4px"><span class="zone Moderado">En revisión</span></div>` : ""}</td>
     <td><div class="just">${esc(r.descripcion)}</div>
       <div style="margin-top:4px"><span class="tag">${esc(tipo(r.tipo)?.n || r.tipo)}</span></div></td>
     <td><div class="just">${esc(proc(r.proceso)?.n || "")}</div>
@@ -1792,8 +2093,20 @@ function pintarFormulario(){
     <button class="btn ghost sm" id="addAct">Agregar actividad</button>
     ` : ""}
 
-    ${!F._nuevo ? `<div class="field" style="margin-top:17px">
-      <label class="req">Motivo del cambio</label>
+    <h2 style="margin:22px 0 11px;padding-top:15px;border-top:1px solid var(--line)">Soporte de la solicitud</h2>
+    <div class="field"><label${requiereAprobacion() ? ' class="req"' : ''}>Enlace al formato ES-SIG-RG-16</label>
+      <input type="text" id="fRG16" value="${esc(F.enlaceRG16 || "")}"
+        placeholder="https://santandergov-my.sharepoint.com/...">
+      <p class="hint">Pegue el enlace del formato diligenciado que respalda esta
+        ${F._nuevo ? "creación" : "actualización"}. Es el soporte que revisa la Dirección SIG.</p></div>
+
+    ${requiereAprobacion() ? `<div class="banner info"><span>&#9432;</span><div>
+      Este ${F._nuevo ? "riesgo nuevo" : "cambio"} no entra directo a la matriz general: queda como
+      solicitud en <b>Ciclo semestral &rarr; Actualización de riesgos</b> hasta que la Dirección SIG
+      lo apruebe.</div></div>` : ""}
+
+    ${(!F._nuevo || requiereAprobacion()) ? `<div class="field" style="margin-top:17px">
+      <label class="req">Motivo ${F._nuevo ? "de la solicitud" : "del cambio"}</label>
       <textarea id="fMotivo" placeholder="Describa por qué se modifica este riesgo (mínimo 20 caracteres)">${esc(F.motivo)}</textarea>
       <p class="hint">Queda registrado en el histórico junto con los campos que cambiaron.</p></div>` : ""}
   `, [
@@ -1842,7 +2155,7 @@ function enlazarFormulario(){
     el.oninput = () => { F[key] = el.value; };
     el.onblur  = () => { pintarFormulario(); };
   });
-  ["kNom:kriNombre","kDes:kriDescripcion","kObj:kriObjetivo","kNum:kriNumerador",
+  ["fRG16:enlaceRG16","kNom:kriNombre","kDes:kriDescripcion","kObj:kriObjetivo","kNum:kriNumerador",
    "kDen:kriDenominador","kResp:kriResponsable","kUbi:kriUbicacion",
    "kCrit:kriCritico","kAcepMin:kriAceptableMin","kAcepMax:kriAceptableMax",
    "kSat:kriSatisfactorio","fMotivo:motivo"].forEach(pair => {
@@ -1920,8 +2233,19 @@ async function guardarRiesgo(){
       `El tratamiento «${F.tratamiento}» exige al menos una actividad en el plan de implementación de controles.`);
 
   const previo = S.riesgos.find(r => r.id === F.id);
-  if (previo && (!F.motivo || F.motivo.trim().length < 20))
-    return aviso("Falta el motivo", "Los cambios exigen un motivo de al menos 20 caracteres. Queda en el histórico.");
+  const necesitaAval = requiereAprobacion();
+
+  if ((previo || necesitaAval) && (!F.motivo || F.motivo.trim().length < 20))
+    return aviso("Falta el motivo",
+      "Explique en al menos 20 caracteres por qué registra este cambio. Queda en el histórico y lo revisa SIG.");
+
+  if (necesitaAval && !(F.enlaceRG16 || "").trim())
+    return aviso("Falta el formato ES-SIG-RG-16",
+      "Adjunte el enlace del formato diligenciado que respalda la solicitud.");
+
+  if (necesitaAval && solicitudPendiente(F.id))
+    return aviso("Ya hay una solicitud en curso",
+      "Este riesgo tiene una solicitud esperando aprobación. Espere la respuesta de SIG antes de enviar otra.");
 
   recalcular();
   /* Fórmula legible que consumen el reporte de ejecución y los informes */
@@ -1941,7 +2265,18 @@ async function guardarRiesgo(){
   F.fechaActualizacion = new Date().toISOString().slice(0, 10);
   const previoCopia = previo ? JSON.parse(JSON.stringify(previo)) : null;
   const nuevo = JSON.parse(JSON.stringify(F));
-  delete nuevo._nuevo; delete nuevo._detalle;
+  ["_nuevo","_detalle","_pideEco","_pideRep","_impactoOrigen","_multP","_multI"]
+    .forEach(k => delete nuevo[k]);
+
+  if (necesitaAval){
+    await crearSolicitud(previoCopia ? "ACTUALIZACION" : "CREACION",
+      nuevo, previoCopia, F.motivo, F.enlaceRG16);
+    cerrarModal(); F = null;
+    S.vista = "solicitudes"; render();
+    return aviso("Solicitud enviada",
+      "La Dirección SIG debe aprobarla para que el cambio se refleje en la matriz general. "
+      + "Puede seguir su estado en Ciclo semestral, Actualización de riesgos.");
+  }
 
   const ix = S.riesgos.findIndex(r => r.id === F.id);
   if (ix >= 0) S.riesgos[ix] = nuevo; else S.riesgos.push(nuevo);
@@ -2039,17 +2374,36 @@ function verRiesgo(id){
 
 function eliminarRiesgo(id){
   const r = S.riesgos.find(x => x.id === id); if (!r) return;
-  modal("Eliminar riesgo", `
-    <div class="banner warn"><span>⚠</span><div>El riesgo <b class="rid">${esc(r.codigo)}</b>
+  const aval = requiereAprobacion();
+  if (aval && solicitudPendiente(id))
+    return aviso("Ya hay una solicitud en curso",
+      "Este riesgo tiene una solicitud esperando aprobación de SIG.");
+
+  modal(aval ? "Solicitar la eliminación del riesgo" : "Eliminar riesgo", `
+    <div class="banner warn"><span>&#9888;</span><div>El riesgo <b class="rid">${esc(r.codigo)}</b>
       no se borra: se marca como obsoleto y deja de aparecer en el inventario.
       Su histórico se conserva y puede restaurarse.</div></div>
+    ${aval ? `<div class="banner info" style="margin-top:9px"><span>&#9432;</span><div>
+      La eliminación se hará efectiva cuando la Dirección SIG apruebe la solicitud.</div></div>` : ""}
     <div class="field" style="margin-top:15px"><label class="req">Motivo de la eliminación</label>
       <textarea id="delMotivo" placeholder="Explique por qué se elimina (mínimo 20 caracteres)"></textarea></div>
+    ${aval ? `<div class="field"><label class="req">Enlace al formato ES-SIG-RG-16</label>
+      <input type="text" id="delRG16" placeholder="https://santandergov-my.sharepoint.com/...">
+      <p class="hint">Soporte de la solicitud de eliminación.</p></div>` : ""}
   `, [
     {t:"Cancelar", cls:"ghost", fn: cerrarModal},
-    {t:"Eliminar", cls:"danger", fn: async () => {
+    {t: aval ? "Enviar solicitud" : "Eliminar", cls: aval ? "" : "danger", fn: async () => {
       const m = document.getElementById("delMotivo").value.trim();
-      if (m.length < 20) return aviso("Falta el motivo", "Escribe al menos 20 caracteres.");
+      if (m.length < 20) return aviso("Falta el motivo", "Escriba al menos 20 caracteres.");
+      if (aval){
+        const link = document.getElementById("delRG16").value.trim();
+        if (!link) return aviso("Falta el formato ES-SIG-RG-16",
+          "Adjunte el enlace del formato que respalda la solicitud.");
+        await crearSolicitud("ELIMINACION", r, r, m, link);
+        cerrarModal(); S.vista = "solicitudes"; render();
+        return aviso("Solicitud enviada",
+          "La Dirección SIG debe aprobarla para que el riesgo salga de la matriz general.");
+      }
       r.estado = "OBSOLETO"; r.eliminadoEn = new Date().toISOString();
       r.eliminadoPor = S.sesion?.nombre; r.motivoEliminacion = m;
       await Store.set("riesgos", r.id, r);
@@ -2886,6 +3240,488 @@ function exportarPDF(){
 
 
 /* =====================================================================
+   MADUREZ DEL SIAR
+   Estructura COSO ERM adaptada por Función Pública. Cada punto de reflexión
+   se califica de 1 a 5; el principio promedia sus puntos, el componente
+   promedia sus principios y el índice general pondera los componentes.
+   ===================================================================== */
+const claveMad = (d, p, k) => `${d}|${p}|${k}`;
+
+function nivelMadurez(v){
+  if (v == null || isNaN(v)) return null;
+  return CAT.madurezNiveles.find(x => v <= x.hasta) || CAT.madurezNiveles[0];
+}
+
+/* Promedio de los puntos calificados de un principio */
+function notaPrincipio(di, pi){
+  const pr = CAT.madurez[di].principios[pi];
+  const vals = pr.puntos.map((_, k) => S.madurezResp[claveMad(di, pi, k)])
+    .filter(v => typeof v === "number");
+  if (!vals.length) return null;
+  return vals.reduce((a, b) => a + b, 0) / vals.length;
+}
+
+function notaComponente(di){
+  const vals = CAT.madurez[di].principios.map((_, pi) => notaPrincipio(di, pi))
+    .filter(v => v != null);
+  if (!vals.length) return null;
+  return vals.reduce((a, b) => a + b, 0) / vals.length;
+}
+
+/* Índice general: promedio de los componentes ponderado por su peso */
+function indiceMadurez(){
+  let suma = 0, peso = 0;
+  CAT.madurez.forEach((d, di) => {
+    const v = notaComponente(di);
+    if (v != null){ suma += v * d.peso; peso += d.peso; }
+  });
+  return peso ? suma / peso : null;
+}
+
+function avanceMadurez(){
+  const total = CAT.madurez.reduce((a, d) =>
+    a + d.principios.reduce((b, p) => b + p.puntos.length, 0), 0);
+  const hechos = Object.values(S.madurezResp).filter(v => typeof v === "number").length;
+  return {hechos, total, pct: total ? hechos / total : 0};
+}
+
+const num1 = v => v == null ? "—" : v.toFixed(2).replace(/\.?0+$/, "");
+
+async function guardarMadurez(){
+  await Store.set("madurez", "actual", {resp:S.madurezResp,
+    actualizadoPor:S.sesion?.nombre, actualizadoEn:new Date().toISOString()});
+}
+
+/* Gráfico radial de los cinco componentes, en SVG */
+function radarMadurez(){
+  const pts = CAT.madurez.map((d, di) => ({n:d.n, v:notaComponente(di)}));
+  const cx = 150, cy = 140, R = 100, N = pts.length;
+  const ang = i => (Math.PI * 2 * i / N) - Math.PI / 2;
+  const xy = (i, r) => [cx + Math.cos(ang(i)) * r, cy + Math.sin(ang(i)) * r];
+
+  let rejilla = "";
+  for (let a = 1; a <= 5; a++){
+    const d = pts.map((_, i) => xy(i, R * a / 5).join(",")).join(" ");
+    rejilla += `<polygon points="${d}" fill="none" stroke="var(--line)" stroke-width="1"/>`;
+  }
+  pts.forEach((_, i) => {
+    const [x, y] = xy(i, R);
+    rejilla += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)"/>`;
+  });
+
+  const conNota = pts.every(p => p.v != null);
+  const area = conNota
+    ? `<polygon points="${pts.map((p, i) => xy(i, R * p.v / 5).join(",")).join(" ")}"
+        fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="2"/>`
+    : "";
+  const marcas = conNota ? pts.map((p, i) => {
+    const [x, y] = xy(i, R * p.v / 5);
+    return `<circle cx="${x}" cy="${y}" r="4" fill="var(--accent)"/>`;
+  }).join("") : "";
+
+  const etiquetas = pts.map((p, i) => {
+    const [x, y] = xy(i, R + 26);
+    const anchor = Math.abs(x - cx) < 12 ? "middle" : (x > cx ? "start" : "end");
+    return `<text x="${x}" y="${y}" text-anchor="${anchor}" font-size="9"
+      fill="var(--muted)">${esc(p.n.split(".")[0])}. ${esc(p.n.split(". ")[1]?.slice(0, 18) || "")}</text>
+      <text x="${x}" y="${y + 11}" text-anchor="${anchor}" font-size="10" font-weight="600"
+      fill="var(--ink)">${num1(p.v)}</text>`;
+  }).join("");
+
+  return `<svg viewBox="0 0 300 290" style="width:100%;max-width:330px;height:auto"
+    role="img" aria-label="Gráfico radial de madurez por componente">
+    ${rejilla}${area}${marcas}${etiquetas}</svg>`;
+}
+
+function vistaMadurez(){
+  const ind = indiceMadurez();
+  const niv = nivelMadurez(ind);
+  const av = avanceMadurez();
+  const puedeCalificar = ["ADMIN","MONITOREO"].includes(S.sesion?.rol);
+
+  /* Detalle de un componente */
+  if (S.madurezDim != null){
+    const di = S.madurezDim, d = CAT.madurez[di];
+    const nc = notaComponente(di), nvc = nivelMadurez(nc);
+    return `<div class="stack">
+      <div style="display:flex;gap:9px;align-items:center;flex-wrap:wrap">
+        <button class="btn ghost sm" id="madVolver">Volver al resumen</button>
+        <h2>${esc(d.n)}</h2>
+        ${nc != null ? `<span class="zone ${nvc.z}">${num1(nc)} · ${nvc.n}</span>` : ""}
+        <span class="tag">Peso ${(d.peso * 100).toFixed(0)}%</span>
+      </div>
+
+      ${!puedeCalificar ? `<div class="banner info"><span>&#9432;</span><div>Está consultando el
+        autodiagnóstico. La calificación la registran el administrador y el perfil de
+        Monitoreo de calidad.</div></div>` : ""}
+
+      ${d.principios.map((pr, pi) => {
+        const np = notaPrincipio(di, pi), nvp = nivelMadurez(np);
+        return `<div class="card">
+          <header><h2 style="font-size:13.5px">${esc(pr.n)}</h2>
+            ${np != null ? `<span class="zone ${nvp.z}">${num1(np)} · ${nvp.n}</span>`
+              : `<span class="tag">Sin calificar</span>`}</header>
+          <div class="scroll-x"><table class="fija" style="min-width:760px">
+            <colgroup><col style="width:56px"><col style="width:470px"><col style="width:230px"></colgroup>
+            <thead><tr><th class="ctr">N.º</th><th>Punto de reflexión</th>
+              <th>Grado de madurez</th></tr></thead>
+            <tbody>${pr.puntos.map((pt, k) => {
+              const v = S.madurezResp[claveMad(di, pi, k)];
+              return `<tr>
+                <td class="ctr mono">${k + 1}</td>
+                <td><div class="just" style="font-size:12.5px">${esc(pt)}</div></td>
+                <td><select data-mad="${claveMad(di, pi, k)}" autocomplete="off"
+                  ${puedeCalificar ? "" : "disabled"}>
+                  <option value="">Sin calificar</option>
+                  ${CAT.madurezGrados.map(g =>
+                    `<option value="${g.v}" ${v === g.v ? "selected" : ""}>${g.v}. ${g.n}</option>`).join("")}
+                </select></td>
+              </tr>`;
+            }).join("")}</tbody></table></div>
+        </div>`;
+      }).join("")}
+    </div>`;
+  }
+
+  /* Resumen general */
+  return `<div class="stack">
+    <div class="banner info"><span>&#9432;</span><div>Instrumento de autodiagnóstico basado en
+      COSO ERM, adaptado por Función Pública. Se califica cada punto de reflexión de 1 a 5;
+      el principio promedia sus puntos, el componente promedia sus principios y el índice general
+      pondera los componentes según su peso.</div></div>
+
+    <div class="grid2">
+      <div class="card"><header><h2>Índice general de madurez</h2>
+        <span class="tag">${av.hechos} de ${av.total} puntos calificados</span></header>
+        <div class="body" style="text-align:center;padding:24px 15px">
+          <div class="mono" style="font-size:52px;font-weight:300;line-height:1;
+            letter-spacing:-.02em">${num1(ind)}</div>
+          ${niv ? `<div style="margin-top:11px"><span class="zone ${niv.z}"
+            style="font-size:14px;padding:5px 15px">${niv.n}</span></div>
+            <p class="hint just" style="margin-top:11px">${esc(niv.d)}</p>` : ""}
+          <div class="bar-track" style="height:7px;margin-top:15px">
+            <div class="bar-seg" style="width:${(av.pct * 100).toFixed(1)}%;background:var(--accent)"></div>
+          </div>
+          <p class="hint" style="margin-top:6px">${(av.pct * 100).toFixed(0)}% del autodiagnóstico
+            diligenciado</p>
+        </div></div>
+
+      <div class="card"><header><h2>Perfil por componente</h2></header>
+        <div class="body" style="display:flex;justify-content:center">${radarMadurez()}</div></div>
+    </div>
+
+    <div class="card"><header><h2>Resumen de resultados</h2>
+      <button class="btn ghost sm" id="madCsv">Exportar</button></header>
+      <div class="scroll-x"><table class="fija" style="min-width:900px">
+        <colgroup><col style="width:300px"><col style="width:80px"><col style="width:90px">
+          <col style="width:130px"><col style="width:220px"><col style="width:100px"></colgroup>
+        <thead><tr><th>Componente</th><th class="num">Peso</th><th class="num">Nota</th>
+          <th class="ctr">Nivel</th><th>Principios</th><th class="ctr"></th></tr></thead>
+        <tbody>${CAT.madurez.map((d, di) => {
+          const v = notaComponente(di), nv = nivelMadurez(v);
+          const cal = d.principios.filter((_, pi) => notaPrincipio(di, pi) != null).length;
+          return `<tr>
+            <td><div class="just"><b style="font-weight:500">${esc(d.n)}</b></div></td>
+            <td class="num">${(d.peso * 100).toFixed(0)}%</td>
+            <td class="num mono" style="font-size:14px">${num1(v)}</td>
+            <td class="ctr">${nv ? `<span class="zone ${nv.z}">${nv.n}</span>`
+              : `<span class="tag">Sin calificar</span>`}</td>
+            <td class="hint">${cal} de ${d.principios.length} calificados</td>
+            <td class="ctr"><button class="btn ghost sm" data-maddim="${di}"
+              style="width:100%;justify-content:center">${puedeCalificar ? "Calificar" : "Ver"}</button></td>
+          </tr>`;
+        }).join("")}
+        <tr class="rep-tot"><td><b style="font-weight:600">Madurez del Sistema Integral
+          de Administración del Riesgo</b></td>
+          <td class="num">100%</td>
+          <td class="num mono" style="font-size:14px"><b>${num1(ind)}</b></td>
+          <td class="ctr">${niv ? `<span class="zone ${niv.z}">${niv.n}</span>` : "—"}</td>
+          <td colspan="2"></td></tr>
+        </tbody></table></div></div>
+
+    <div class="card"><header><h2>Detalle por principio</h2></header>
+      <div class="scroll-x"><table class="fija" style="min-width:820px">
+        <colgroup><col style="width:240px"><col style="width:340px"><col style="width:80px">
+          <col style="width:130px"></colgroup>
+        <thead><tr><th>Componente</th><th>Principio</th><th class="num">Nota</th>
+          <th class="ctr">Nivel</th></tr></thead>
+        <tbody>${CAT.madurez.flatMap((d, di) => d.principios.map((pr, pi) => {
+          const v = notaPrincipio(di, pi), nv = nivelMadurez(v);
+          return `<tr>
+            <td class="hint">${pi === 0 ? esc(d.n) : ""}</td>
+            <td><div class="just" style="font-size:12.5px">${esc(pr.n)}</div>
+              <div class="hint">${pr.puntos.length} puntos de reflexión</div></td>
+            <td class="num mono">${num1(v)}</td>
+            <td class="ctr">${nv ? `<span class="zone ${nv.z}">${nv.n}</span>` : "—"}</td>
+          </tr>`;
+        })).join("")}</tbody></table></div></div>
+
+    <div class="card"><header><h2>Niveles de madurez</h2></header>
+      <div class="scroll-x"><table><thead><tr>
+        <th class="ctr">Nivel</th><th>Denominación</th><th>Qué significa</th></tr></thead>
+        <tbody>${CAT.madurezNiveles.slice(0, 5).map((x, i) => `<tr>
+          <td class="ctr mono">${i + 1}</td>
+          <td><span class="zone ${x.z}">${x.n}</span></td>
+          <td class="just hint">${esc(x.d)}</td></tr>`).join("")}</tbody></table></div></div>
+  </div>`;
+}
+
+/* =====================================================================
+   CICLO SEMESTRAL — SOLICITUDES DE ACTUALIZACIÓN
+   Lo que registra el Enlace SIG no entra directo a la matriz: queda como
+   solicitud hasta que el administrador la apruebe. Así la matriz general
+   siempre refleja lo que SIG validó.
+   ===================================================================== */
+const OP_SOLICITUD = {
+  CREACION:    {n:"Creación",     z:"Bajo"},
+  ACTUALIZACION:{n:"Actualización", z:"Moderado"},
+  ELIMINACION: {n:"Eliminación",  z:"Extremo"}
+};
+
+/* ¿Los cambios de este rol requieren aprobación? */
+function requiereAprobacion(){
+  return S.sesion?.rol === "ENLACE_SIG";
+}
+
+function solicitudPendiente(riesgoId){
+  return S.solicitudes.find(x => x.riesgoId === riesgoId && x.estado === "PENDIENTE");
+}
+
+async function crearSolicitud(operacion, riesgo, previo, motivo, enlaceRG16){
+  const sol = {
+    id: uid(),
+    operacion,
+    riesgoId: riesgo.id,
+    codigo: riesgo.codigo || "(nuevo)",
+    proceso: riesgo.proceso,
+    unidad: riesgo.unidad,
+    propuesta: JSON.parse(JSON.stringify(riesgo)),
+    anterior: previo ? JSON.parse(JSON.stringify(previo)) : null,
+    motivo: motivo || "",
+    enlaceRG16: enlaceRG16 || "",
+    estado: "PENDIENTE",
+    solicitadoPor: S.sesion?.nombre || "—",
+    solicitadoEn: new Date().toISOString()
+  };
+  S.solicitudes.push(sol);
+  await Store.set("solicitudes", sol.id, sol);
+  return sol;
+}
+
+/* Diferencias legibles entre lo vigente y lo propuesto */
+function diffSolicitud(sol){
+  const campos = {
+    descripcion:"Descripción", tipo:"Tipo de riesgo", clase:"Clase de riesgo",
+    causaRaiz:"Causa raíz", efectoInmediato:"Efecto inmediato",
+    causaInmediata:"Causa inmediata", areaImpacto:"Área de impacto",
+    areaIntegridad:"Área de impacto", areaFiscal:"Área de impacto fiscal",
+    activo:"Activo de información", vulnerabilidad:"Vulnerabilidad", amenaza:"Amenaza",
+    proceso:"Proceso", unidad:"Dependencia", frecuencia:"Frecuencia anual",
+    impactoEconomico:"Afectación económica", impactoReputacional:"Afectación reputacional",
+    zonaInherente:"Zona inherente", zonaResidual:"Zona residual",
+    tratamiento:"Tratamiento", kriNombre:"Indicador"
+  };
+  const out = [];
+  if (!sol.anterior) return out;
+  Object.entries(campos).forEach(([k, et]) => {
+    const a = sol.anterior[k] ?? "", b = sol.propuesta[k] ?? "";
+    if (String(a) !== String(b)) out.push({campo:et, antes:a || "—", ahora:b || "—"});
+  });
+  const ca = (sol.anterior.controles || []).length, cb = (sol.propuesta.controles || []).length;
+  if (ca !== cb) out.push({campo:"Número de controles", antes:ca, ahora:cb});
+  return out;
+}
+
+async function resolverSolicitud(sol, aprobar, observacion){
+  sol.estado = aprobar ? "APROBADA" : "RECHAZADA";
+  sol.revisadoPor = S.sesion?.nombre;
+  sol.revisadoEn = new Date().toISOString();
+  sol.observacion = observacion || "";
+  await Store.set("solicitudes", sol.id, sol);
+
+  if (!aprobar) return;
+
+  const ix = S.riesgos.findIndex(r => r.id === sol.riesgoId);
+  if (sol.operacion === "ELIMINACION"){
+    if (ix >= 0){
+      S.riesgos[ix].estado = "OBSOLETO";
+      S.riesgos[ix].eliminadoEn = new Date().toISOString();
+      S.riesgos[ix].eliminadoPor = sol.solicitadoPor;
+      S.riesgos[ix].motivoEliminacion = sol.motivo;
+      await Store.set("riesgos", S.riesgos[ix].id, S.riesgos[ix]);
+      await registrarVersion(S.riesgos[ix], "ELIMINACION",
+        `${sol.motivo} — aprobado por ${S.sesion?.nombre}`, null);
+    }
+    return;
+  }
+
+  const nuevo = JSON.parse(JSON.stringify(sol.propuesta));
+  nuevo.aprobadoPor = S.sesion?.nombre;
+  nuevo.aprobadoEn = sol.revisadoEn;
+  nuevo.enlaceRG16 = sol.enlaceRG16;
+  if (ix >= 0) S.riesgos[ix] = nuevo; else S.riesgos.push(nuevo);
+  await Store.set("riesgos", nuevo.id, nuevo);
+  await registrarVersion(nuevo,
+    sol.operacion === "CREACION" ? "CREACION" : "ACTUALIZACION",
+    `${sol.motivo} — aprobado por ${S.sesion?.nombre}`, sol.anterior);
+}
+
+function vistaSolicitudes(){
+  const admin = esAdmin();
+  const ventana = ventanaAbierta("ACTUALIZACION");
+  const mias = admin ? S.solicitudes
+    : S.solicitudes.filter(x => x.solicitadoPor === S.sesion?.nombre);
+  const pend = mias.filter(x => x.estado === "PENDIENTE");
+  const resueltas = mias.filter(x => x.estado !== "PENDIENTE")
+    .sort((a, b) => (b.revisadoEn || "").localeCompare(a.revisadoEn || ""));
+
+  const tabla = (lista, conAcciones) => `<div class="scroll-x">
+    <table class="fija" style="min-width:1080px">
+      <colgroup><col style="width:120px"><col style="width:140px"><col style="width:330px">
+        <col style="width:180px"><col style="width:150px"><col style="width:160px"></colgroup>
+      <thead><tr><th>Operación</th><th>Identificador</th><th>Riesgo y motivo</th>
+        <th>Solicitado por</th><th class="ctr">Formato RG-16</th><th class="ctr">Estado</th></tr></thead>
+      <tbody>${lista.map(x => {
+        const d = diffSolicitud(x);
+        return `<tr>
+          <td><span class="zone ${OP_SOLICITUD[x.operacion].z}">${OP_SOLICITUD[x.operacion].n}</span></td>
+          <td class="mono">${esc(x.codigo)}
+            <div class="hint">${esc(proc(x.proceso)?.n || "")}</div></td>
+          <td><div class="just" style="font-size:12.5px">${esc(x.propuesta.descripcion || "")}</div>
+            ${x.motivo ? `<div class="hint just" style="margin-top:4px"><b>Motivo:</b> ${esc(x.motivo)}</div>` : ""}
+            ${d.length ? `<div class="hint">${d.length} campos modificados</div>` : ""}</td>
+          <td>${esc(x.solicitadoPor)}
+            <div class="hint">${new Date(x.solicitadoEn).toLocaleString("es-CO")}</div></td>
+          <td class="ctr">${x.enlaceRG16
+            ? `<a href="${esc(x.enlaceRG16)}" target="_blank" rel="noopener">Abrir</a>`
+            : `<span class="hint">Sin enlace</span>`}</td>
+          <td class="ctr">${x.estado === "PENDIENTE"
+            ? (conAcciones && admin
+                ? `<button class="btn sm" data-sol="${x.id}" style="width:100%;justify-content:center">Revisar</button>`
+                : `<span class="tag">En revisión</span>`)
+            : `<span class="zone ${x.estado === "APROBADA" ? "Bajo" : "Extremo"}">
+                 ${x.estado === "APROBADA" ? "Aprobada" : "Rechazada"}</span>
+               <div class="hint">${esc(x.revisadoPor || "")}</div>`}
+            ${x.estado !== "PENDIENTE" ? `<button class="btn ghost sm" data-solver="${x.id}"
+              style="width:100%;justify-content:center;margin-top:4px">Ver</button>` : ""}</td>
+        </tr>`;
+      }).join("")}</tbody></table></div>`;
+
+  return `<div class="stack">
+    ${admin
+      ? (pend.length
+          ? `<div class="banner warn"><span>&#9888;</span><div>
+              <b>${pend.length} solicitudes esperan su aprobación.</b> Mientras no las revise, los
+              cambios no se reflejan en la matriz general.</div></div>`
+          : `<div class="banner ok"><span>&#9679;</span><div>No hay solicitudes pendientes.
+              La matriz general está al día.</div></div>`)
+      : `<div class="banner info"><span>&#9432;</span><div>Los riesgos que cree, actualice o
+          elimine quedan aquí como solicitud hasta que la Dirección SIG los apruebe. Solo entonces
+          entran a la matriz general.</div></div>`}
+    ${!admin && !ventana ? `<div class="banner warn"><span>&#9888;</span><div>
+      La ventana de actualización está cerrada. Puede consultar sus solicitudes, pero no enviar
+      nuevas hasta que el administrador habilite la siguiente ventana.</div></div>` : ""}
+
+    <div class="card">
+      <header><h2>Solicitudes pendientes</h2><span class="tag">${pend.length}</span></header>
+      ${pend.length ? tabla(pend, true)
+        : `<div class="empty"><b>Sin solicitudes pendientes</b>
+           ${admin ? "Cuando un enlace registre un cambio, aparecerá aquí."
+                   : "Sus cambios aparecerán aquí mientras esperan aprobación."}</div>`}
+    </div>
+
+    ${resueltas.length ? `<div class="card">
+      <header><h2>Historial de solicitudes</h2><span class="tag">${resueltas.length}</span></header>
+      ${tabla(resueltas.slice(0, 60), false)}</div>` : ""}
+  </div>`;
+}
+
+function verSolicitud(id, revisable){
+  const sol = S.solicitudes.find(x => x.id === id); if (!sol) return;
+  const d = diffSolicitud(sol);
+  const pr = sol.propuesta;
+
+  const cuerpo = `
+    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px">
+      <span class="zone ${OP_SOLICITUD[sol.operacion].z}">${OP_SOLICITUD[sol.operacion].n}</span>
+      <span class="tag mono">${esc(sol.codigo)}</span>
+      <span class="tag">${esc(proc(sol.proceso)?.n || "")}</span>
+      <span class="tag">${esc(uni(sol.unidad)?.n || "")}</span>
+    </div>
+    <p class="just" style="font-size:13.5px;line-height:1.6;margin:0 0 13px">${esc(pr.descripcion || "")}</p>
+
+    <div class="calc" style="margin-bottom:13px">
+      <div class="calc-row"><span>Solicitado por</span><span>${esc(sol.solicitadoPor)}</span></div>
+      <div class="calc-row"><span>Fecha</span>
+        <span class="mono">${new Date(sol.solicitadoEn).toLocaleString("es-CO")}</span></div>
+      <div class="calc-row"><span>Formato ES-SIG-RG-16</span>
+        <span>${sol.enlaceRG16 ? `<a href="${esc(sol.enlaceRG16)}" target="_blank" rel="noopener">Abrir el formato</a>`
+          : "Sin enlace adjunto"}</span></div>
+    </div>
+    ${sol.motivo ? `<div class="field"><label>Motivo</label>
+      <div class="calc just">${esc(sol.motivo)}</div></div>` : ""}
+
+    ${sol.operacion === "ELIMINACION" ? `<div class="banner warn"><span>&#9888;</span><div>
+      Al aprobar, el riesgo se marca como obsoleto y sale de la matriz. Su histórico se conserva
+      y puede restaurarse desde la sección Histórico.</div></div>` : ""}
+
+    ${d.length ? `<h3 style="margin:15px 0 9px">Cambios propuestos</h3>
+      <div class="scroll-x"><table style="font-size:12.5px"><thead><tr>
+        <th style="width:180px">Campo</th><th>Valor vigente</th><th>Valor propuesto</th>
+      </tr></thead><tbody>${d.map(x => `<tr>
+        <td>${esc(x.campo)}</td>
+        <td class="just" style="color:var(--z-ext)">${esc(x.antes)}</td>
+        <td class="just" style="color:var(--z-bajo)">${esc(x.ahora)}</td>
+      </tr>`).join("")}</tbody></table></div>`
+      : sol.operacion === "CREACION" ? "" : `<p class="hint">Sin cambios de campo detectables.</p>`}
+
+    ${sol.operacion !== "ELIMINACION" ? `
+    <h3 style="margin:15px 0 9px">Valoración propuesta</h3>
+    <div class="grid3">
+      <div class="kpi"><div class="v mono" style="font-size:19px">${pct(pr.probabilidadPct || 0)}</div>
+        <div class="l">Probabilidad residual ${pct(pr.probResidual || 0)}</div></div>
+      <div class="kpi"><div class="v mono" style="font-size:19px">${pct(pr.impactoPct || 0)}</div>
+        <div class="l">Impacto residual ${pct(pr.impResidual || 0)}</div></div>
+      <div class="kpi" style="display:flex;flex-direction:column;justify-content:center">
+        <div><span class="zone ${pr.zonaInherente}">${esc(pr.zonaInherente || "—")}</span>
+          <span style="margin:0 5px;color:var(--faint)">&rarr;</span>
+          <span class="zone ${pr.zonaResidual}">${esc(pr.zonaResidual || "—")}</span></div>
+        <div class="l" style="margin-top:6px">Inherente y residual</div></div>
+    </div>
+    <p class="hint" style="margin-top:9px">${(pr.controles || []).length} controles ·
+      tratamiento ${esc(pr.tratamiento || "sin definir")} ·
+      ${(pr.plan || []).length} actividades en el plan</p>` : ""}
+
+    ${sol.estado !== "PENDIENTE" ? `<div class="banner ${sol.estado === "APROBADA" ? "ok" : "warn"}"
+      style="margin-top:13px"><span>${sol.estado === "APROBADA" ? "&#10003;" : "&#10007;"}</span>
+      <div><b>${sol.estado === "APROBADA" ? "Aprobada" : "Rechazada"}</b> por
+      ${esc(sol.revisadoPor || "")} el ${new Date(sol.revisadoEn).toLocaleString("es-CO")}.
+      ${sol.observacion ? `<br>${esc(sol.observacion)}` : ""}</div></div>` : ""}
+
+    ${revisable ? `<div class="field" style="margin-top:15px">
+      <label>Observación de la revisión</label>
+      <textarea id="solObs" placeholder="Obligatoria si rechaza la solicitud"></textarea></div>` : ""}
+  `;
+
+  const botones = revisable ? [
+    {t:"Cerrar", cls:"ghost", fn: cerrarModal},
+    {t:"Rechazar", cls:"danger", fn: async () => {
+      const o = document.getElementById("solObs").value.trim();
+      if (o.length < 15) return aviso("Falta la observación",
+        "Al rechazar una solicitud debe explicar por qué, para que el enlace pueda corregir.");
+      await resolverSolicitud(sol, false, o);
+      cerrarModal(); render();
+    }},
+    {t:"Aprobar", cls:"", fn: async () => {
+      await resolverSolicitud(sol, true, document.getElementById("solObs").value.trim());
+      cerrarModal(); render();
+    }}
+  ] : [{t:"Cerrar", cls:"ghost", fn: cerrarModal}];
+
+  modal(`Solicitud · ${OP_SOLICITUD[sol.operacion].n} · ${sol.codigo}`, cuerpo, botones);
+}
+
+/* =====================================================================
    CICLO TRIMESTRAL — SEGUIMIENTO (Enlace SIG)
    Indicador, actividades, soportes y evaluación de los controles.
    ===================================================================== */
@@ -2928,17 +3764,21 @@ function vistaSeguimiento(){
 
   const filas = rs.map(r => {
     const g = seg(r.id);
-    const completo = g.resultado && g.actividades && g.soporte;
+    const nC = (r.controles || []).length, nA = (r.plan || []).length;
+    const cC = Object.keys(g.controles || {}).length;
+    const cA = Object.keys(g.acciones || {}).length;
+    const completo = cC === nC && cA === nA && (!r.kri || g.resultado);
     return `<tr>
       <td class="rid">${esc(r.codigo)}</td>
       <td><div class="just">${esc(r.descripcion)}</div>
         <div class="hint">${esc(uni(r.unidad)?.n || "")}</div></td>
       <td><div class="just">${r.kri ? esc(r.kri) : `<span class="hint">Sin indicador</span>`}</div></td>
-      <td class="num mono">${g.resultado ?? "—"}</td>
-      <td class="ctr">${g.soporte
-        ? (g.soporteURL ? `<a href="${esc(g.soporteURL)}" target="_blank" rel="noopener">Ver</a>`
-           : `<span class="zone Moderado">Local</span>`)
+      <td class="num mono">${g.resultado
+        ? `<span class="zone ${g.resultadoNivel === "Crítico" ? "Extremo"
+            : g.resultadoNivel === "Aceptable" ? "Moderado"
+            : g.resultadoNivel === "Satisfactorio" ? "Bajo" : ""}">${esc(g.resultado)}</span>`
         : "—"}</td>
+      <td class="ctr">${nC || nA ? `${cC}/${nC} · ${cA}/${nA}` : "—"}</td>
       <td class="ctr">${g.estadoAccion ? `<span class="zone ${g.estadoAccion === "Cerrada" ? "Bajo"
         : g.estadoAccion === "Vencida" ? "Extremo" : "Moderado"}">${esc(g.estadoAccion)}</span>` : "—"}</td>
       <td class="ctr"><button class="btn ${completo ? "ghost" : ""} sm" data-seg="${r.id}"
@@ -2974,7 +3814,7 @@ function vistaSeguimiento(){
           <col style="width:90px"></colgroup>
         <thead><tr>
         <th>Identificador</th><th>Riesgo</th><th>Indicador</th><th class="num">Resultado</th>
-        <th class="ctr">Soporte</th><th class="ctr">Estado<br>acción</th>
+        <th class="ctr">Controles ·<br>actividades</th><th class="ctr">Estado<br>acción</th>
         <th class="ctr">Acción</th>
       </tr></thead><tbody>${filas}</tbody></table></div>`
       : total ? `<div class="empty"><b>Ningún riesgo coincide con los filtros</b>
@@ -2995,89 +3835,229 @@ function formSeguimiento(rid){
         soporte:"", estadoAccion:"", observacion:""};
   const ruta = rutaEvidencia(r, S.periodo, g.soporte || "soporte.pdf");
 
+  const urlCtrl = carpetaEvidencia(r.unidad, "control");
+  const urlPlan = carpetaEvidencia(r.unidad, "plan");
+  g.controles = g.controles || {};
+  g.acciones  = g.acciones  || {};
+  const kri = evaluarKRI(r, g.kriNumerador, g.kriDenominador);
+
   modal(`Reporte de ejecución · ${r.codigo} · ${S.periodo.replace("-", " ")}`, `
-    <p style="margin:0 0 15px;font-size:13px">${esc(r.descripcion)}</p>
+    <p class="just" style="margin:0 0 15px;font-size:13px">${esc(r.descripcion)}</p>
 
-    <h3 style="margin-bottom:9px">Indicador clave del riesgo</h3>
-    <div class="calc" style="margin-bottom:13px">${r.kri ? esc(r.kri)
-      : `<span class="hint">Este riesgo no tiene indicador formulado. Debe definirse en la ventana de actualización.</span>`}</div>
-    <div class="field"><label>Resultado de la medición del indicador</label>
-      <input type="text" id="sgRes" value="${esc(g.resultado)}" ${abierta ? "" : "disabled"}
-        placeholder="Ejemplo: 92% (46 de 50 pagos con soporte verificado)">
-      <p class="hint">Escriba el resultado obtenido aplicando la fórmula del indicador en este trimestre.</p></div>
+    <h3 style="margin-bottom:9px">Controles existentes</h3>
+    <p class="hint" style="margin-top:-4px">Describa cómo se ejecutó cada control en el trimestre
+      y cargue la evidencia en la carpeta de su dependencia.</p>
+    ${(r.controles || []).length ? `<div class="scroll-x"><table class="fija" style="min-width:820px">
+      <colgroup><col style="width:330px"><col style="width:330px"><col style="width:140px"></colgroup>
+      <thead><tr><th>Control</th><th>Descripción de la evidencia</th><th class="ctr">Evidencia</th></tr></thead>
+      <tbody>${(r.controles || []).map((c, k) => `<tr>
+        <td><div class="just" style="font-size:12.5px">${esc([c.responsable, c.accion,
+          c.periodicidad, c.complemento].filter(Boolean).join(" "))}</div>
+          <div style="margin-top:4px"><span class="tag">${esc(c.tipo)} · ${esc(c.implementacion)}</span></div></td>
+        <td><textarea data-ctrl="${k}" ${abierta ? "" : "disabled"} style="min-height:76px"
+          placeholder="Explique cómo se ejecutó el control y qué soportes aporta">${esc(g.controles[k] || "")}</textarea></td>
+        <td class="ctr">${urlCtrl
+          ? `<a class="btn ghost sm" href="${esc(urlCtrl)}" target="_blank" rel="noopener"
+               style="width:100%;justify-content:center">Agregar</a>`
+          : `<span class="hint">Sin carpeta configurada</span>`}
+          <div class="hint" style="margin-top:5px">Nombre el archivo<br>
+            <b class="mono" style="font-size:10px">${esc(r.codigo)}-C${k + 1}</b></div></td>
+      </tr>`).join("")}</tbody></table></div>`
+      : `<p class="hint">Este riesgo no tiene controles registrados.</p>`}
 
-    <div class="field"><label>Actividades para implementar el plan de acción</label>
-      <textarea id="sgAct" ${abierta ? "" : "disabled"}
-        placeholder="Describa brevemente lo ejecutado en el periodo">${esc(g.actividades)}</textarea>
-      ${r.planAccion ? `<p class="hint"><b>Plan formulado:</b> ${esc(r.planAccion)}</p>` : ""}</div>
+    <h3 style="margin:20px 0 9px;padding-top:15px;border-top:1px solid var(--line)">
+      Indicador clave de riesgo</h3>
+    ${r.kriNombre || r.kri ? `<div class="scroll-x"><table class="fija" style="min-width:840px">
+      <colgroup><col style="width:200px"><col style="width:240px"><col style="width:130px">
+        <col style="width:130px"><col style="width:140px"></colgroup>
+      <thead><tr><th>Nombre del indicador</th><th>Fórmula</th>
+        <th class="num">Numerador</th><th class="num">Denominador</th><th class="ctr">Resultado</th></tr></thead>
+      <tbody><tr>
+        <td><div class="just">${esc(r.kriNombre || "Sin nombre")}</div></td>
+        <td><div class="mono" style="font-size:11.5px">${esc(r.kri || "—")}</div>
+          ${r.kriUnidad ? `<div class="hint">Unidad: ${esc(r.kriUnidad)}</div>` : ""}</td>
+        <td><input type="number" step="any" id="kriNum" ${abierta ? "" : "disabled"}
+          value="${esc(g.kriNumerador ?? "")}" style="text-align:right"></td>
+        <td><input type="number" step="any" id="kriDen" ${abierta ? "" : "disabled"}
+          value="${esc(g.kriDenominador ?? "")}" style="text-align:right">
+          <p class="hint">Si la fórmula solo tiene numerador, el denominador es 1.</p></td>
+        <td class="ctr" ${kri?.zona ? `style="background:var(--z-${
+          kri.zona === "Extremo" ? "ext" : kri.zona === "Moderado" ? "mod" : "bajo"}-bg)"` : ""}>
+          ${kri ? `<div class="mono" style="font-size:17px;font-weight:600">${esc(kri.texto)}</div>
+            ${kri.nivel ? `<span class="zone ${kri.zona}">${esc(kri.nivel)}</span>`
+              : `<span class="hint">Fuera de los umbrales definidos</span>`}`
+            : `<span class="hint">Registre numerador y denominador</span>`}</td>
+      </tr></tbody></table></div>
+      ${r.kriTendencia ? `<p class="hint">Tendencia ${esc(r.kriTendencia.toLowerCase())} ·
+        crítico ${r.kriTendencia === "Creciente" ? "menor que" : "mayor que"} ${esc(r.kriCritico ?? "—")} ·
+        aceptable entre ${esc(r.kriAceptableMin ?? "—")} y ${esc(r.kriAceptableMax ?? "—")} ·
+        satisfactorio ${r.kriTendencia === "Creciente" ? "mayor que" : "menor que"} ${esc(r.kriSatisfactorio ?? "—")}</p>` : ""}`
+      : `<p class="hint">Este riesgo no tiene indicador formulado. Debe definirse en la ventana
+         de actualización.</p>`}
 
-    <div class="field"><label>Soporte de ejecución del plan de acción</label>
-      ${g.soporteURL ? `<div class="banner ok" style="margin-bottom:7px"><span>&#10003;</span><div>
-        Archivo cargado: <b>${esc(g.soporte)}</b>
-        <a href="${esc(g.soporteURL)}" target="_blank" rel="noopener"
-          style="margin-left:7px">Abrir en Drive</a></div></div>` : ""}
-      <input type="file" id="sgFile" ${abierta ? "" : "disabled"}
-        accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.zip"
-        style="padding:7px;background:var(--surface-2)">
-      <div id="sgEstado" class="hint" style="margin-top:5px"></div>
-      <div class="banner info" style="margin-top:7px"><span>&#9432;</span><div>
-        Se guardará en el Drive institucional como<br>
-        <b class="mono">${esc(ruta.carpeta)}/${esc(ruta.archivo)}</b>
-        ${driveURL() ? "" : `<br><b>Aún no hay carpeta de Drive configurada.</b> El administrador
-          debe registrarla en Metodología. Mientras tanto se guarda solo el nombre del archivo.`}
-      </div></div></div>
+    ${(r.plan || []).length ? `
+    <h3 style="margin:20px 0 9px;padding-top:15px;border-top:1px solid var(--line)">Plan de acción</h3>
+    <p class="hint" style="margin-top:-4px">Actividades del plan de implementación de controles
+      formulado para este riesgo.</p>
+    <div class="scroll-x"><table class="fija" style="min-width:980px">
+      <colgroup><col style="width:270px"><col style="width:160px"><col style="width:110px">
+        <col style="width:300px"><col style="width:140px"></colgroup>
+      <thead><tr><th>Actividad</th><th>Responsable</th><th class="ctr">Fecha</th>
+        <th>Descripción de las acciones realizadas</th><th class="ctr">Evidencia</th></tr></thead>
+      <tbody>${(r.plan || []).map((a, k) => `<tr>
+        <td><div class="just" style="font-size:12.5px">${esc(a.actividad || "")}</div></td>
+        <td><div class="just" style="font-size:12.5px">${esc(a.responsable || "")}</div></td>
+        <td class="ctr mono" style="font-size:11.5px">${esc(a.fecha || "—")}</td>
+        <td><textarea data-acc="${k}" ${abierta ? "" : "disabled"} style="min-height:76px"
+          placeholder="Qué se ejecutó de esta actividad en el trimestre">${esc(g.acciones[k] || "")}</textarea></td>
+        <td class="ctr">${urlPlan
+          ? `<a class="btn ghost sm" href="${esc(urlPlan)}" target="_blank" rel="noopener"
+               style="width:100%;justify-content:center">Agregar</a>`
+          : `<span class="hint">Sin carpeta configurada</span>`}
+          <div class="hint" style="margin-top:5px">Nombre el archivo<br>
+            <b class="mono" style="font-size:10px">${esc(r.codigo)}-A${k + 1}</b></div></td>
+      </tr>`).join("")}</tbody></table></div>` : ""}
 
-    <div class="field"><label>Estado de la acción</label>
+    <div class="field" style="margin-top:17px"><label>Estado de la acción</label>
       <div class="calc">${g.estadoAccion
         ? `<span class="zone ${g.estadoAccion === "Cerrada" ? "Bajo"
             : g.estadoAccion === "Vencida" ? "Extremo" : "Moderado"}">${esc(g.estadoAccion)}</span>`
         : `<span class="hint">Pendiente de determinación</span>`}</div>
-      <p class="hint">Este campo lo determina el perfil de Monitoreo a partir de lo que reportes aquí.
-        No es editable desde el reporte de ejecución.</p></div>
-
-    <h3 style="margin:20px 0 9px;padding-top:15px;border-top:1px solid var(--line)">
-      Controles existentes</h3>
-    <p class="hint" style="margin-top:-4px">Los controles del riesgo se consultan aquí como
-      referencia. Para modificarlos hay que esperar la ventana de actualización.</p>
-    ${(r.controles || []).length ? (r.controles || []).map((c, k) => `<div class="ctrl-item">
-      <div class="ctrl-head"><b>Control ${k + 1}</b>
-        <span class="tag">${esc(c.tipo)} · ${esc(c.implementacion)} ·
-          ${pct(Motor.pesoControl(c.tipo, c.implementacion))} · ${esc(Motor.afectacion(c.tipo))}</span></div>
-      <div class="just" style="font-size:12.5px">${esc([c.responsable, c.accion, c.complemento]
-        .filter(Boolean).join(" "))}</div>
-    </div>`).join("") : `<p class="hint">Este riesgo no tiene controles registrados.</p>`}
+      <p class="hint">Lo determina el perfil de Monitoreo a partir de lo que reporte aquí.</p></div>
   `, abierta ? [
     {t:"Cancelar", cls:"ghost", fn: cerrarModal},
     {t:"Guardar reporte", cls:"", fn: async () => {
-      g.resultado = document.getElementById("sgRes").value.trim();
-      g.actividades = document.getElementById("sgAct").value.trim();
-      g.soporte = document.getElementById("sgSop").value.trim();
-      g.reportadoPor = S.sesion?.nombre; g.reportadoEn = new Date().toISOString();
-      g.porAdministracion = esAdmin();
+      /* Descripción de la evidencia de cada control */
+      g.controles = {};
+      document.querySelectorAll("[data-ctrl]").forEach(el => {
+        const v = el.value.trim(); if (v) g.controles[el.dataset.ctrl] = v;
+      });
+      /* Descripción de las acciones realizadas de cada actividad del plan */
+      g.acciones = {};
+      document.querySelectorAll("[data-acc]").forEach(el => {
+        const v = el.value.trim(); if (v) g.acciones[el.dataset.acc] = v;
+      });
 
-      const fi = document.getElementById("sgFile");
-      const file = fi && fi.files && fi.files[0];
-      if (file){
-        const est = document.getElementById("sgEstado");
-        if (est) est.textContent = "Cargando archivo…";
-        try {
-          const res = await subirEvidencia(file, r, S.periodo, "SOPORTE_PLAN");
-          g.soporte = res.nombre; g.soporteTam = file.size;
-          if (res.ok){ g.soporteURL = res.enlace; g.soporteId = res.id; }
-          else g.soportePendiente = true;
-        } catch(e){
-          return aviso("No se pudo cargar el archivo",
-            e.message + ". Verifica la dirección del Drive en Metodología o inténtalo de nuevo.");
-        }
-      }
+      const nu = document.getElementById("kriNum");
+      const de = document.getElementById("kriDen");
+      g.kriNumerador = nu ? nu.value : "";
+      g.kriDenominador = de ? de.value : "";
+      const ev = evaluarKRI(r, g.kriNumerador, g.kriDenominador);
+      g.resultado = ev ? ev.texto : "";
+      g.resultadoNivel = ev ? ev.nivel : "";
+      g.actividades = Object.values(g.acciones).join(" | ");
+
+      g.reportadoPor = S.sesion?.nombre;
+      g.reportadoEn = new Date().toISOString();
+      g.porAdministracion = esAdmin();
 
       const ix = S.seguimientos.findIndex(x => x.id === g.id);
       if (ix >= 0) S.seguimientos[ix] = g; else S.seguimientos.push(g);
       await Store.set("seguimientos", g.id, g);
+      await registrarMonitoreo(r, g);
       cerrarModal(); render();
     }}
   ] : [{t:"Cerrar", cls:"ghost", fn: cerrarModal}]);
 
+  /* El resultado se recalcula al salir de numerador o denominador */
+  ["kriNum","kriDen"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.onblur = () => {
+      const gg = S.seguimientos.find(x => x.riesgoId === rid && x.periodo === S.periodo) || g;
+      gg.kriNumerador = document.getElementById("kriNum")?.value ?? "";
+      gg.kriDenominador = document.getElementById("kriDen")?.value ?? "";
+      const ctr = {}, acc = {};
+      document.querySelectorAll("[data-ctrl]").forEach(x => ctr[x.dataset.ctrl] = x.value);
+      document.querySelectorAll("[data-acc]").forEach(x => acc[x.dataset.acc] = x.value);
+      g.controles = ctr; g.acciones = acc;
+      g.kriNumerador = gg.kriNumerador; g.kriDenominador = gg.kriDenominador;
+      cerrarModal(); formSeguimiento(rid);
+    };
+  });
+}
+
+/* =====================================================================
+   BASE DE DATOS DE MONITOREO
+   Una fila por riesgo y periodo con todo lo reportado. Es la fuente del
+   informe trimestral y se puede descargar desde el reporte de ejecución.
+   ===================================================================== */
+async function registrarMonitoreo(r, g){
+  const reg = {
+    id: `${r.id}-${S.periodo}`,
+    periodo: S.periodo,
+    codigoRiesgo: r.codigo,
+    tipoRiesgo: tipo(r.tipo)?.n || r.tipo,
+    macroproceso: macro(proc(r.proceso)?.m)?.n || "",
+    proceso: proc(r.proceso)?.n || "",
+    dependencia: uni(r.unidad)?.n || "",
+    descripcion: r.descripcion,
+    inherenteProbabilidad: r.probabilidadPct,
+    inherenteImpacto: r.impactoPct,
+    inherenteZona: r.zonaInherente,
+    residualProbabilidad: r.probResidual,
+    residualImpacto: r.impResidual,
+    residualZona: r.zonaResidual,
+    controles: (r.controles || []).map((c, k) => ({
+      n: k + 1,
+      descripcion: [c.responsable, c.accion, c.periodicidad, c.complemento].filter(Boolean).join(" "),
+      tipo: c.tipo, implementacion: c.implementacion,
+      peso: Motor.pesoControl(c.tipo, c.implementacion),
+      evidencia: (g.controles || {})[k] || ""
+    })),
+    kriNombre: r.kriNombre || "",
+    kriFormula: r.kri || "",
+    kriNumerador: g.kriNumerador ?? "",
+    kriDenominador: g.kriDenominador ?? "",
+    kriResultado: g.resultado || "",
+    kriNivel: g.resultadoNivel || "",
+    plan: (r.plan || []).map((a, k) => ({
+      n: k + 1, actividad: a.actividad || "", responsable: a.responsable || "",
+      fecha: a.fecha || "", acciones: (g.acciones || {})[k] || ""
+    })),
+    estadoAccion: g.estadoAccion || "",
+    reportadoPor: g.reportadoPor || "",
+    reportadoEn: g.reportadoEn || new Date().toISOString()
+  };
+  const ix = S.monitoreoBD.findIndex(x => x.id === reg.id);
+  if (ix >= 0) S.monitoreoBD[ix] = reg; else S.monitoreoBD.push(reg);
+  await Store.set("monitoreoBD", reg.id, reg);
+}
+
+function exportarMonitoreoCSV(){
+  const rs = S.monitoreoBD.filter(x => x.periodo === S.periodo);
+  if (!rs.length) return aviso("Nada que exportar",
+    "Todavía no se ha guardado ningún reporte de ejecución en este periodo.");
+  const maxC = Math.max(1, ...rs.map(x => x.controles.length));
+  const maxA = Math.max(1, ...rs.map(x => x.plan.length));
+  const cab = ["Periodo","Código del riesgo","Tipo de riesgo","Macroproceso","Proceso",
+    "Dependencia","Descripción del riesgo",
+    "Probabilidad inherente","Impacto inherente","Zona inherente",
+    "Probabilidad residual","Impacto residual","Zona residual"];
+  for (let k = 1; k <= maxC; k++)
+    cab.push(`Control ${k}`, `Tipo ${k}`, `Peso ${k}`, `Descripción de la evidencia ${k}`);
+  cab.push("Indicador","Fórmula","Numerador","Denominador","Resultado","Nivel del resultado");
+  for (let k = 1; k <= maxA; k++)
+    cab.push(`Actividad ${k}`, `Responsable ${k}`, `Fecha ${k}`, `Acciones realizadas ${k}`);
+  cab.push("Estado de la acción","Reportado por","Fecha del reporte");
+
+  const filas = rs.map(x => {
+    const f = [x.periodo, x.codigoRiesgo, x.tipoRiesgo, x.macroproceso, x.proceso,
+      x.dependencia, x.descripcion,
+      pct(x.inherenteProbabilidad || 0), pct(x.inherenteImpacto || 0), x.inherenteZona,
+      pct(x.residualProbabilidad || 0), pct(x.residualImpacto || 0), x.residualZona];
+    for (let k = 0; k < maxC; k++){
+      const c = x.controles[k];
+      f.push(c ? c.descripcion : "", c ? c.tipo : "", c ? pct(c.peso) : "", c ? c.evidencia : "");
+    }
+    f.push(x.kriNombre, x.kriFormula, x.kriNumerador, x.kriDenominador, x.kriResultado, x.kriNivel);
+    for (let k = 0; k < maxA; k++){
+      const a = x.plan[k];
+      f.push(a ? a.actividad : "", a ? a.responsable : "", a ? a.fecha : "", a ? a.acciones : "");
+    }
+    f.push(x.estadoAccion, x.reportadoPor, x.reportadoEn);
+    return f;
+  });
+  descargar(`base-monitoreo-${S.periodo}.csv`, aCSV(cab, filas), "text/csv");
 }
 
 /* =====================================================================
@@ -3179,9 +4159,10 @@ function formMonitoreo(rid){
     ${(() => { const g = S.seguimientos.find(x => x.riesgoId === rid && x.periodo === S.periodo);
       return g ? `<div class="calc"><b style="font-size:12px">Lo reportado por la dependencia</b>
         <div class="calc-row"><span>Resultado del indicador</span><span class="mono">${esc(g.resultado || "—")}</span></div>
-        <div class="calc-row"><span>Soporte</span><span class="mono">${g.soporte
-          ? (g.soporteURL ? `<a href="${esc(g.soporteURL)}" target="_blank" rel="noopener">${esc(g.soporte)}</a>`
-             : esc(g.soporte)) : "Sin cargar"}</span></div>
+        <div class="calc-row"><span>Controles con evidencia descrita</span>
+          <span class="mono">${Object.keys(g.controles || {}).length} de ${(r.controles || []).length}</span></div>
+        <div class="calc-row"><span>Actividades reportadas</span>
+          <span class="mono">${Object.keys(g.acciones || {}).length} de ${(r.plan || []).length}</span></div>
         <div class="just" style="margin-top:7px;font-size:12px">${esc(g.actividades || "Sin actividades reportadas")}</div>
         ${r.planAccion ? `<div class="hint just" style="margin-top:7px"><b>Plan formulado:</b>
           ${esc(r.planAccion)}</div>` : ""}
@@ -3450,6 +4431,8 @@ function render(){
   document.getElementById("vTitle").textContent = v.n;
 
   const subs = {
+    madurez:"Autodiagnóstico del Sistema Integral de Administración del Riesgo",
+    solicitudes:"Creación, actualización y eliminación pendientes de aprobación",
     seguimiento:"Cuatro veces al año: indicador, actividades, soportes y evaluación de controles",
     monitoreo:"Revisión de la Dirección SIG sobre la calidad de riesgos y controles",
     interno:"Verificación independiente y contraste con el monitoreo de SIG",
@@ -3466,17 +4449,24 @@ function render(){
 
   const acc = document.getElementById("vActions");
   acc.innerHTML = "";
-  const exportar = `<button class="btn ghost" id="btnXls">Excel</button>
-                    <button class="btn ghost" id="btnPdf">PDF</button>`;
+  const exportar = (puedeDescargar("XLS") ? `<button class="btn ghost" id="btnXls">Excel</button>` : "")
+    + (puedeDescargar("PDF") ? `<button class="btn ghost" id="btnPdf">PDF</button>` : "");
   if (S.vista === "riesgos")
     acc.innerHTML = (puede("riesgo") ? `<button class="btn" id="btnNuevo">Registrar riesgo</button>` : "")
-      + `<button class="btn ghost" id="btnXlsCtrl">Controles</button>` + exportar;
+      + (puedeDescargar("XLS") ? `<button class="btn ghost" id="btnXlsCtrl">Controles</button>` : "")
+      + exportar;
   if (S.vista === "panel" || S.vista === "matriz") acc.innerHTML = exportar;
-  if (S.vista === "seguimiento") acc.innerHTML = exportar;
+  if (S.vista === "solicitudes" && puedeDescargar("XLS"))
+    acc.innerHTML = `<button class="btn ghost" id="btnSolCsv">Exportar solicitudes</button>`;
+  if (S.vista === "seguimiento")
+    acc.innerHTML = (puedeDescargar("XLS")
+      ? `<button class="btn ghost" id="btnBD">Base de monitoreo</button>` : "") + exportar;
   if (S.vista === "usuarios")
     acc.innerHTML = `<button class="btn" id="btnNuevoU">Nuevo usuario</button>`;
 
   const cuerpo = {
+    madurez: vistaMadurez,
+    solicitudes: vistaSolicitudes,
     panel: vistaPanel, riesgos: vistaRiesgos, matriz: vistaMatriz,
     historico: vistaHistorico, usuarios: vistaUsuarios,
     ventanas: vistaVentanas, metodo: vistaMetodo,
@@ -3506,6 +4496,22 @@ function render(){
   on("btnSemilla", () => recargarSemilla());
   on("btnNuevo", () => abrirFormulario(null));
   on("btnXlsCtrl", () => exportarControlesCSV());
+  on("btnBD", () => exportarMonitoreoCSV());
+  on("btnSolCsv", () => {
+    const lista = esAdmin() ? S.solicitudes
+      : S.solicitudes.filter(x => x.solicitadoPor === S.sesion?.nombre);
+    if (!lista.length) return aviso("Nada que exportar", "No hay solicitudes registradas.");
+    const cab = ["Operación","Identificador","Proceso","Dependencia","Descripción propuesta",
+      "Motivo","Formato ES-SIG-RG-16","Campos modificados","Solicitado por","Fecha de solicitud",
+      "Estado","Revisado por","Fecha de revisión","Observación de la revisión"];
+    const filas = lista.map(x => [OP_SOLICITUD[x.operacion].n, x.codigo,
+      proc(x.proceso)?.n || "", uni(x.unidad)?.n || "", x.propuesta.descripcion || "",
+      x.motivo, x.enlaceRG16,
+      diffSolicitud(x).map(d => `${d.campo}: ${d.antes} → ${d.ahora}`).join(" | "),
+      x.solicitadoPor, x.solicitadoEn, x.estado, x.revisadoPor || "",
+      x.revisadoEn || "", x.observacion || ""]);
+    descargar("solicitudes-actualizacion.csv", aCSV(cab, filas), "text/csv");
+  });
   on("btnXls", () => {
     if (S.vista === "riesgos") exportarRiesgosCSV();
     else if (S.vista === "seguimiento") exportarSeguimientoCSV();
@@ -3526,6 +4532,40 @@ function render(){
 
   const sp = document.getElementById("selPeriodo");
   if (sp) sp.onchange = () => { S.periodo = sp.value; render(); };
+  document.querySelectorAll("[data-maddim]").forEach(b =>
+    b.onclick = () => { S.madurezDim = Number(b.dataset.maddim); render(); });
+  on("madVolver", () => { S.madurezDim = null; render(); });
+  document.querySelectorAll("[data-mad]").forEach(el => el.onchange = async () => {
+    if (el.value) S.madurezResp[el.dataset.mad] = Number(el.value);
+    else delete S.madurezResp[el.dataset.mad];
+    await guardarMadurez(); render();
+  });
+  on("madCsv", () => {
+    const cab = ["Componente","Peso","Nota del componente","Nivel del componente",
+      "Principio","Nota del principio","Nivel del principio",
+      "N.º","Punto de reflexión","Calificación","Grado de madurez"];
+    const filas = [];
+    CAT.madurez.forEach((d, di) => {
+      const vc = notaComponente(di), nvc = nivelMadurez(vc);
+      d.principios.forEach((pr, pi) => {
+        const vp = notaPrincipio(di, pi), nvp = nivelMadurez(vp);
+        pr.puntos.forEach((pt, k) => {
+          const v = S.madurezResp[claveMad(di, pi, k)];
+          const g = CAT.madurezGrados.find(x => x.v === v);
+          filas.push([d.n, (d.peso * 100).toFixed(0) + "%", num1(vc), nvc ? nvc.n : "",
+            pr.n, num1(vp), nvp ? nvp.n : "", k + 1, pt, v ?? "", g ? g.n : ""]);
+        });
+      });
+    });
+    const ind = indiceMadurez(), niv = nivelMadurez(ind);
+    filas.push(["Madurez del Sistema Integral de Administración del Riesgo", "100%",
+      num1(ind), niv ? niv.n : "", "", "", "", "", "", "", ""]);
+    descargar("madurez-siar.csv", aCSV(cab, filas), "text/csv");
+  });
+  document.querySelectorAll("[data-sol]").forEach(b =>
+    b.onclick = () => verSolicitud(b.dataset.sol, true));
+  document.querySelectorAll("[data-solver]").forEach(b =>
+    b.onclick = () => verSolicitud(b.dataset.solver, false));
   document.querySelectorAll("[data-seg]").forEach(b => b.onclick = () => formSeguimiento(b.dataset.seg));
   document.querySelectorAll("[data-mon]").forEach(b => b.onclick = () => formMonitoreo(b.dataset.mon));
   document.querySelectorAll("[data-int]").forEach(b => b.onclick = () => formInterno(b.dataset.int));
@@ -3640,6 +4680,10 @@ async function recargarSemilla(){
   S.monitoreos   = await Store.get("monitoreos");
   S.internos     = await Store.get("internos");
   S.evaluaciones = await Store.get("evaluaciones");
+  S.monitoreoBD  = await Store.get("monitoreoBD");
+  S.solicitudes  = await Store.get("solicitudes");
+  const md = await Store.get("madurez");
+  S.madurezResp = (md[0] && md[0].resp) || {};
   S.periodo = periodoActual();
   /* Con un único proceso a cargo, el filtro arranca fijado en él */
   const mp = misProcesos();
