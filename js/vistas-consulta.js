@@ -15,10 +15,12 @@ const VISTAS = [
   {id:"solicitudes",n:"Actualización de riesgos", ic:"⇄", grupo:"Ciclo semestral",
    roles:["ADMIN","ENLACE_SIG"]},
   {id:"seguimiento",n:"Reporte de ejecución", ic:"▶", grupo:"Ciclo trimestral", roles:["ADMIN","ENLACE_SIG"]},
-  {id:"monitoreo", n:"Monitoreo",    ic:"◎", grupo:"Ciclo trimestral", roles:["ADMIN","MONITOREO"]},
+  {id:"monitoreo", n:"Monitoreo",    ic:"◎", grupo:"Ciclo trimestral",
+   roles:["ADMIN","MONITOREO","MONITOREO_TIC","MONITOREO_FIN"]},
   {id:"usuarios",  n:"Usuarios",     ic:"◉", grupo:"Administración", soloAdmin:true},
   
   {id:"ventanas",  n:"Ventanas",     ic:"◑", grupo:"Administración", soloAdmin:true},
+  {id:"formatos",  n:"Formatos",     ic:"▥", grupo:"Administración", soloAdmin:true},
   {id:"metodo",    n:"Metodología",  ic:"◈", grupo:"Administración"}
 ];
 

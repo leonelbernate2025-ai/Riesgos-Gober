@@ -446,3 +446,81 @@ function vistaMetodo(){
           <td class="mono" style="font-size:11px">${esc(t.plantilla)}</td></tr>`).join("")}</tbody></table></div></div>
   </div>`;
 }
+
+
+/* =====================================================================
+   FORMATOS
+   Parametrización de calidad de los documentos que emite el sistema.
+   El tipo y el título provienen del documento de codificación; el código,
+   la versión y la fecha de aprobación los mantiene el administrador.
+   ===================================================================== */
+const USO_FORMATO = {
+  INFORME_GENERAL:"Panel · botones Excel y PDF",
+  MADUREZ:"Madurez del SIAR · botones Excel y PDF",
+  INVENTARIO_RIESGOS:"Riesgos · botones Excel y PDF",
+  MAPA_CALOR:"Mapa de calor · botones Excel y PDF",
+  INVENTARIO_CONTROLES:"Riesgos · botón Controles",
+  SOLICITUD_MOD:"Enlace SIG · al guardar cambios en un riesgo",
+  CERT_APROBACION:"Actualización de riesgos · al ver una solicitud resuelta",
+  CERT_EVIDENCIAS:"Reporte de ejecución · al guardar el reporte",
+  REPORTE_MONITOREO:"Monitoreo · al completar todos los riesgos del periodo"
+};
+
+function vistaFormatos(){
+  const fs = formatosGuardados();
+  const logo = logoEntidad();
+  return `<div class="stack">
+    <div class="banner info"><span>&#9432;</span><div>Cada documento que emite el sistema sale con
+      el logo de la entidad y el bloque de código, versión y fecha de aprobación del formato que le
+      corresponde. El tipo y el título se toman del documento de codificación; los demás datos se
+      editan aquí.</div></div>
+
+    <div class="card"><header><h2>Logo institucional</h2>
+      <span class="tag">${logoEsPropio() ? "Personalizado" : "Escudo del departamento"}</span></header>
+      <div class="body">
+        <div style="display:flex;gap:17px;align-items:center;flex-wrap:wrap">
+          <div style="min-width:170px;min-height:74px;border:1px dashed var(--line);
+            border-radius:var(--radius);display:flex;align-items:center;justify-content:center;
+            padding:9px;background:#fff">
+            ${logo ? `<img src="${esc(logo)}" alt="Logo" style="max-width:200px;max-height:66px">`
+              : `<span class="hint">Sin logo</span>`}
+          </div>
+          <div style="flex:1;min-width:230px">
+            <input type="file" id="fmtLogo" accept="image/png,image/jpeg,image/svg+xml"
+              style="padding:7px;background:var(--surface-2)">
+            <p class="hint">Imagen en PNG, JPG o SVG, de menos de 300 KB. Se guarda en este
+              navegador y aparece en el encabezado de todos los reportes.</p>
+            ${logoEsPropio()
+              ? `<button class="btn ghost sm" id="fmtLogoQuitar">Volver al escudo institucional</button>`
+              : `<p class="hint">Se está usando el escudo institucional que trae el sistema.</p>`}
+          </div>
+        </div>
+      </div></div>
+
+    <div class="card"><header><h2>Formatos del sistema</h2>
+      <div style="display:flex;gap:7px">
+        <button class="btn ghost sm" id="fmtGuardar">Guardar cambios</button>
+        <button class="btn ghost sm" id="fmtRestaurar">Restaurar</button>
+      </div></header>
+      <div class="scroll-x"><table class="fija" style="min-width:1060px">
+        <colgroup><col style="width:125px"><col style="width:295px"><col style="width:150px">
+          <col style="width:85px"><col style="width:140px"><col style="width:265px"></colgroup>
+        <thead><tr><th>Tipo de reporte</th><th>Título del formato</th><th>Código</th>
+          <th class="ctr">Versión</th><th>Fecha de aprobación</th><th>Dónde se usa</th></tr></thead>
+        <tbody>${fs.map((f, i) => `<tr>
+          <td><div class="just" style="font-size:12px"><b style="font-weight:500">${esc(f.tipo)}</b></div></td>
+          <td><div class="just hint" style="font-size:11.5px">${esc(f.titulo)}</div></td>
+          <td><input type="text" data-fmt="${i}" data-fc="codigo" value="${esc(f.codigo)}"
+            class="mono" style="font-size:12px" placeholder="ES-SIG-RG-00"></td>
+          <td><input type="text" data-fmt="${i}" data-fc="version" value="${esc(f.version)}"
+            class="mono" style="text-align:center" placeholder="1"></td>
+          <td><input type="date" data-fmt="${i}" data-fc="fecha" value="${esc(f.fecha)}"></td>
+          <td class="hint just">${esc(USO_FORMATO[f.c] || "")}</td>
+        </tr>`).join("")}</tbody></table></div>
+      <div class="body" style="border-top:1px solid var(--line)">
+        <p class="hint just" style="margin:0">El tipo de reporte y el título del formato provienen
+          del documento de codificación de reportes y no se editan aquí. Registre el código, la
+          versión y la fecha de aprobación que la Dirección SIG haya asignado a cada uno.</p>
+      </div></div>
+  </div>`;
+}

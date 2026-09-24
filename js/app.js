@@ -13,6 +13,7 @@ function render(){
 
   const subs = {
     madurez:"Autodiagnóstico del Sistema Integral de Administración del Riesgo",
+    formatos:"Parametrización de calidad de los reportes que emite el sistema",
     solicitudes:"Creación, actualización y eliminación pendientes de aprobación",
     seguimiento:"Cuatro veces al año: indicador, actividades, soportes y evaluación de controles",
     monitoreo:"Revisión de la Dirección SIG sobre la calidad de riesgos y controles",
@@ -36,7 +37,8 @@ function render(){
     acc.innerHTML = (puede("riesgo") ? `<button class="btn" id="btnNuevo">Registrar riesgo</button>` : "")
       + (puedeDescargar("XLS") ? `<button class="btn ghost" id="btnXlsCtrl">Controles</button>` : "")
       + exportar;
-  if (S.vista === "panel" || S.vista === "matriz") acc.innerHTML = exportar;
+  if (S.vista === "panel" || S.vista === "matriz" || S.vista === "madurez")
+    acc.innerHTML = exportar;
   if (S.vista === "solicitudes" && puedeDescargar("XLS"))
     acc.innerHTML = `<button class="btn ghost" id="btnSolCsv">Exportar solicitudes</button>`;
   if (S.vista === "seguimiento")
@@ -47,6 +49,7 @@ function render(){
 
   const cuerpo = {
     madurez: vistaMadurez,
+    formatos: vistaFormatos,
     solicitudes: vistaSolicitudes,
     panel: vistaPanel, riesgos: vistaRiesgos, matriz: vistaMatriz,
     historico: vistaHistorico, usuarios: vistaUsuarios,
@@ -59,6 +62,36 @@ function render(){
   enlazarFiltros();
   const on = (id, fn) => { const e = document.getElementById(id); if (e) e.onclick = fn; };
   on("btnInterv", () => { S.intervencion = !S.intervencion; render(); });
+  /* --- Formatos --- */
+  document.querySelectorAll("[data-fmt]").forEach(el => el.oninput = () => {});
+  on("fmtGuardar", () => {
+    const fs = formatosGuardados().map(x => ({...x}));
+    document.querySelectorAll("[data-fmt]").forEach(el => {
+      fs[Number(el.dataset.fmt)][el.dataset.fc] = el.value.trim();
+    });
+    guardarFormatos(fs); render();
+    aviso("Formatos guardados",
+      "Los reportes que emita el sistema usarán esta parametrización.");
+  });
+  on("fmtRestaurar", () => modal("Restaurar los formatos", `
+    <p style="margin:0">Se volverá a la parametrización que trae el sistema y se perderán los
+      códigos, versiones y fechas que haya registrado.</p>`,
+    [{t:"Cancelar", cls:"ghost", fn:cerrarModal},
+     {t:"Restaurar", cls:"danger", fn:() => {
+       try { localStorage.removeItem("formatos"); } catch(e){}
+       cerrarModal(); render();
+     }}]));
+  const fl = document.getElementById("fmtLogo");
+  if (fl) fl.onchange = () => {
+    const f = fl.files && fl.files[0]; if (!f) return;
+    if (f.size > 300 * 1024)
+      return aviso("La imagen pesa demasiado", "Use un archivo de menos de 300 KB.");
+    const fr = new FileReader();
+    fr.onload = () => { guardarLogo(fr.result); render(); };
+    fr.readAsDataURL(f);
+  };
+  on("fmtLogoQuitar", () => { guardarLogo(""); render(); });
+
   on("cfgPurga", () => modal("Depurar histórico", `
     <p class="just" style="margin:0">Se conservará la versión más reciente de cada riesgo y se
       eliminarán las anteriores. Los riesgos, controles y reportes no se tocan.</p>
@@ -109,6 +142,7 @@ function render(){
   on("btnNuevo", () => abrirFormulario(null));
   on("btnXlsCtrl", () => exportarControlesCSV());
   on("btnBD", () => exportarMonitoreoCSV());
+  on("monReporte", () => imprimirDocumento("REPORTE_MONITOREO", informeMonitoreo(), {firmas:true}));
   on("btnSolCsv", () => {
     const lista = esAdmin() ? S.solicitudes
       : S.solicitudes.filter(x => x.solicitadoPor === S.sesion?.nombre);
@@ -127,12 +161,13 @@ function render(){
   on("btnXls", () => {
     if (S.vista === "riesgos") exportarRiesgosCSV();
     else if (S.vista === "seguimiento") exportarSeguimientoCSV();
+    else if (S.vista === "madurez") exportarMadurezCSV();
+    else if (S.vista === "matriz") exportarMapaCalorCSV();
     else exportarResumenCSV();
   });
   on("btnPdf", () => exportarPDF());
   on("expPerfiles", () => {
-    const ROLES = [["ENLACE_SIG","Enlace SIG"],["MONITOREO","Monitoreo calidad"],
-                   ["SEGUIMIENTO","Control Interno"]];
+    const ROLES = [["ENLACE_SIG","Enlace SIG"],["MONITOREO","Monitoreo calidad"]];
     const cab = ["Macroproceso","Proceso","Riesgos", ...ROLES.map(r => r[1])];
     const filas = CAT.macroprocesos.flatMap(m => CAT.procesos.filter(pp => pp.m === m.c).map(pp => [
       m.n, pp.n,
@@ -152,7 +187,8 @@ function render(){
     else delete S.madurezResp[el.dataset.mad];
     await guardarMadurez(); render();
   });
-  on("madCsv", () => {
+  on("madCsv", () => exportarMadurezCSV());
+  on("madCsvViejo", () => {
     const cab = ["Componente","Peso","Nota del componente","Nivel del componente",
       "Principio","Nota del principio","Nivel del principio",
       "N.º","Punto de reflexión","Calificación","Grado de madurez"];
@@ -281,6 +317,35 @@ async function recargarSemilla(){
 /* =====================================================================
    ARRANQUE
    ===================================================================== */
+/* Si el arranque falla, se muestra el motivo en pantalla con una salida,
+   en lugar de dejar la página en blanco. */
+function mostrarFalla(e){
+  console.error(e);
+  const v = document.getElementById("view");
+  const nav = document.getElementById("nav");
+  if (nav && !nav.children.length) nav.innerHTML = "";
+  if (!v) return;
+  v.innerHTML = `<div class="card" style="max-width:720px">
+    <header><h2>La aplicación no pudo iniciar</h2></header>
+    <div class="body">
+      <p class="just" style="margin-top:0">Lo más común es que el navegador tenga guardados
+        datos de una versión anterior del prototipo que la versión actual no reconoce.
+        Reiniciar los datos de prueba lo resuelve: se borra lo guardado en este navegador y se
+        vuelven a cargar los 235 riesgos del consolidado.</p>
+      <div class="calc mono" style="font-size:11.5px;white-space:pre-wrap;margin:11px 0">${
+        String(e && (e.stack || e.message) || e).replace(/[<>&]/g, c =>
+          ({"<":"&lt;",">":"&gt;","&":"&amp;"}[c])).slice(0, 900)}</div>
+      <button class="btn" id="fallaReset">Reiniciar los datos de prueba</button>
+      <button class="btn ghost" id="fallaRecargar" style="margin-left:7px">Volver a intentar</button>
+    </div></div>`;
+  const r = document.getElementById("fallaReset");
+  if (r) r.onclick = () => { try { localStorage.removeItem("mriesgos"); } catch(_){}; location.reload(); };
+  const k = document.getElementById("fallaRecargar");
+  if (k) k.onclick = () => location.reload();
+}
+window.addEventListener("error", ev => { if (!window.__arrancado) mostrarFalla(ev.error || ev.message); });
+window.addEventListener("unhandledrejection", ev => { if (!window.__arrancado) mostrarFalla(ev.reason); });
+
 (async function(){
   await Store.init();
   S.riesgos   = await Store.get("riesgos");
@@ -302,4 +367,5 @@ async function recargarSemilla(){
   if (mp && mp.length === 1) S.filtros.proceso = mp[0];
   S.sesion = {nombre:"Administrador", rol:"ADMIN", procesos:[]};
   render();
-})();
+  window.__arrancado = true;
+})().catch(mostrarFalla);

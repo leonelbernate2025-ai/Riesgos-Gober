@@ -281,11 +281,46 @@ const rutaUnidad = c => {
    de quién intervino. */
 function esAdmin(){ return S.sesion?.rol === "ADMIN"; }
 
+/* Los tres perfiles de monitoreo comparten alcance; los especializados
+   además solo ven un tipo de riesgo. */
+const ROLES_MONITOREO = ["MONITOREO","MONITOREO_TIC","MONITOREO_FIN"];
+const TIPO_POR_ROL = {MONITOREO_TIC:"SED", MONITOREO_FIN:"RFI"};
+function esMonitoreo(){ return ROLES_MONITOREO.includes(S.sesion?.rol); }
+function tipoRestringido(){ return TIPO_POR_ROL[S.sesion?.rol] || null; }
+
+/* Parametrización de calidad de los reportes */
+function formatosGuardados(){
+  /* El tipo y el título siempre provienen del catálogo; de lo guardado por
+     el administrador solo se toman código, versión y fecha. */
+  let prop = {};
+  try { (JSON.parse(localStorage.getItem("formatos") || "[]") || [])
+    .forEach(x => prop[x.c] = x); } catch(e){}
+  return CAT.formatos.map(f => ({...f, ...(prop[f.c] || {}),
+    tipo:f.tipo, titulo:f.titulo, c:f.c}));
+}
+function formato(cod){
+  return formatosGuardados().find(f => f.c === cod) || CAT.formatos.find(f => f.c === cod);
+}
+function guardarFormatos(lista){
+  try { localStorage.setItem("formatos", JSON.stringify(lista)); } catch(e){}
+}
+function logoEntidad(){
+  try { return localStorage.getItem("logoEntidad") || CAT.entidad.logo || ""; }
+  catch(e){ return CAT.entidad.logo || ""; }
+}
+function logoEsPropio(){
+  try { return !!localStorage.getItem("logoEntidad"); } catch(e){ return false; }
+}
+function guardarLogo(d){
+  try { d ? localStorage.setItem("logoEntidad", d) : localStorage.removeItem("logoEntidad"); }
+  catch(e){}
+}
+
 /* Qué formatos puede descargar cada rol */
-function puedeDescargar(formato){
+function puedeDescargar(fmt){
   const r = S.sesion?.rol;
-  if (r === "PUBLICO") return formato === "PDF";
-  return ["ADMIN","ENLACE_SIG","MONITOREO","SEGUIMIENTO"].includes(r);
+  if (r === "PUBLICO") return fmt === "PDF";
+  return ["ADMIN","ENLACE_SIG","SEGUIMIENTO", ...ROLES_MONITOREO].includes(r);
 }
 
 /* Resuelve la carpeta de evidencia de una dependencia */
@@ -327,7 +362,7 @@ function puede(accion){
   if (accion === "leer") return true;
   if (accion === "riesgo" && r === "ENLACE_SIG") return ventanaAbierta("ACTUALIZACION");
   if (accion === "ejecucion" && r === "ENLACE_SIG") return ventanaAbierta("EJECUCION");
-  if (accion === "monitoreo" && r === "MONITOREO") return ventanaAbierta("MONITOREO");
+  if (accion === "monitoreo" && ROLES_MONITOREO.includes(r)) return ventanaAbierta("MONITOREO");
   /* Control Interno consulta y descarga; ya no registra seguimiento
      dentro del ciclo trimestral. */
   if (accion === "usuarios") return false;

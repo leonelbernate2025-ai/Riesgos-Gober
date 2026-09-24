@@ -599,13 +599,22 @@ async function guardarRiesgo(){
     .forEach(k => delete nuevo[k]);
 
   if (necesitaAval){
-    await crearSolicitud(previoCopia ? "ACTUALIZACION" : "CREACION",
+    const sol = await crearSolicitud(previoCopia ? "ACTUALIZACION" : "CREACION",
       nuevo, previoCopia, F.motivo, F.enlaceRG16);
     cerrarModal(); F = null;
     S.vista = "solicitudes"; render();
-    return aviso("Solicitud enviada",
-      "La Dirección SIG debe aprobarla para que el cambio se refleje en la matriz general. "
-      + "Puede seguir su estado en Ciclo semestral, Actualización de riesgos.");
+    return modal("Solicitud enviada", `
+      <p class="just" style="margin:0">La Dirección SIG debe aprobarla para que el cambio se
+        refleje en la matriz general. Puede seguir su estado en Ciclo semestral,
+        Actualización de riesgos.</p>
+      <p class="hint just" style="margin-top:9px">Descargue la solicitud en PDF como constancia
+        del trámite.</p>`,
+      [{t:"Cerrar", cls:"ghost", fn:cerrarModal},
+       {t:"Descargar la solicitud", cls:"", fn:() => {
+         cerrarModal();
+         imprimirDocumento("SOLICITUD_MOD", certificadoSolicitud(sol),
+           {vertical:true, firmas:true});
+       }}]);
   }
 
   const ix = S.riesgos.findIndex(r => r.id === F.id);

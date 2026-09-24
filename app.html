@@ -248,6 +248,34 @@ tbody tr:hover td{background:var(--surface-2)}
 
 /* ---------- informe imprimible ---------- */
 #informe{display:none}
+
+/* Encabezado de calidad: logo, identificación y bloque de control */
+.rep-cal{display:grid;grid-template-columns:150px 1fr 220px;gap:11px;align-items:stretch;
+  border:1.2px solid #16242C;margin-bottom:14px}
+.rep-logo{display:flex;align-items:center;justify-content:center;padding:7px;
+  border-right:1.2px solid #16242C}
+.rep-logo img{max-width:132px;max-height:62px}
+.rep-logo-falta{font-size:8.5px;color:#777;text-align:center;line-height:1.3}
+.rep-cal-t{display:flex;flex-direction:column;justify-content:center;
+  padding:8px 4px;text-align:center}
+.rep-ent{font-size:11px;font-weight:600;letter-spacing:.02em}
+.rep-sis{font-size:9px;color:#555;margin-top:1px}
+.rep-tit{font-size:12px;font-weight:700;margin-top:5px;letter-spacing:.01em;line-height:1.25}
+.rep-tipo{font-size:8.5px;color:#555;margin-top:2px;letter-spacing:.03em}
+.rep-sub2{font-size:9px;color:#555;margin-top:2px}
+.rep-cal-d{border-left:1.2px solid #16242C;border-collapse:collapse;font-size:8.5px}
+.rep-cal-d td{border:.5px solid #9FB0B7;padding:2px 6px}
+.rep-cal-d td:first-child{background:#EDF1F2;font-weight:600;width:84px}
+/* Numeración de página en el encabezado de cada hoja */
+.rep-pag::after{content:counter(page) " de " counter(pages)}
+
+/* Firmas de cierre */
+.rep-firmas{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;
+  margin-top:40px;break-inside:avoid;font-size:9px;color:#333;text-align:center}
+.rep-linea{border-top:1px solid #16242C;margin-bottom:5px;height:38px}
+
+/* Pie con fecha y hora, repetido en cada hoja impresa */
+.rep-pie-fijo{display:none}
 .rep-cab{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;
   border-bottom:2px solid #16242C;padding-bottom:9px;margin-bottom:15px}
 .rep-cab h1{font-size:17px;margin:0}
@@ -278,7 +306,16 @@ tbody tr:hover td{background:var(--surface-2)}
   font-size:8px;color:#777;text-align:justify}
 
 @media print{
-  @page{size:A4 landscape;margin:11mm}
+  @page{size:A4 landscape;margin:13mm 11mm 16mm 11mm}
+  /* Los certificados salen en vertical; los informes, en horizontal */
+  .rep-cal{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .rep-cal-d td:first-child{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  /* El pie se fija al final de cada hoja */
+  .rep-pie-fijo{display:block;position:fixed;bottom:-11mm;left:0;right:0;
+    font-size:7.5px;color:#666;text-align:center;
+    border-top:.5px solid #CFD9DD;padding-top:2px}
+  #informe{padding-bottom:6mm}
+  .rep-cal{grid-template-columns:120px 1fr 190px}
   body.modo-informe .app,body.modo-informe #modalHost{display:none!important}
   body.modo-informe #informe{display:block}
   body{background:#fff;color:#000;font-size:10px;padding:0}
@@ -314,13 +351,20 @@ tbody tr:hover td{background:var(--surface-2)}
   .heat{grid-template-rows:repeat(5,42px)}
   .heat-y span{height:42px}
 }
+
+@media print{
+  /* Los certificados y el informe de madurez salen en hoja vertical */
+  body.modo-vertical{}
+}
+@page vertical{size:A4 portrait;margin:13mm 12mm 16mm 12mm}
+body.modo-vertical #informe{page:vertical}
 </style>
 </head>
 <body>
 <div class="app">
   <aside class="rail">
     <div class="brand">
-      <div class="brand-mark"><b>Riesgos</b><span class="mono" title="Compilación del prototipo">v7 &middot; b21</span></div>
+      <div class="brand-mark"><b>Riesgos</b><span class="mono" title="Compilación del prototipo">v7 &middot; b24</span></div>
       <small>Gobernación de Santander</small>
     </div>
     <nav class="nav" id="nav"></nav>
@@ -341,13 +385,13 @@ tbody tr:hover td{background:var(--surface-2)}
 <div id="modalHost"></div>
 <div id="informe" aria-hidden="true"></div>
 
-<script src="js/catalogo.js?v=21"></script>
-<script src="js/motor.js?v=21"></script>
-<script src="js/vistas-consulta.js?v=21"></script>
-<script src="js/riesgo.js?v=21"></script>
-<script src="js/admin.js?v=21"></script>
-<script src="js/informes.js?v=21"></script>
-<script src="js/ciclo.js?v=21"></script>
-<script src="js/app.js?v=21"></script>
+<script src="js/catalogo.js?v=24"></script>
+<script src="js/motor.js?v=24"></script>
+<script src="js/vistas-consulta.js?v=24"></script>
+<script src="js/riesgo.js?v=24"></script>
+<script src="js/admin.js?v=24"></script>
+<script src="js/informes.js?v=24"></script>
+<script src="js/ciclo.js?v=24"></script>
+<script src="js/app.js?v=24"></script>
 </body>
 </html>

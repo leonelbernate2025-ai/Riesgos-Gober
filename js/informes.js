@@ -44,6 +44,78 @@ async function subirEvidencia(file, riesgo, periodo, tipo){
   return {ok:true, ...d};
 }
 
+
+/* =====================================================================
+   PARAMETRIZACIÓN DE CALIDAD DE LOS REPORTES
+   Todo documento sale con el logo de la entidad y el bloque de código,
+   versión y fecha de aprobación que corresponde a su tipo de formato.
+   ===================================================================== */
+function encabezadoCalidad(codFormato, subtitulo){
+  const f = formato(codFormato) || {};
+  const logo = logoEntidad();
+  return `<header class="rep-cal">
+    <div class="rep-logo">${logo
+      ? `<img src="${esc(logo)}" alt="${esc(CAT.entidad.nombre)}">`
+      : `<div class="rep-logo-falta">${esc(CAT.entidad.nombre)}</div>`}</div>
+    <div class="rep-cal-t">
+      <div class="rep-ent">${esc(CAT.entidad.nombre)}</div>
+      <div class="rep-sis">${esc(CAT.entidad.sistema)}</div>
+      <div class="rep-tit">${esc(f.titulo || "")}</div>
+      <div class="rep-tipo">${esc(f.tipo || "")}</div>
+      ${subtitulo ? `<div class="rep-sub2">${esc(subtitulo)}</div>` : ""}
+    </div>
+    <table class="rep-cal-d"><tbody>
+      <tr><td>Código</td><td class="mono">${esc(f.codigo || "Sin asignar")}</td></tr>
+      <tr><td>Versión</td><td class="mono">${esc(f.version || "—")}</td></tr>
+      <tr><td>Aprobación</td><td class="mono">${esc(f.fecha || "—")}</td></tr>
+      <tr><td>Página</td><td class="rep-pag"></td></tr>
+    </tbody></table>
+  </header>`;
+}
+
+/* Bloque de firmas al cierre del documento */
+function bloqueFirmas(){
+  return `<section class="rep-firmas">
+    <div><div class="rep-linea"></div>Firma</div>
+    <div><div class="rep-linea"></div>Nombre</div>
+    <div><div class="rep-linea"></div>Cargo</div>
+  </section>`;
+}
+
+/* Pie con fecha y hora de generación, repetido en todas las hojas */
+function pieCalidad(){
+  const ahora = new Date().toLocaleString("es-CO",
+    {dateStyle:"short", timeStyle:"short"});
+  return `<div class="rep-pie-fijo">${esc(CAT.entidad.nombre)} ·
+    Generado el ${esc(ahora)}</div>`;
+}
+
+/* Abre el diálogo de impresión con un documento ya compuesto */
+function imprimirDocumento(codFormato, cuerpoHTML, opciones){
+  const o = opciones || {};
+  const cont = document.getElementById("informe");
+  cont.innerHTML = encabezadoCalidad(codFormato, o.subtitulo)
+    + cuerpoHTML
+    + (o.firmas ? bloqueFirmas() : "")
+    + pieCalidad();
+  document.body.classList.add("modo-informe");
+  if (o.vertical) document.body.classList.add("modo-vertical");
+  window.print();
+  setTimeout(() => {
+    document.body.classList.remove("modo-informe", "modo-vertical");
+    cont.innerHTML = "";
+  }, 800);
+}
+
+/* Nombre de archivo a partir del formato */
+function nombreArchivoFormato(codFormato, extra){
+  const f = formato(codFormato) || {};
+  const base = (f.titulo || codFormato).toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return `${base}${extra ? "-" + extra : ""}`;
+}
+
 /* =====================================================================
    EXPORTACIÓN
    ===================================================================== */
@@ -56,12 +128,29 @@ function descargar(nombre, contenido, mime){
 }
 
 /* CSV con punto y coma: es lo que Excel en español abre sin pedir importación */
-function aCSV(cabeceras, filas){
+/* Primeras filas del archivo con la parametrización de calidad */
+function filasCalidad(codFormato){
+  const f = formato(codFormato) || {};
+  return [
+    [CAT.entidad.nombre],
+    [CAT.entidad.sistema],
+    [f.titulo || ""],
+    ["Tipo de reporte", f.tipo || ""],
+    ["Código", f.codigo || "", "Versión", f.version || "",
+     "Fecha de aprobación", f.fecha || ""],
+    ["Generado", new Date().toLocaleString("es-CO")],
+    []
+  ];
+}
+
+function aCSV(cabeceras, filas, codFormato){
   const q = v => {
     const t = (v ?? "").toString().replace(/"/g, '""').replace(/\r?\n/g, " ");
     return /[";]/.test(t) ? `"${t}"` : t;
   };
-  return [cabeceras.map(q).join(";"), ...filas.map(f => f.map(q).join(";"))].join("\r\n");
+  const previas = codFormato ? filasCalidad(codFormato).map(f => f.map(q).join(";")) : [];
+  return [...previas, cabeceras.map(q).join(";"),
+          ...filas.map(f => f.map(q).join(";"))].join("\r\n");
 }
 
 function sufijoFiltros(){
@@ -138,7 +227,8 @@ function exportarRiesgosCSV(){
       ci.accionesCorrectivas || "", ci.soporteAccion || "",
       r.estado, (r.revisar || []).join(" | ")];
   });
-  descargar(`mapa-de-riesgos${sufijoFiltros()}.csv`, aCSV(cab, filas), "text/csv");
+  descargar(`${nombreArchivoFormato("INVENTARIO_RIESGOS")}${sufijoFiltros()}.csv`,
+    aCSV(cab, filas, "INVENTARIO_RIESGOS"), "text/csv");
 }
 
 function exportarControlesCSV(){
@@ -152,7 +242,8 @@ function exportarControlesCSV(){
     c.tipo, c.implementacion, pct(Motor.pesoControl(c.tipo, c.implementacion)),
     Motor.afectacion(c.tipo), c.documentacion, c.frecuencia, c.evidencia])));
   if (!filas.length) return aviso("Nada que exportar", "No hay controles con los filtros aplicados.");
-  descargar(`controles${sufijoFiltros()}.csv`, aCSV(cab, filas), "text/csv");
+  descargar(`${nombreArchivoFormato("INVENTARIO_CONTROLES")}${sufijoFiltros()}.csv`,
+    aCSV(cab, filas, "INVENTARIO_CONTROLES"), "text/csv");
 }
 
 function exportarResumenCSV(){
@@ -176,7 +267,8 @@ function exportarResumenCSV(){
   bloque("Proceso", r => r.proceso, k => proc(k)?.n || k);
   bloque("Dependencia", r => r.unidad, k => uni(k)?.n || k);
   bloque("Tipo de riesgo", r => r.tipo, k => tipo(k)?.n || k);
-  descargar(`resumen-riesgos${sufijoFiltros()}.csv`, aCSV(cab, filas), "text/csv");
+  descargar(`${nombreArchivoFormato("INFORME_GENERAL")}${sufijoFiltros()}.csv`,
+    aCSV(cab, filas, "INFORME_GENERAL"), "text/csv");
 }
 
 function exportarSeguimientoCSV(){
@@ -399,13 +491,290 @@ function construirInforme(){
   return html;
 }
 
+const FORMATO_DE_VISTA = {
+  panel:"INFORME_GENERAL", riesgos:"INVENTARIO_RIESGOS",
+  matriz:"MAPA_CALOR", madurez:"MADUREZ"
+};
+
 function exportarPDF(){
+  const cod = FORMATO_DE_VISTA[S.vista] || "INFORME_GENERAL";
+  if (S.vista === "madurez") return imprimirDocumento(cod, informeMadurez(), {vertical:true});
+  if (S.vista === "matriz")  return imprimirDocumento(cod, informeMapaCalor());
   const cont = document.getElementById("informe");
-  cont.innerHTML = construirInforme();
+  cont.innerHTML = encabezadoCalidad(cod) + construirInforme() + pieCalidad();
   document.body.classList.add("modo-informe");
   window.print();
   setTimeout(() => {
     document.body.classList.remove("modo-informe");
     cont.innerHTML = "";
   }, 800);
+}
+
+
+/* =====================================================================
+   INFORMES ESPECÍFICOS
+   ===================================================================== */
+function informeMapaCalor(){
+  const rs = riesgosFiltrados();
+  const fa = filtrosAplicados();
+  return `<section class="rep-s">
+    <table class="rep-t rep-mini"><tbody>
+      <tr><td>Riesgos incluidos</td><td class="num">${rs.length}</td></tr>
+      ${fa.length ? fa.map(([k, v]) => `<tr><td>Filtro · ${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")
+        : `<tr><td>Filtros aplicados</td><td>Ninguno: inventario completo</td></tr>`}
+    </tbody></table>
+  </section>
+  <section class="rep-s">
+    <div class="rep-heats">
+      <div><h3 class="rep-h3">Riesgo inherente</h3>${mapaCalor(rs, "inh")}</div>
+      <div><h3 class="rep-h3">Riesgo residual</h3>${mapaCalor(rs, "res")}</div>
+    </div>
+    <p class="rep-n">El eje vertical corresponde al impacto y el horizontal a la probabilidad.
+    Cada celda indica cuántos riesgos se ubican en esa combinación.</p>
+  </section>
+  <section class="rep-s">
+    <h2 class="rep-h2">Distribución por zona</h2>
+    ${tablaAgrupada("Macroproceso", agrupar(rs, r => proc(r.proceso)?.m, k => macro(k)?.n || k))}
+    ${tablaAgrupada("Proceso", agrupar(rs, r => r.proceso, k => proc(k)?.n || k))}
+  </section>`;
+}
+
+function informeMadurez(){
+  const ind = indiceMadurez(), niv = nivelMadurez(ind), av = avanceMadurez();
+  return `<section class="rep-s">
+    <table class="rep-t rep-mini"><tbody>
+      <tr><td>Índice general de madurez</td><td class="num"><b>${num1(ind)}</b></td></tr>
+      <tr><td>Nivel alcanzado</td><td>${niv ? niv.n : "—"}</td></tr>
+      <tr><td>Puntos calificados</td><td class="num">${av.hechos} de ${av.total}</td></tr>
+    </tbody></table>
+    ${niv ? `<p class="rep-n">${esc(niv.d)}</p>` : ""}
+  </section>
+
+  <section class="rep-s">
+    <h2 class="rep-h2">Resultado por componente</h2>
+    <table class="rep-t"><thead><tr>
+      <th>Componente</th><th class="num">Peso</th><th class="num">Nota</th><th>Nivel</th>
+    </tr></thead><tbody>
+    ${CAT.madurez.map((d, di) => {
+      const v = notaComponente(di), nv = nivelMadurez(v);
+      return `<tr><td>${esc(d.n)}</td><td class="num">${(d.peso * 100).toFixed(0)}%</td>
+        <td class="num">${num1(v)}</td><td>${nv ? nv.n : "—"}</td></tr>`;
+    }).join("")}
+    <tr class="rep-tot"><td>Madurez del Sistema Integral de Administración del Riesgo</td>
+      <td class="num">100%</td><td class="num"><b>${num1(ind)}</b></td>
+      <td>${niv ? niv.n : "—"}</td></tr>
+    </tbody></table>
+  </section>
+
+  <section class="rep-s rep-brk">
+    <h2 class="rep-h2">Detalle por punto de reflexión</h2>
+    <table class="rep-t"><thead><tr>
+      <th style="width:150px">Componente</th><th style="width:170px">Principio</th>
+      <th>Punto de reflexión</th><th class="num">Calif.</th><th style="width:90px">Grado</th>
+    </tr></thead><tbody>
+    ${CAT.madurez.flatMap((d, di) => d.principios.flatMap((pr, pi) =>
+      pr.puntos.map((pt, k) => {
+        const v = S.madurezResp[claveMad(di, pi, k)];
+        const g = CAT.madurezGrados.find(x => x.v === v);
+        return `<tr>
+          <td class="rep-sub">${pi === 0 && k === 0 ? esc(d.n) : ""}</td>
+          <td class="rep-sub">${k === 0 ? esc(pr.n) : ""}</td>
+          <td class="just">${esc(pt)}</td>
+          <td class="num">${v ?? "—"}</td><td>${g ? esc(g.n) : "—"}</td></tr>`;
+      }))).join("")}
+    </tbody></table>
+  </section>`;
+}
+
+function informeMonitoreo(){
+  const rs = conAlcance(S.riesgos.filter(r => r.estado !== "OBSOLETO"));
+  const mon = id => S.monitoreos.find(x => x.riesgoId === id && x.periodo === S.periodo) || {};
+  const rol = CAT.roles.find(x => x.c === S.sesion?.rol);
+  const mat = rs.filter(r => mon(r.id).materializo === "Si").length;
+  const noConf = rs.filter(r => {
+    const m = mon(r.id);
+    return m.descripcionConforme === "No" || m.controlConforme === "No" || m.controlEficaz === "No";
+  }).length;
+
+  return `<section class="rep-s">
+    <table class="rep-t rep-mini"><tbody>
+      <tr><td>Periodo evaluado</td><td>${esc(S.periodo)}</td></tr>
+      <tr><td>Perfil que monitorea</td><td>${esc(rol ? rol.n : S.sesion?.rol || "")}</td></tr>
+      <tr><td>Responsable</td><td>${esc(S.sesion?.nombre || "")}</td></tr>
+      <tr><td>Riesgos monitoreados</td><td class="num">${rs.length}</td></tr>
+      <tr><td>Riesgos materializados</td><td class="num">${mat}</td></tr>
+      <tr><td>Hallazgos de no conformidad</td><td class="num">${noConf}</td></tr>
+    </tbody></table>
+  </section>
+
+  <section class="rep-s">
+    <h2 class="rep-h2">Resultado del monitoreo</h2>
+    <table class="rep-t"><thead><tr>
+      <th style="width:110px">Riesgo</th><th>Descripción</th>
+      <th style="width:60px">Descr.<br>conforme</th><th style="width:60px">Control<br>conforme</th>
+      <th style="width:55px">Control<br>eficaz</th><th style="width:60px">Se<br>materializó</th>
+      <th style="width:180px">Recomendaciones</th>
+    </tr></thead><tbody>
+    ${rs.map(r => { const m = mon(r.id); return `<tr>
+      <td class="mono">${esc(r.codigo)}</td>
+      <td class="just">${esc(r.descripcion)}</td>
+      <td>${esc(m.descripcionConforme || "—")}</td>
+      <td>${esc(m.controlConforme || "—")}</td>
+      <td>${esc(m.controlEficaz || "—")}</td>
+      <td>${esc(m.materializo || "—")}</td>
+      <td class="just">${esc(m.recomendaciones || "")}</td>
+    </tr>`; }).join("")}
+    </tbody></table>
+  </section>`;
+}
+
+function certificadoSolicitud(sol){
+  const d = diffSolicitud(sol);
+  return `<section class="rep-s">
+    <table class="rep-t rep-mini"><tbody>
+      <tr><td>Operación solicitada</td><td>${esc(OP_SOLICITUD[sol.operacion].n)}</td></tr>
+      <tr><td>Identificador del riesgo</td><td class="mono">${esc(sol.codigo)}</td></tr>
+      <tr><td>Proceso</td><td>${esc(proc(sol.proceso)?.n || "")}</td></tr>
+      <tr><td>Dependencia</td><td>${esc(uni(sol.unidad)?.n || "")}</td></tr>
+      <tr><td>Solicitado por</td><td>${esc(sol.solicitadoPor)}</td></tr>
+      <tr><td>Fecha de la solicitud</td>
+        <td>${new Date(sol.solicitadoEn).toLocaleString("es-CO")}</td></tr>
+      <tr><td>Estado</td><td>${esc(sol.estado)}</td></tr>
+      ${sol.revisadoPor ? `<tr><td>Revisado por</td><td>${esc(sol.revisadoPor)}</td></tr>
+      <tr><td>Fecha de la revisión</td>
+        <td>${new Date(sol.revisadoEn).toLocaleString("es-CO")}</td></tr>` : ""}
+    </tbody></table>
+  </section>
+
+  <section class="rep-s">
+    <h2 class="rep-h2">Riesgo</h2>
+    <p class="just">${esc(sol.propuesta.descripcion || "")}</p>
+    <table class="rep-t"><tbody>
+      <tr><td style="width:190px">Tipo de riesgo</td>
+        <td>${esc(tipo(sol.propuesta.tipo)?.n || "")}</td></tr>
+      <tr><td>Zona inherente</td><td>${esc(sol.propuesta.zonaInherente || "—")}</td></tr>
+      <tr><td>Zona residual</td><td>${esc(sol.propuesta.zonaResidual || "—")}</td></tr>
+      <tr><td>Tratamiento</td><td>${esc(sol.propuesta.tratamiento || "—")}</td></tr>
+      <tr><td>Controles</td><td class="num">${(sol.propuesta.controles || []).length}</td></tr>
+    </tbody></table>
+  </section>
+
+  ${sol.motivo ? `<section class="rep-s"><h2 class="rep-h2">Motivo</h2>
+    <p class="just">${esc(sol.motivo)}</p></section>` : ""}
+
+  ${d.length ? `<section class="rep-s"><h2 class="rep-h2">Cambios registrados</h2>
+    <table class="rep-t"><thead><tr><th style="width:190px">Campo</th>
+      <th>Valor anterior</th><th>Valor propuesto</th></tr></thead>
+    <tbody>${d.map(x => `<tr><td>${esc(x.campo)}</td>
+      <td class="just">${esc(x.antes)}</td><td class="just">${esc(x.ahora)}</td></tr>`).join("")}
+    </tbody></table></section>` : ""}
+
+  ${sol.observacion ? `<section class="rep-s"><h2 class="rep-h2">Observación de la revisión</h2>
+    <p class="just">${esc(sol.observacion)}</p></section>` : ""}`;
+}
+
+function certificadoEvidencias(r, g){
+  return `<section class="rep-s">
+    <table class="rep-t rep-mini"><tbody>
+      <tr><td>Periodo</td><td>${esc(g.periodo)}</td></tr>
+      <tr><td>Identificador del riesgo</td><td class="mono">${esc(r.codigo)}</td></tr>
+      <tr><td>Proceso</td><td>${esc(proc(r.proceso)?.n || "")}</td></tr>
+      <tr><td>Dependencia</td><td>${esc(uni(r.unidad)?.n || "")}</td></tr>
+      <tr><td>Reportado por</td><td>${esc(g.reportadoPor || "")}</td></tr>
+      <tr><td>Fecha del reporte</td>
+        <td>${new Date(g.reportadoEn || Date.now()).toLocaleString("es-CO")}</td></tr>
+    </tbody></table>
+    <p class="just" style="margin-top:9px">${esc(r.descripcion)}</p>
+  </section>
+
+  <section class="rep-s">
+    <h2 class="rep-h2">Ejecución de los controles</h2>
+    <table class="rep-t"><thead><tr><th style="width:38px">N.º</th>
+      <th>Control</th><th>Descripción de la evidencia</th></tr></thead>
+    <tbody>${(r.controles || []).map((c, k) => `<tr>
+      <td class="num">${k + 1}</td>
+      <td class="just">${esc([c.responsable, c.accion, c.periodicidad, c.complemento]
+        .filter(Boolean).join(" "))}</td>
+      <td class="just">${esc((g.controles || {})[k] || "Sin descripción")}</td>
+    </tr>`).join("") || `<tr><td colspan="3">Sin controles registrados.</td></tr>`}
+    </tbody></table>
+  </section>
+
+  ${r.kri ? `<section class="rep-s">
+    <h2 class="rep-h2">Indicador clave de riesgo</h2>
+    <table class="rep-t"><thead><tr><th>Indicador</th><th>Fórmula</th>
+      <th class="num">Numerador</th><th class="num">Denominador</th>
+      <th class="num">Resultado</th><th>Nivel</th></tr></thead>
+    <tbody><tr><td class="just">${esc(r.kriNombre || "")}</td>
+      <td class="mono">${esc(r.kri)}</td>
+      <td class="num">${esc(g.kriNumerador ?? "")}</td>
+      <td class="num">${esc(g.kriDenominador ?? "")}</td>
+      <td class="num"><b>${esc(g.resultado || "—")}</b></td>
+      <td>${esc(g.resultadoNivel || "—")}</td></tr></tbody></table>
+  </section>` : ""}
+
+  ${(r.plan || []).length ? `<section class="rep-s">
+    <h2 class="rep-h2">Plan de implementación de controles</h2>
+    <table class="rep-t"><thead><tr><th style="width:38px">N.º</th><th>Actividad</th>
+      <th style="width:150px">Responsable</th><th style="width:85px">Fecha</th>
+      <th>Acciones realizadas</th></tr></thead>
+    <tbody>${(r.plan || []).map((a, k) => `<tr>
+      <td class="num">${k + 1}</td><td class="just">${esc(a.actividad || "")}</td>
+      <td class="just">${esc(a.responsable || "")}</td>
+      <td class="mono">${esc(a.fecha || "")}</td>
+      <td class="just">${esc((g.acciones || {})[k] || "Sin descripción")}</td>
+    </tr>`).join("")}</tbody></table>
+  </section>` : ""}`;
+}
+
+
+function exportarMadurezCSV(){
+  const cab = ["Componente","Peso","Nota del componente","Nivel del componente",
+    "Principio","Nota del principio","Nivel del principio",
+    "N.º","Punto de reflexión","Calificación","Grado de madurez"];
+  const filas = [];
+  CAT.madurez.forEach((d, di) => {
+    const vc = notaComponente(di), nvc = nivelMadurez(vc);
+    d.principios.forEach((pr, pi) => {
+      const vp = notaPrincipio(di, pi), nvp = nivelMadurez(vp);
+      pr.puntos.forEach((pt, k) => {
+        const v = S.madurezResp[claveMad(di, pi, k)];
+        const g = CAT.madurezGrados.find(x => x.v === v);
+        filas.push([d.n, (d.peso * 100).toFixed(0) + "%", num1(vc), nvc ? nvc.n : "",
+          pr.n, num1(vp), nvp ? nvp.n : "", k + 1, pt, v ?? "", g ? g.n : ""]);
+      });
+    });
+  });
+  const ind = indiceMadurez(), niv = nivelMadurez(ind);
+  filas.push(["Madurez del Sistema Integral de Administración del Riesgo", "100%",
+    num1(ind), niv ? niv.n : "", "", "", "", "", "", "", ""]);
+  descargar(nombreArchivoFormato("MADUREZ") + ".csv", aCSV(cab, filas, "MADUREZ"), "text/csv");
+}
+
+function exportarMapaCalorCSV(){
+  const rs = riesgosFiltrados();
+  if (!rs.length) return aviso("Nada que exportar", "No hay riesgos con los filtros aplicados.");
+  const probs = CAT.probabilidad, imps = CAT.impacto;
+  const cab = ["Momento","Impacto","% impacto", ...probs.map(p => `${p.n} (${pct(p.pct)})`), "Total"];
+  const filas = [];
+  [["Inherente","inh"], ["Residual","res"]].forEach(([et, modo]) => {
+    [...imps].reverse().forEach(i => {
+      const f = [et, i.n, pct(i.pct)];
+      let tot = 0;
+      probs.forEach(p => {
+        const c = rs.filter(r => {
+          const pp = modo === "inh" ? r.probabilidadPct : r.probResidual;
+          const ii = modo === "inh" ? r.impactoPct : r.impResidual;
+          if (pp == null || ii == null) return false;
+          const cp = probs.reduce((a, b) => Math.abs(b.pct - pp) < Math.abs(a.pct - pp) ? b : a);
+          const ci = imps.reduce((a, b) => Math.abs(b.pct - ii) < Math.abs(a.pct - ii) ? b : a);
+          return cp.pct === p.pct && ci.pct === i.pct;
+        }).length;
+        f.push(c); tot += c;
+      });
+      f.push(tot); filas.push(f);
+    });
+  });
+  descargar(`${nombreArchivoFormato("MAPA_CALOR")}${sufijoFiltros()}.csv`,
+    aCSV(cab, filas, "MAPA_CALOR"), "text/csv");
 }

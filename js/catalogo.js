@@ -706,10 +706,67 @@ const CAT = {
   }
 ],
 
+  /* Parametrización de calidad de los reportes. El tipo y el título se
+     toman del documento de codificación; código, versión y fecha de
+     aprobación los edita el administrador desde Formatos. */
+  /* Parametrización de calidad de los reportes.
+     TIPO y TÍTULO provienen del documento de codificación de reportes y no
+     se editan; código, versión y fecha de aprobación los mantiene el
+     administrador desde Administración, Formatos. */
+  formatos:[
+    {c:"SOLICITUD_MOD",
+     tipo:"SOLICITUD DE MODIFICACIONES DE RIESGOS",
+     titulo:"FORMATO DE SOLICITUD DE MODIFICACIONES DE RIESGOS",
+     codigo:"", version:"", fecha:""},
+    {c:"CERT_APROBACION",
+     tipo:"CERTIFICADO DE APROBACIÓN DE MODIFICACIONES DE RIESGOS",
+     titulo:"FORMATO DE CERTIFICADO DE APROBACIÓN DE MODIFICACIONES DE RIESGOS",
+     codigo:"", version:"", fecha:""},
+    {c:"CERT_EVIDENCIAS",
+     tipo:"CERTIFICADO DE REPORTE DE EVIDENCIAS",
+     titulo:"FORMATO DE CERTIFICADO DE REPORTE DE EVIDENCIAS",
+     codigo:"", version:"", fecha:""},
+    {c:"REPORTE_MONITOREO",
+     tipo:"REPORTE DE MONITOREO",
+     titulo:"FORMATO DE REPORTE DE MONITOREO",
+     codigo:"", version:"", fecha:""},
+    {c:"INVENTARIO_RIESGOS",
+     tipo:"INVENTARIO DE RIESGOS",
+     titulo:"FORMATO DE INVENTARIO DE RIESGOS",
+     codigo:"", version:"", fecha:""},
+    {c:"INVENTARIO_CONTROLES",
+     tipo:"INVENTARIO DE CONTROLES",
+     titulo:"FORMATO DE INVENTARIO DE CONTROLES",
+     codigo:"", version:"", fecha:""},
+    {c:"MAPA_CALOR",
+     tipo:"MAPA DE CALOR DEL SIAR",
+     titulo:"FORMATO DE MAPA DE CALOR DEL SIAR",
+     codigo:"", version:"", fecha:""},
+    {c:"MADUREZ",
+     tipo:"MADUREZ DEL SIAR",
+     titulo:"FORMATO DE MADUREZ DEL SIAR",
+     codigo:"", version:"", fecha:""},
+    {c:"INFORME_GENERAL",
+     tipo:"INFORME GENERAL SIAR",
+     titulo:"FORMATO DE INFORME GENERAL SIAR",
+     codigo:"", version:"", fecha:""}
+  ],
+
+  entidad:{
+    nombre:"Gobernación de Santander",
+    sistema:"Sistema Integrado de Gestión",
+    proceso:"Sistemas Integrados de Gestión",
+    /* Escudo institucional. El administrador puede reemplazarlo desde
+       Administración, Formatos. */
+    logo:"data:image/png;base64,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"
+  },
+
   roles:[
     {c:"ADMIN",       n:"Administrador",     d:"Acceso total, sin restricción de ventana"},
     {c:"ENLACE_SIG",  n:"Enlace SIG",        d:"Crea, edita y elimina riesgos de los procesos a su cargo, solo dentro de ventana"},
-    {c:"MONITOREO",   n:"Monitoreo calidad", d:"Registra el monitoreo trimestral de los procesos a su cargo"},
+    {c:"MONITOREO",     n:"Monitoreo calidad",   d:"Registra el monitoreo trimestral de los procesos a su cargo"},
+    {c:"MONITOREO_TIC", n:"Monitoreo TICS",      d:"Mismo alcance que Monitoreo calidad, limitado a los riesgos de seguridad digital"},
+    {c:"MONITOREO_FIN", n:"Monitoreo Financiera",d:"Mismo alcance que Monitoreo calidad, limitado a los riesgos fiscales"},
     {c:"SEGUIMIENTO", n:"Control Interno",   d:"Consulta el mapa de riesgos y descarga los informes en PDF y Excel"},
     {c:"PUBLICO",     n:"Consulta pública",  d:"Consulta sin autenticación y descarga en PDF"}
   ]

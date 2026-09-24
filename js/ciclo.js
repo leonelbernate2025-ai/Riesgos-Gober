@@ -101,7 +101,7 @@ function vistaMadurez(){
   const ind = indiceMadurez();
   const niv = nivelMadurez(ind);
   const av = avanceMadurez();
-  const puedeCalificar = ["ADMIN","MONITOREO"].includes(S.sesion?.rol);
+  const puedeCalificar = esAdmin() || esMonitoreo();
 
   /* Detalle de un componente */
   if (S.madurezDim != null){
@@ -477,6 +477,7 @@ function verSolicitud(id, revisable){
       <textarea id="solObs" placeholder="Obligatoria si rechaza la solicitud"></textarea></div>` : ""}
   `;
 
+  const descargable = sol.estado !== "PENDIENTE";
   const botones = revisable ? [
     {t:"Cerrar", cls:"ghost", fn: cerrarModal},
     {t:"Rechazar", cls:"danger", fn: async () => {
@@ -490,7 +491,15 @@ function verSolicitud(id, revisable){
       await resolverSolicitud(sol, true, document.getElementById("solObs").value.trim());
       cerrarModal(); render();
     }}
-  ] : [{t:"Cerrar", cls:"ghost", fn: cerrarModal}];
+  ] : (descargable ? [
+    {t:"Cerrar", cls:"ghost", fn: cerrarModal},
+    {t: sol.estado === "APROBADA" ? "Descargar el certificado" : "Descargar la constancia",
+     cls:"", fn:() => {
+       cerrarModal();
+       imprimirDocumento(sol.estado === "APROBADA" ? "CERT_APROBACION" : "SOLICITUD_MOD",
+         certificadoSolicitud(sol), {vertical:true, firmas:true});
+     }}
+  ] : [{t:"Cerrar", cls:"ghost", fn: cerrarModal}]);
 
   modal(`Solicitud · ${OP_SOLICITUD[sol.operacion].n} · ${sol.codigo}`, cuerpo, botones);
 }
@@ -507,12 +516,18 @@ function misProcesos(){
 function misRiesgos(){
   const rs = S.riesgos.filter(r => r.estado !== "OBSOLETO");
   const ps = misProcesos();
-  return ps ? rs.filter(r => ps.includes(r.proceso)) : rs;
+  const t = tipoRestringido();
+  let out = ps ? rs.filter(r => ps.includes(r.proceso)) : rs;
+  if (t) out = out.filter(r => r.tipo === t);
+  return out;
 }
 /* Aplica el alcance por proceso sobre los riesgos ya filtrados en pantalla */
 function conAlcance(rs){
   const ps = misProcesos();
-  return ps ? rs.filter(r => ps.includes(r.proceso)) : rs;
+  const t = tipoRestringido();
+  let out = ps ? rs.filter(r => ps.includes(r.proceso)) : rs;
+  if (t) out = out.filter(r => r.tipo === t);
+  return out;
 }
 
 function selPeriodo(){
@@ -730,6 +745,17 @@ function formSeguimiento(rid){
       await Store.set("seguimientos", g.id, g);
       await registrarMonitoreo(r, g);
       cerrarModal(); render();
+      modal("Reporte guardado", `
+        <p class="just" style="margin:0">El reporte de ejecución de <b>${esc(r.codigo)}</b>
+          quedó registrado para el periodo ${esc(S.periodo)}.</p>
+        <p class="hint just" style="margin-top:9px">Descargue el certificado en PDF como
+          constancia de las evidencias reportadas.</p>`,
+        [{t:"Cerrar", cls:"ghost", fn:cerrarModal},
+         {t:"Descargar el certificado", cls:"", fn:() => {
+           cerrarModal();
+           imprimirDocumento("CERT_EVIDENCIAS", certificadoEvidencias(r, g),
+             {vertical:true, firmas:true});
+         }}]);
     }}
   ] : [{t:"Cerrar", cls:"ghost", fn: cerrarModal}]);
 
@@ -850,7 +876,18 @@ function vistaMonitoreo(){
   const si = v => v === "Si" ? `<span class="zone Bajo">Sí</span>`
     : v === "No" ? `<span class="zone Alto">No</span>` : "—";
 
-  return bannerAdmin() + barrasFiltros() + `<div class="card" style="margin-top:16px">
+  const av = avanceMonitoreo();
+  return bannerAdmin()
+    + (av.total ? `<div class="banner ${av.completo ? "ok" : "info"}" style="margin-bottom:16px">
+        <span>${av.completo ? "&#9679;" : "&#9432;"}</span><div>
+        ${av.completo
+          ? `<b>Monitoreo completo.</b> Registró los ${av.total} riesgos a su cargo en el periodo
+             ${esc(S.periodo)}.`
+          : `Lleva <b>${av.hechos} de ${av.total}</b> riesgos monitoreados en el periodo
+             ${esc(S.periodo)}. El reporte se habilita al completarlos todos.`}
+        ${av.completo ? `<button class="btn sm" id="monReporte" style="margin-left:9px">
+          Generar el reporte de monitoreo</button>` : ""}</div></div>` : "")
+    + barrasFiltros() + `<div class="card" style="margin-top:16px">
     <header><div style="display:flex;gap:10px;align-items:center">
       <h2>Monitoreo</h2>${selPeriodo()}</div>
       <span class="tag">${rs.filter(r => mon(r.id).revisado).length} de ${rs.length} revisados</span></header>
@@ -978,9 +1015,39 @@ function formMonitoreo(rid){
       const ix = S.monitoreos.findIndex(x => x.id === m.id);
       if (ix >= 0) S.monitoreos[ix] = m; else S.monitoreos.push(m);
       await Store.set("monitoreos", m.id, m);
+      const av = avanceMonitoreo();
       cerrarModal(); render();
+      modal("Monitoreo registrado", `
+        <div class="banner ok"><span>&#10003;</span><div>Se registró el monitoreo del riesgo
+          <b>${esc(r.codigo)}</b> para el periodo ${esc(S.periodo)}.</div></div>
+        <div class="calc" style="margin-top:11px">
+          <div class="calc-row"><span>Riesgos monitoreados</span>
+            <span class="mono">${av.hechos} de ${av.total}</span></div>
+          <div class="calc-row"><span>Pendientes</span>
+            <span class="mono">${av.total - av.hechos}</span></div>
+        </div>
+        ${av.completo ? `<div class="banner ok" style="margin-top:11px"><span>&#9679;</span>
+          <div>Completó el monitoreo de todos los riesgos a su cargo. Ya puede generar el
+          reporte del periodo desde el botón que aparece arriba.</div></div>`
+          : `<p class="hint just" style="margin-top:9px">Cuando termine los ${av.total - av.hechos}
+             riesgos que faltan, podrá generar el reporte de monitoreo del periodo.</p>`}`,
+        av.completo
+          ? [{t:"Cerrar", cls:"ghost", fn:cerrarModal},
+             {t:"Generar el reporte", cls:"", fn:() => {
+               cerrarModal();
+               imprimirDocumento("REPORTE_MONITOREO", informeMonitoreo(), {firmas:true});
+             }}]
+          : [{t:"Entendido", cls:"", fn:cerrarModal}]);
     }}
   ] : [{t:"Cerrar", cls:"ghost", fn: cerrarModal}]);
+}
+
+/* Avance del monitoreo del periodo para el perfil que está en sesión */
+function avanceMonitoreo(){
+  const rs = conAlcance(S.riesgos.filter(r => r.estado !== "OBSOLETO"));
+  const hechos = rs.filter(r => S.monitoreos.some(x =>
+    x.riesgoId === r.id && x.periodo === S.periodo && x.revisado)).length;
+  return {hechos, total:rs.length, completo: rs.length > 0 && hechos === rs.length};
 }
 
 /* =====================================================================
@@ -1094,7 +1161,8 @@ function formInterno(rid){
    PERFILES POR PROCESO
    ===================================================================== */
 function vistaPerfiles(){
-  const ROLES = ["ENLACE_SIG","MONITOREO","SEGUIMIENTO"];
+  /* Control Interno no participa en el ciclo, así que no se lista aquí */
+  const ROLES = ["ENLACE_SIG","MONITOREO"];
   const conRol = (pc, rol) => S.usuarios.filter(u =>
     u.activo !== false && u.rol === rol && (u.procesos || []).includes(pc));
 
@@ -1131,11 +1199,11 @@ function vistaPerfiles(){
       <header><h2>Responsables por proceso</h2>
         <button class="btn ghost sm" id="expPerfiles">Exportar</button></header>
       <div class="scroll-x"><table class="fija" style="min-width:1020px">
-        <colgroup><col style="width:130px"><col style="width:270px"><col style="width:206px">
-          <col style="width:206px"><col style="width:206px"></colgroup>
+        <colgroup><col style="width:150px"><col style="width:330px"><col style="width:270px">
+          <col style="width:270px"></colgroup>
         <thead><tr>
           <th>Macroproceso</th><th>Proceso</th>
-          <th>Enlace SIG</th><th>Monitoreo calidad</th><th>Control Interno</th>
+          <th>Enlace SIG</th><th>Monitoreo calidad</th>
         </tr></thead><tbody>${filas}</tbody></table></div>
     </div>
   </div>`;
