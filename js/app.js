@@ -64,6 +64,31 @@ function render(){
   on("btnInterv", () => { S.intervencion = !S.intervencion; render(); });
   /* --- Formatos --- */
   document.querySelectorAll("[data-fmt]").forEach(el => el.oninput = () => {});
+  /* --- Estructura organizacional --- */
+  document.querySelectorAll("[data-org]").forEach(el => {
+    const set = () => { orgTrabajo()[Number(el.dataset.org)][el.dataset.oc] = el.value; };
+    if (el.tagName === "SELECT") el.onchange = () => { set(); render(); };
+    else el.oninput = set;
+  });
+  document.querySelectorAll("[data-orgdel]").forEach(b => b.onclick = () => {
+    orgTrabajo().splice(Number(b.dataset.orgdel), 1); render();
+  });
+  on("orgAgregar", () => {
+    orgTrabajo().push({c:"", pc:"", macro:"APOYO", proceso:"", dependencia:""});
+    render();
+  });
+  on("orgGuardar", () => guardarEstructura());
+  on("orgRestaurar", () => modal("Restaurar la estructura", `
+    <p class="just" style="margin:0">Se volverá al organigrama que trae el sistema y se perderán
+      los cambios que haya hecho a la estructura.</p>
+    <p class="hint just" style="margin-top:9px">Los riesgos no se borran, pero los que estén en
+      dependencias que usted creó quedarán sin dependencia válida.</p>`,
+    [{t:"Cancelar", cls:"ghost", fn:cerrarModal},
+     {t:"Restaurar", cls:"danger", fn:() => {
+       try { localStorage.removeItem("organigrama"); } catch(e){}
+       location.reload();
+     }}]));
+
   on("fmtGuardar", () => {
     const fs = formatosGuardados().map(x => ({...x}));
     document.querySelectorAll("[data-fmt]").forEach(el => {

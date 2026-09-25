@@ -251,6 +251,9 @@ function tipoOracion(t){
   x = x.replace(/(^|[.:;]\s+)([a-záéíóúñ])/g, (m, p, c) => p + c.toUpperCase());
   return x.charAt(0).toUpperCase() + x.slice(1);
 }
+/* Si el administrador editó el organigrama, se aplica antes de indexar */
+aplicarOrganigrama(organigramaGuardado());
+
 /* Índices construidos una sola vez: las búsquedas pasan de recorrer el
    arreglo a un acceso directo. */
 const IDX = {
@@ -259,6 +262,13 @@ const IDX = {
   macro: new Map(CAT.macroprocesos.map(x => [x.c, x])),
   tipo:  new Map(CAT.tiposRiesgo.map(x => [x.c, x]))
 };
+function reconstruirIndices(){
+  IDX.proc  = new Map(CAT.procesos.map(x => [x.c, x]));
+  IDX.uni   = new Map(CAT.unidades.map(x => [x.c, x]));
+  IDX.macro = new Map(CAT.macroprocesos.map(x => [x.c, x]));
+  IDX.tipo  = new Map(CAT.tiposRiesgo.map(x => [x.c, x]));
+  _depsCache.clear();
+}
 const proc  = c => IDX.proc.get(c);
 const uni   = c => IDX.uni.get(c);
 const dep   = uni;
@@ -266,6 +276,7 @@ const macro = c => IDX.macro.get(c);
 const tipo  = c => IDX.tipo.get(c);
 /* Dependencias de un proceso, calculadas una vez por proceso */
 const _depsCache = new Map();
+/* Aquí ya existen CAT y los índices; _depsCache se limpia al reindexar */
 /* Estructura plana: cada dependencia cuelga directamente de un proceso */
 const dependenciasDe = pc => {
   if (!_depsCache.has(pc)) _depsCache.set(pc, CAT.unidades.filter(u => u.p === pc));
@@ -307,6 +318,53 @@ function formato(cod){
 function guardarFormatos(lista){
   try { localStorage.setItem("formatos", JSON.stringify(lista)); } catch(e){}
 }
+/* ---------------------------------------------------------------
+   Organigrama editable. El catálogo del sistema es el punto de
+   partida; si el administrador lo modifica, se guarda la versión
+   editada y se aplica al arrancar, antes de construir los índices.
+   --------------------------------------------------------------- */
+function organigramaGuardado(){
+  try { return JSON.parse(localStorage.getItem("organigrama") || "null"); }
+  catch(e){ return null; }
+}
+
+function aplicarOrganigrama(org){
+  if (!org || !org.length) return false;
+  const macros = [];
+  const procs = [];
+  const unis = [];
+  org.forEach(r => {
+    if (!r.macro || !r.proceso || !r.dependencia) return;
+    if (!macros.some(m => m.c === r.macro))
+      macros.push({c:r.macro, n:CAT.macroprocesos.find(m => m.c === r.macro)?.n || r.macro});
+    if (!procs.some(p => p.c === r.pc))
+      procs.push({c:r.pc, n:r.proceso, m:r.macro});
+    unis.push({c:r.c, n:r.dependencia, p:r.pc});
+  });
+  if (!unis.length) return false;
+  const ORDEN = ["ESTRATEGICO","MISIONAL","APOYO","EVALUACION"];
+  CAT.macroprocesos = ORDEN.map(c => macros.find(m => m.c === c))
+    .filter(Boolean).concat(macros.filter(m => !ORDEN.includes(m.c)));
+  CAT.procesos = procs;
+  CAT.unidades = unis;
+  return true;
+}
+
+function guardarOrganigrama(org){
+  try { localStorage.setItem("organigrama", JSON.stringify(org)); } catch(e){}
+}
+
+/* El organigrama vigente, en la forma que usa la tabla editable */
+function organigramaActual(){
+  const g = organigramaGuardado();
+  if (g && g.length) return g;
+  return CAT.unidades.map(u => {
+    const p = CAT.procesos.find(x => x.c === u.p);
+    return {c:u.c, pc:u.p, macro:p ? p.m : "APOYO",
+            proceso:p ? p.n : "", dependencia:u.n};
+  });
+}
+
 function logoEntidad(){
   try { return localStorage.getItem("logoEntidad") || CAT.entidad.logo || ""; }
   catch(e){ return CAT.entidad.logo || ""; }

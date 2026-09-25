@@ -470,6 +470,8 @@ function vistaFormatos(){
   const fs = formatosGuardados();
   const logo = logoEntidad();
   return `<div class="stack">
+    ${tarjetaOrganigrama()}
+
     <div class="banner info"><span>&#9432;</span><div>Cada documento que emite el sistema sale con
       el logo de la entidad y el bloque de código, versión y fecha de aprobación del formato que le
       corresponde. El tipo y el título se toman del documento de codificación; los demás datos se
@@ -523,4 +525,161 @@ function vistaFormatos(){
           versión y la fecha de aprobación que la Dirección SIG haya asignado a cada uno.</p>
       </div></div>
   </div>`;
+}
+
+
+/* =====================================================================
+   ESTRUCTURA ORGANIZACIONAL EDITABLE
+   Macroproceso, proceso y dependencia. Al guardar, los riesgos, usuarios
+   y reportes que apuntan a cada dependencia quedan con el nombre y el
+   proceso nuevos, sin perder su histórico.
+   ===================================================================== */
+let ORG = null;   /* copia de trabajo mientras se edita */
+
+function orgTrabajo(){
+  if (!ORG) ORG = organigramaActual().map(r => ({...r}));
+  return ORG;
+}
+
+function tarjetaOrganigrama(){
+  const org = orgTrabajo();
+  const procs = [...new Set(org.map(r => r.proceso).filter(Boolean))].sort(
+    (a, b) => a.localeCompare(b, "es"));
+  const porProceso = {};
+  org.forEach(r => { porProceso[r.proceso] = (porProceso[r.proceso] || 0) + 1; });
+
+  return `<div class="card">
+    <header><h2>Estructura organizacional</h2>
+      <div style="display:flex;gap:7px;align-items:center">
+        <span class="tag">${org.length} dependencias · ${procs.length} procesos</span>
+        <button class="btn ghost sm" id="orgAgregar">Agregar</button>
+        <button class="btn sm" id="orgGuardar">Guardar estructura</button>
+        <button class="btn ghost sm" id="orgRestaurar">Restaurar</button>
+      </div></header>
+    <div class="body" style="padding-bottom:0">
+      <p class="hint just" style="margin-top:0">Al guardar, las dependencias renombradas
+        conservan sus riesgos, y las que cambien de proceso los arrastran consigo. Una
+        dependencia con riesgos registrados no se puede eliminar: primero hay que reubicarlos.</p>
+    </div>
+    <div class="scroll-x" style="max-height:520px;overflow-y:auto">
+      <table class="fija" style="min-width:1000px">
+        <colgroup><col style="width:160px"><col style="width:300px"><col style="width:400px">
+          <col style="width:70px"><col style="width:70px"></colgroup>
+        <thead><tr><th>Macroproceso</th><th>Proceso</th><th>Dependencia</th>
+          <th class="ctr">Riesgos</th><th class="ctr"></th></tr></thead>
+        <tbody>${org.map((r, i) => {
+          const nr = S.riesgos.filter(x => x.unidad === r.c && x.estado !== "OBSOLETO").length;
+          return `<tr>
+            <td><select data-org="${i}" data-oc="macro" autocomplete="off">
+              ${CAT.macroprocesos.map(m =>
+                `<option value="${m.c}" ${r.macro === m.c ? "selected" : ""}>${esc(m.n)}</option>`).join("")}
+            </select></td>
+            <td><input type="text" data-org="${i}" data-oc="proceso" value="${esc(r.proceso)}"
+              list="orgProcesos"></td>
+            <td><input type="text" data-org="${i}" data-oc="dependencia" value="${esc(r.dependencia)}"></td>
+            <td class="ctr mono">${nr || ""}</td>
+            <td class="ctr">${nr
+              ? `<span class="hint" title="Tiene riesgos asociados">—</span>`
+              : `<button class="btn ghost sm" data-orgdel="${i}">Quitar</button>`}</td>
+          </tr>`;
+        }).join("")}</tbody></table>
+      <datalist id="orgProcesos">${procs.map(p =>
+        `<option value="${esc(p)}">`).join("")}</datalist>
+    </div>
+    <div class="body" style="border-top:1px solid var(--line)">
+      <div class="scroll-x"><table style="font-size:12px"><thead><tr>
+        <th>Macroproceso</th><th>Proceso</th><th class="num">Dependencias</th>
+        <th class="num">Riesgos</th></tr></thead><tbody>
+        ${CAT.macroprocesos.flatMap(m => {
+          const ps = [...new Set(org.filter(r => r.macro === m.c).map(r => r.proceso))];
+          return ps.map((p, i) => {
+            const deps = org.filter(r => r.proceso === p);
+            const nr = S.riesgos.filter(x => deps.some(d => d.c === x.unidad)
+              && x.estado !== "OBSOLETO").length;
+            return `<tr><td>${i === 0 ? esc(m.n) : ""}</td><td>${esc(p)}</td>
+              <td class="num">${deps.length}</td><td class="num">${nr}</td></tr>`;
+          });
+        }).join("")}
+      </tbody></table></div>
+    </div>
+  </div>`;
+}
+
+/* Aplica la estructura editada y arrastra lo que depende de ella */
+async function guardarEstructura(){
+  const org = orgTrabajo().filter(r =>
+    (r.proceso || "").trim() && (r.dependencia || "").trim());
+
+  if (!org.length)
+    return aviso("Estructura vacía", "Debe quedar al menos una dependencia.");
+
+  /* Cada nombre de proceso recibe un código estable */
+  const codigos = {};
+  organigramaActual().forEach(r => { codigos[r.proceso] = codigos[r.proceso] || r.pc; });
+  const usados = new Set(Object.values(codigos));
+  const codigoDe = nombre => {
+    if (codigos[nombre]) return codigos[nombre];
+    let base = nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .split(/\s+/).filter(w => w.length > 2).map(w => w[0].toUpperCase())
+      .join("").slice(0, 4) || "PR";
+    let c = base, k = 2;
+    while (usados.has(c)) c = base + k++;
+    usados.add(c); codigos[nombre] = c; return c;
+  };
+
+  /* Se registra a dónde se mueve cada dependencia antes de aplicar */
+  const antes = new Map(CAT.unidades.map(u => [u.c, u.p]));
+  let nuevos = 0, movidos = 0, renombrados = 0;
+  const nombresAntes = new Map(CAT.unidades.map(u => [u.c, u.n]));
+
+  org.forEach(r => {
+    r.proceso = r.proceso.trim();
+    r.dependencia = r.dependencia.trim();
+    r.pc = codigoDe(r.proceso);
+    if (!r.c){
+      let k = 1, c;
+      const existentes = new Set(org.map(x => x.c).filter(Boolean));
+      do { c = `${r.pc}-${String(k++).padStart(2, "0")}`; } while (existentes.has(c));
+      r.c = c; nuevos++;
+    } else {
+      if (antes.get(r.c) && antes.get(r.c) !== r.pc) movidos++;
+      if (nombresAntes.get(r.c) && nombresAntes.get(r.c) !== r.dependencia) renombrados++;
+    }
+  });
+
+  guardarOrganigrama(org);
+  aplicarOrganigrama(org);
+  reconstruirIndices();
+
+  /* Los riesgos siguen a su dependencia: si cambió de proceso, se mueven */
+  let riesgosMovidos = 0;
+  for (const r of S.riesgos){
+    const u = uni(r.unidad);
+    if (!u) continue;
+    const m = proc(u.p)?.m;
+    if (r.proceso !== u.p || r.macroproceso !== m){
+      r.proceso = u.p;
+      r.macroproceso = m;
+      await Store.set("riesgos", r.id, r);
+      riesgosMovidos++;
+    }
+  }
+
+  /* Los usuarios pierden los procesos que dejaron de existir */
+  const vigentes = new Set(CAT.procesos.map(p => p.c));
+  for (const u of S.usuarios){
+    const ps = (u.procesos || []).filter(p => vigentes.has(p));
+    if (ps.length !== (u.procesos || []).length){
+      u.procesos = ps;
+      await Store.set("usuarios", u.id, u);
+    }
+  }
+
+  ORG = null;
+  S.filtros = {macroproceso:"", proceso:"", unidad:"", tipo:"", zona:""};
+  render();
+  aviso("Estructura actualizada", `Quedaron ${org.length} dependencias en `
+    + `${CAT.procesos.length} procesos. `
+    + `${renombrados} renombradas, ${movidos} movidas de proceso, ${nuevos} nuevas. `
+    + `${riesgosMovidos} riesgos siguieron a su dependencia.`);
 }
