@@ -58,17 +58,13 @@ function encabezadoCalidad(codFormato, subtitulo){
       ? `<img src="${esc(logo)}" alt="${esc(CAT.entidad.nombre)}">`
       : `<div class="rep-logo-falta">${esc(CAT.entidad.nombre)}</div>`}</div>
     <div class="rep-cal-t">
-      <div class="rep-ent">${esc(CAT.entidad.nombre)}</div>
-      <div class="rep-sis">${esc(CAT.entidad.sistema)}</div>
       <div class="rep-tit">${esc(f.titulo || "")}</div>
-      <div class="rep-tipo">${esc(f.tipo || "")}</div>
       ${subtitulo ? `<div class="rep-sub2">${esc(subtitulo)}</div>` : ""}
     </div>
     <table class="rep-cal-d"><tbody>
       <tr><td>Código</td><td class="mono">${esc(f.codigo || "Sin asignar")}</td></tr>
       <tr><td>Versión</td><td class="mono">${esc(f.version || "—")}</td></tr>
       <tr><td>Aprobación</td><td class="mono">${esc(f.fecha || "—")}</td></tr>
-      <tr><td>Página</td><td class="rep-pag"></td></tr>
     </tbody></table>
   </header>`;
 }
@@ -87,7 +83,7 @@ function pieCalidad(){
   const ahora = new Date().toLocaleString("es-CO",
     {dateStyle:"short", timeStyle:"short"});
   return `<div class="rep-pie-fijo">${esc(CAT.entidad.nombre)} ·
-    Generado el ${esc(ahora)}</div>`;
+    ${esc(CAT.entidad.sistema)} · Generado el ${esc(ahora)}</div>`;
 }
 
 /* Abre el diálogo de impresión con un documento ya compuesto */
@@ -229,6 +225,48 @@ function exportarRiesgosCSV(){
   });
   descargar(`${nombreArchivoFormato("INVENTARIO_RIESGOS")}${sufijoFiltros()}.csv`,
     aCSV(cab, filas, "INVENTARIO_RIESGOS"), "text/csv");
+}
+
+/* El inventario de controles se entrega únicamente en PDF */
+function informeControles(){
+  const rs = riesgosFiltrados();
+  const fa = filtrosAplicados();
+  const total = rs.reduce((a, r) => a + (r.controles || []).length, 0);
+  return `<section class="rep-s">
+    <table class="rep-t rep-mini"><tbody>
+      <tr><td>Riesgos incluidos</td><td class="num">${rs.length}</td></tr>
+      <tr><td>Controles registrados</td><td class="num">${total}</td></tr>
+      ${fa.length ? fa.map(([k, v]) => `<tr><td>Filtro · ${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")
+        : `<tr><td>Filtros aplicados</td><td>Ninguno: inventario completo</td></tr>`}
+    </tbody></table>
+  </section>
+  <section class="rep-s">
+    <table class="rep-t"><thead><tr>
+      <th style="width:105px">Riesgo</th><th style="width:34px">N.º</th>
+      <th>Descripción del control</th>
+      <th style="width:74px">Tipo</th><th style="width:78px">Implementación</th>
+      <th style="width:52px" class="num">Peso</th><th style="width:78px">Afecta</th>
+      <th style="width:96px">Periodicidad</th>
+    </tr></thead><tbody>
+    ${rs.flatMap(r => (r.controles || []).map((c, k) => `<tr>
+      <td class="mono">${k === 0 ? esc(r.codigo) : ""}</td>
+      <td class="num">${k + 1}</td>
+      <td class="just">${esc([c.responsable, c.accion, c.periodicidad, c.complemento]
+        .filter(Boolean).join(" "))}</td>
+      <td>${esc(c.tipo)}</td><td>${esc(c.implementacion)}</td>
+      <td class="num">${pct(Motor.pesoControl(c.tipo, c.implementacion))}</td>
+      <td>${esc(Motor.afectacion(c.tipo))}</td>
+      <td>${esc(c.periodicidad || "—")}</td>
+    </tr>`)).join("") || `<tr><td colspan="8">Sin controles registrados.</td></tr>`}
+    </tbody></table>
+  </section>`;
+}
+
+function exportarControlesPDF(){
+  const rs = riesgosFiltrados();
+  if (!rs.some(r => (r.controles || []).length))
+    return aviso("Nada que imprimir", "No hay controles con los filtros aplicados.");
+  imprimirDocumento("INVENTARIO_CONTROLES", informeControles());
 }
 
 function exportarControlesCSV(){

@@ -284,7 +284,10 @@ function esAdmin(){ return S.sesion?.rol === "ADMIN"; }
 /* Los tres perfiles de monitoreo comparten alcance; los especializados
    además solo ven un tipo de riesgo. */
 const ROLES_MONITOREO = ["MONITOREO","MONITOREO_TIC","MONITOREO_FIN"];
-const TIPO_POR_ROL = {MONITOREO_TIC:"SED", MONITOREO_FIN:"RFI"};
+/* Reparto del monitoreo por tipo de riesgo:
+   TICS ve seguridad digital, Financiera ve fiscal y calidad ve el resto. */
+const TIPO_POR_ROL = {MONITOREO_TIC:["SED"], MONITOREO_FIN:["RFI"],
+                      MONITOREO:["GES","INT","COR","CI"]};
 function esMonitoreo(){ return ROLES_MONITOREO.includes(S.sesion?.rol); }
 function tipoRestringido(){ return TIPO_POR_ROL[S.sesion?.rol] || null; }
 

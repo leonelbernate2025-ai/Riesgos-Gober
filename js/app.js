@@ -35,7 +35,7 @@ function render(){
     + (puedeDescargar("PDF") ? `<button class="btn ghost" id="btnPdf">PDF</button>` : "");
   if (S.vista === "riesgos")
     acc.innerHTML = (puede("riesgo") ? `<button class="btn" id="btnNuevo">Registrar riesgo</button>` : "")
-      + (puedeDescargar("XLS") ? `<button class="btn ghost" id="btnXlsCtrl">Controles</button>` : "")
+      + (puedeDescargar("PDF") ? `<button class="btn ghost" id="btnXlsCtrl">Controles</button>` : "")
       + exportar;
   if (S.vista === "panel" || S.vista === "matriz" || S.vista === "madurez")
     acc.innerHTML = exportar;
@@ -140,7 +140,7 @@ function render(){
   });
   on("btnSemilla", () => recargarSemilla());
   on("btnNuevo", () => abrirFormulario(null));
-  on("btnXlsCtrl", () => exportarControlesCSV());
+  on("btnXlsCtrl", () => exportarControlesPDF());
   on("btnBD", () => exportarMonitoreoCSV());
   on("monReporte", () => imprimirDocumento("REPORTE_MONITOREO", informeMonitoreo(), {firmas:true}));
   on("btnSolCsv", () => {

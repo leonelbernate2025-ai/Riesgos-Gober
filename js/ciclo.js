@@ -518,7 +518,7 @@ function misRiesgos(){
   const ps = misProcesos();
   const t = tipoRestringido();
   let out = ps ? rs.filter(r => ps.includes(r.proceso)) : rs;
-  if (t) out = out.filter(r => r.tipo === t);
+  if (t) out = out.filter(r => t.includes(r.tipo));
   return out;
 }
 /* Aplica el alcance por proceso sobre los riesgos ya filtrados en pantalla */
@@ -526,7 +526,7 @@ function conAlcance(rs){
   const ps = misProcesos();
   const t = tipoRestringido();
   let out = ps ? rs.filter(r => ps.includes(r.proceso)) : rs;
-  if (t) out = out.filter(r => r.tipo === t);
+  if (t) out = out.filter(r => t.includes(r.tipo));
   return out;
 }
 
@@ -1162,7 +1162,7 @@ function formInterno(rid){
    ===================================================================== */
 function vistaPerfiles(){
   /* Control Interno no participa en el ciclo, así que no se lista aquí */
-  const ROLES = ["ENLACE_SIG","MONITOREO"];
+  const ROLES = ["ENLACE_SIG","MONITOREO","MONITOREO_TIC","MONITOREO_FIN"];
   const conRol = (pc, rol) => S.usuarios.filter(u =>
     u.activo !== false && u.rol === rol && (u.procesos || []).includes(pc));
 
@@ -1198,12 +1198,13 @@ function vistaPerfiles(){
     <div class="card">
       <header><h2>Responsables por proceso</h2>
         <button class="btn ghost sm" id="expPerfiles">Exportar</button></header>
-      <div class="scroll-x"><table class="fija" style="min-width:1020px">
-        <colgroup><col style="width:150px"><col style="width:330px"><col style="width:270px">
-          <col style="width:270px"></colgroup>
+      <div class="scroll-x"><table class="fija" style="min-width:1090px">
+        <colgroup><col style="width:115px"><col style="width:235px"><col style="width:180px">
+          <col style="width:180px"><col style="width:180px"><col style="width:180px"></colgroup>
         <thead><tr>
           <th>Macroproceso</th><th>Proceso</th>
           <th>Enlace SIG</th><th>Monitoreo calidad</th>
+          <th>Monitoreo TICS</th><th>Monitoreo Financiera</th>
         </tr></thead><tbody>${filas}</tbody></table></div>
     </div>
   </div>`;
