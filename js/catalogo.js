@@ -471,8 +471,8 @@ const CAT = {
      dependencia, se agregan en porDependencia y el sistema las prefiere. */
   evidencias:{
     general:{
-      control:"https://santandergov-my.sharepoint.com/:f:/g/personal/sig_santander_gov_co/IgCShXDHBUw5TLMevqlCCdqVAVeQ6KNlhL70ARLuPnfY-nQ?e=KRis5r",
-      plan:"https://santandergov-my.sharepoint.com/:f:/g/personal/sig_santander_gov_co/IgDp06gfiCpETKysPwd96x7gAY1Wy0Ju5T2mQ74sAI33Z7Q?e=z7wmlF"
+      control:"https://santandergov-my.sharepoint.com/:f:/g/personal/sig_santander_gov_co/IgCShXDHBUw5TLMevqlCCdqVAcHOKUoTmyoyreuV4daGAzk?e=xSoy4S",
+      plan:"https://santandergov-my.sharepoint.com/:f:/g/personal/sig_santander_gov_co/IgDp06gfiCpETKysPwd96x7gAUZBRfDEt9FJuGCDjmrWLk4?e=NZ9Fkl"
     },
     porDependencia:{}
   },
