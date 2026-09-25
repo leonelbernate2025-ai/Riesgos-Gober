@@ -1,66 +1,57 @@
-CARGA DEL NUEVO ORGANIGRAMA
-============================================================
-Dependencias en el archivo: 102
-Dependencias agregadas (grupos de Salud y Educación): 17
-Total de dependencias en el catálogo: 119
+ACTUALIZACIÓN DEL ORGANIGRAMA
+==========================================================
+Dependencias en el archivo: 119
 Procesos: 15
+Riesgos reubicados: 235 de 235
 
-RIESGOS QUE CAMBIAN DE PROCESO: 6
-     6  GF  →  GE
+RIESGOS QUE CAMBIAN DE PROCESO: 8
+     6  GE  →  GF
+     2  GSS  →  GJ
 
-DEPENDENCIAS AGREGADAS POR DECISIÓN DE SIG:
-  GE  Grupo Financiero
-  GSS  Grupo de Apoyo a la Gestión de Control y Calidad
-  GSS  Grupo de Gestión de Proyectos, Planes y Programas
-  GSS  Grupo de Laboratorio y Salud Pública
-  GSS  Grupo de Gestión de Salud Pública
-  GSS  Grupo Centro Reg. de Urgencias, Emergencias y Desastres CRUE
-  GSS  Grupo de Aseguramiento y Afiliación
-  GSS  Grupo Acreditación y Sist. Oblig. Garantía en Calidad
-  GSS  Grupo de Participación Social en Salud
-  GSS  Dirección de Apoyo Jurídico, Contratación y P. Sancionatorios
-  GE  Grupo de Calidad Educativa
-  GE  Grupo de Cobertura Educativa
-  GE  Grupo de Historias Laborales
-  GE  Grupo de Carrera Docente
-  GE  Grupo de Planeación Educativa
-  GE  Grupo de Prestaciones Sociales del Magisterio
-  GSS  Grupo de Promoción y Prevención
+CAMBIOS DE NOMBRE APLICADOS: 31
+    8  Secretaria de Infraestructura  →  Despacho Secretaria de Infraestructura
+    6  Secretaria de Vivienda  →  Despacho Secretaria de Vivienda y Habitat Sustentable
+    6  Secretaria de Competitividad y Productividad  →  Despacho Secretaria Competitividad y Productividad
+    6  Grupo Financiero  →  Direccion Administrativa y Financiera SED
+    5  Despacho del Gobernador y Secretaria Privada  →  Despacho del Gobernador
+    5  Secretaria del Interior  →  Despacho Secretaria del Interior
+    5  Secretaria de Desarrollo Social  →  Despacho Secretaria de Desarrollo Social
+    5  Dirección de Fondo Territorial de Pensiones  →  Direccion Fondo Territorial de Pensiones
+    5  Control Interno  →  Oficina de Control Interno
+    4  Secretaria de Agricultura  →  Despacho Secretaria de Agricultura y Desarrollo Rural
+    4  Secretaria de Planeacion  →  Despacho Secretaria de Planeacion
+    4  Oficina de Atencion al Ciudadano  →  Direccion de Atencion al Ciudadano
+    4  Secretaria de Ambiente  →  Despacho Secretaria Ambiental
+    4  Secretaria de Cultura y Turismo  →  Despacho Secretaria de Cultura y Turismo
+    4  Secretaria de Mujer y Equidad de Genero  →  Despacho Secretaria de Mujer y Equidad de Genero
+    4  Secretaria de Salud  →  Despacho Secretaria de Salud
+    3  Oficina de Pasaportes  →  Grupo de Pasaportes
+    3  Dirección de Atención Integral a las Víctimas del Departamento de Santander  →  Direccion de Atencion Integral a las Victimas
+    3  Secretaria Administrativa  →  Despacho Secretaria Administrativa
+    3  Control Disciplinario  →  Oficina de Control Disciplinario
+    2  Secretaria de Tecnología de la Información y Comunicación  →  Despacho Secretaria TIC
+    2  Grupo Centro Reg. de Urgencias, Emergencias y Desastres CRUE  →  Grupo de CRUE
+    2  Grupo Acreditación y Sist. Oblig. Garantía en Calidad  →  Grupo Acreditacion y SOGC
+    1  Fondo de Cesantías - FONCESAN  →  Grupo Fondo de Cesantias de Santander
+    1  Secretaria de Hacienda  →  Despacho de Hacienda
+    1  Grupo de Apoyo a la Gestión de Control y Calidad  →  Direccion de Planeacion y Mejoramiento en Salud
+    1  Grupo de Gestión de Proyectos, Planes y Programas  →  Direccion de Planeacion y Mejoramiento en Salud
+    1  Grupo Inspección y Vigilancia  →  Grupo de Inspeccion y Vigilancia
+    1  Secretaria de Educación  →  Despacho Secretaria de Educacion
+    1  Grupo de Historias Laborales  →  Grupo de Historias Labores
+    1  Grupo de Promoción y Prevención  →  Grupo de Promocion Social
 
-CAMBIOS DE NOMBRE APLICADOS: 21
-    7  Oficina Gestión del Riesgo de Desastres  →  Oficina para la Gestión del Riesgo de Desastres
-    7  Grupo de Gestión Documental  →  Gestión Documental
-    6  Secretaría de Vivienda y Hábitat Sustentable  →  Secretaria de Vivienda
-    5  Grupo de Gestión Ambiental NTC ISO-14001  →  Grupo de Gestion Ambiental
-    5  Dirección del Fondo Territorial de Pensiones  →  Dirección de Fondo Territorial de Pensiones
-    5  Grupo Administración de Recursos Físicos Sec. Salud  →  Dirección de Recursos Físicos
-    5  Oficina de Control Interno  →  Control Interno
-    4  Secretaría de Agricultura y Desarrollo Rural  →  Secretaria de Agricultura
-    4  Dirección de Atención al Ciudadano  →  Oficina de Atencion al Ciudadano
-    4  Secretaría Ambiental  →  Secretaria de Ambiente
-    3  Grupo de Pasaportes  →  Oficina de Pasaportes
-    3  Despacho del Gobernador  →  Despacho del Gobernador y Secretaria Privada
-    3  Dirección de Atención Integral a las Víctimas  →  Dirección de Atención Integral a las Víctimas del Departamento de Santander
-    3  Oficina de Control Disciplinario  →  Control Disciplinario
-    2  Secretaría Privada  →  Despacho del Gobernador y Secretaria Privada
-    2  Secretaría de Tecnologías de la Información y las Comunicaciones  →  Secretaria de Tecnología de la Información y Comunicación
-    1  Grupo de Proyectos e Inversión Pública  →  Grupo de Proyectos
-    1  Grupo de Cooperación Internacional y Nacional  →  Secretaria de Competitividad y Productividad
-    1  Grupo Fondo de Cesantías de Santander  →  Fondo de Cesantías - FONCESAN
-    1  Grupo de Inspección y Vigilancia  →  Grupo Inspección y Vigilancia
-    1  Grupo de Bienestar Social Laboral  →  Direccion de Talento Humano
-
-DISTRIBUCIÓN FINAL DE RIESGOS POR PROCESO:
+DISTRIBUCIÓN FINAL POR PROCESO:
     43  Desarrollo Sostenible y Competitivo
-    30  Gestión Financiera
+    36  Gestión Financiera
     25  Administración Institucional
     21  Seguridad y Convivencia
-    21  Gestión en Salud y Seguridad Social
-    18  Gestión Educativa
+    19  Gestión en Salud y Seguridad Social
     15  Sistemas Integrados de Gestión
+    12  Gestión Educativa
     11  Dirección y Comunicaciones
     11  Tecnologías de la Información y la Comunicación
-     9  Gestión Jurídica
+    11  Gestión Jurídica
      8  Planificación Estratégica
      7  Atención al Ciudadano
      6  Gestión Estratégica del Talento Humano
